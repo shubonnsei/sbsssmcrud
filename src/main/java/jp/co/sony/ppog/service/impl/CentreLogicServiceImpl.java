@@ -5,16 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Sort;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import jp.co.sony.ppog.dto.CityDto;
@@ -39,6 +32,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@Transactional(rollbackFor = PSQLException.class)
 public class CentreLogicServiceImpl implements CentreLogicService {
 
 	/**
