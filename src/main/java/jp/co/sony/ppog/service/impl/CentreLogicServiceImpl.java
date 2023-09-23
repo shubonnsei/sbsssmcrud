@@ -47,17 +47,17 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	private static final Integer SORT_NUMBER = 100;
 
 	/**
-	 * 都市リポジトリ
+	 * 都市マッパー
 	 */
 	private final CityMapper cityMapper;
 
 	/**
-	 * 国家リポジトリ
+	 * 国家マッパー
 	 */
 	private final CountryMapper countryMapper;
 
 	/**
-	 * 言語リポジトリ
+	 * 言語マッパー
 	 */
 	private final LanguageMapper languageMapper;
 
