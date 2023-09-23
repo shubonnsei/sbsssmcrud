@@ -11,24 +11,58 @@
 	<select id="getOfficialLanguageByCountryCode" parameterType="java.lang.String"
 		resultType="java.lang.String">
 		select
-		    al.language 
+		    case 
+		        when (um.ofpercentage - coalesce(om.otpercentage, 0)) &gt;= 35 
+		            then um.oflanguage 
+		        else coalesce(om.otlanguage, um.oflanguage) 
+		        end as language 
 		from
-		    language as al 
-		    inner join ( 
-		        select distinct
-		            al.country_code
-		            , max(al.percentage) as maxpercentage 
+		    language al 
+		    left join ( 
+		        select
+		            country_code
+		            , language as otlanguage
+		            , percentage as otpercentage
+		            , row_number() over ( 
+		                partition by
+		                    country_code 
+		                order by
+		                    percentage desc
+		            ) as rnk 
 		        from
-		            language as al 
+		            language 
 		        where
-		            al.delete_flg = 'visible' 
-		        group by
-		            al.country_code
-		    ) nl 
-		        on nl.country_code = al.country_code 
-		        and nl.maxpercentage = al.percentage 
+		            delete_flg = 'visible' 
+		            and is_official = 'T'
+		    ) om 
+		        on om.country_code = al.country_code 
+		        and om.rnk = 1 
+		    left join ( 
+		        select
+		            country_code
+		            , language as oflanguage
+		            , percentage as ofpercentage
+		            , row_number() over ( 
+		                partition by
+		                    country_code 
+		                order by
+		                    percentage desc
+		            ) as rnk 
+		        from
+		            language 
+		        where
+		            delete_flg = 'visible' 
+		            and is_official = 'F'
+		    ) um 
+		        on um.country_code = al.country_code 
+		        and um.rnk = 1 
 		where
-		    al.is_official = 'T'
-		    and al.country_code = #{countryCode,jdbcType=VARCHAR}
+		    al.country_code = #{countryCode,jdbcType=VARCHAR} 
+		group by
+		    al.country_code
+		    , um.oflanguage
+		    , om.otlanguage
+		    , um.ofpercentage
+		    , om.otpercentage;
 	</select>
 </mapper>
