@@ -2,10 +2,9 @@ package jp.co.sony.ppog.service;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-
 import jp.co.sony.ppog.dto.CityDto;
 import jp.co.sony.ppog.entity.City;
+import jp.co.sony.ppog.utils.Pagination;
 
 /**
  * 中央処理サービスインターフェス
@@ -22,7 +21,7 @@ public interface CentreLogicService {
 	 * @param keyword 検索キーワード
 	 * @return Page<CityInfoDto>
 	 */
-	Page<CityDto> getPageInfo(Integer pageNum, String keyword);
+	Pagination<CityDto> getPageInfo(Integer pageNum, String keyword);
 
 	/**
 	 * 都市IDによって情報を抽出する

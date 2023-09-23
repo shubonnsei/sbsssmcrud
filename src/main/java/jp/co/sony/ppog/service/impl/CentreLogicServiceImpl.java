@@ -26,6 +26,7 @@ import jp.co.sony.ppog.repository.CountryRepository;
 import jp.co.sony.ppog.repository.LanguageRepository;
 import jp.co.sony.ppog.service.CentreLogicService;
 import jp.co.sony.ppog.utils.Messages;
+import jp.co.sony.ppog.utils.Pagination;
 import jp.co.sony.ppog.utils.StringUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -78,7 +79,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	}
 
 	@Override
-	public Page<CityDto> getPageInfo(final Integer pageNum, final String keyword) {
+	public Pagination<CityDto> getPageInfo(final Integer pageNum, final String keyword) {
 		// ページングコンストラクタを宣言する；
 		final PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGE_SIZE, Sort.by(Direction.ASC, "id"));
 		// キーワードの属性を判断する；
