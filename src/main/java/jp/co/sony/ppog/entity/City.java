@@ -3,18 +3,11 @@ package jp.co.sony.ppog.entity;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 
-import org.hibernate.annotations.Proxy;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * 都市テーブルのエンティティ
@@ -22,15 +15,7 @@ import lombok.Setter;
  * @author shubonnsei
  * @since 1.00
  */
-@Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@Table(name = "city")
-@Proxy(lazy = false)
-@NamedQuery(name = "City.saiban", query = "select count(cn.id) + 1 from City as cn")
-@NamedQuery(name = "City.getCityInfos", query = "select cn from City as cn where cn.deleteFlg = 'visible' order by cn.id")
-@NamedQuery(name = "City.removeById", query = "update City as cn set cn.deleteFlg = 'removed' where cn.id =:id")
+@Data
 public final class City implements Serializable {
 
 	private static final long serialVersionUID = 1815689293387304425L;
