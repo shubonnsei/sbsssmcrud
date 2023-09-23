@@ -1,0 +1,32 @@
+server:
+  port: 8281
+spring:
+  application:
+    name: jpassmcrud
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://35.79.110.136:5432/shuworld
+    username: postgres
+    password: postgres
+    hikari:
+      maximum-pool-size: 30
+      max-lifetime: 1500000
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    database: POSTGRESQL
+    show-sql: true
+    open-in-view: false
+  output:
+    ansi:
+      enabled: ALWAYS
+  thymeleaf:
+    cache: false
+    mode: HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    prefix: classpath:/templates/
+    suffix: .html

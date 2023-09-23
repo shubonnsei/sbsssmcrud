@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title th:text="${title}">Default</title>
+<!--フレームワークjQueryを導入-->
+<script th:type="'text/javascript'"
+	th:src="@{/jquery/jquery-3.6.2.min.js}"></script>
+<!--フレームワークBootstrapを導入-->
+<link rel="shortcut icon" type="image/png" href="../static/favicon.png">
+<link th:rel="'stylesheet'" th:type="'text/css'"
+	th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.min.css}">
+<script th:type="'text/javascript'"
+	th:src="@{/bootstrap-3.4.1-dist/js/bootstrap.min.js}"></script>
+</head>
+<body>
+	<!-- ウェブページを構築する -->
+	<div th:class="'container'">
+		<!-- タイトル -->
+		<div th:class="'row'">
+			<div th:class="'col-lg-12'">
+				<h1>グローバル都市一覧</h1>
+			</div>
+		</div>
+		<!-- 検索バーとボタン -->
+		<div th:class="'row'">
+			<form th:class="'form-inline col-lg-7'" th:role="'form'">
+				<div th:class="'form-group has-feedback'" th:style="'width:50%'">
+					<div th:class="'input-group'" th:style="'width:100%'">
+						<label for="keywordInput" th:class="'input-group-addon'">@</label>
+						<input id="keywordInput" th:class="'form-control has-success'"
+							th:type="'text'" th:value="${keyword}"
+							th:placeholder="'検索条件を入力してください'">
+					</div>
+				</div>
+				<button th:type="'button'" th:class="'btn btn-warning'"
+					th:id="'searchBtn'">
+					<span th:class="'glyphicon glyphicon-search'"></span>検索
+				</button>
+			</form>
+			<div th:class="'col-lg-2 col-lg-offset-3'">
+				<button th:id="'cityAddModalBtn'" th:class="'btn btn-success'">
+					<span th:class="'glyphicon glyphicon-pawn'"></span>情報追加
+				</button>
+			</div>
+		</div>
+		<!-- データ -->
+		<div th:class="'row'">
+			<div th:class="'col-lg-12'">
+				<table th:id="'cityTable'" th:class="'table table-condensed'">
+					<thead>
+						<tr th:class="'active'">
+							<th scope="col" th:class="'text-center'" th:style="'width:70px;'">都市ID</th>
+							<th scope="col" th:class="'text-center'"
+								th:style="'width:120px;'">都市名</th>
+							<th scope="col" th:class="'text-center'"
+								th:style="'width:100px;'">大陸</th>
+							<th scope="col" th:class="'text-center'"
+								th:style="'width:100px;'">国家</th>
+							<th scope="col" th:class="'text-center'"
+								th:style="'width:120px;'">地域</th>
+							<th scope="col" th:class="'text-center'" th:style="'width:70px;'">人口数量</th>
+							<th scope="col" th:class="'text-center'" th:style="'width:80px;'">公用語</th>
+							<th scope="col" th:class="'text-center'"
+								th:style="'width:120px;'">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="pg:${pageInfo.getContent()}">
+							<td th:text="${pg.getId()}" th:class="'text-center'"
+								th:style="'width:70px;'"></td>
+							<td th:text="${pg.getName()}" th:class="'text-center'"
+								th:style="${pg.name.trim().length() ge 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
+							<td th:text="${pg.getContinent()}" th:class="'text-center'"
+								th:style="'width:100px;'"></td>
+							<td th:text="${pg.getNation()}" th:class="'text-center'"
+								th:style="${pg.nation.trim().length() ge 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
+							<td th:text="${pg.getDistrict()}" th:class="'text-center'"
+								th:style="${pg.district.trim().length() ge 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
+							<td th:text="${pg.getPopulation()}" th:class="'text-center'"
+								th:style="'width:70px;'"></td>
+							<td th:text="${pg.getLanguage()}" th:class="'text-center'"
+								th:style="${pg.language.trim().length() ge 15 ? 'width:80px;font-size:12px;':'width:80px;font-size:15px;'}"></td>
+							<td th:class="'text-center'" th:style="'width:120px;'">
+								<button th:class="'btn btn-primary btn-sm edit_btn'"
+									th:id="*{pg.getId()}">
+									<span th:class="'glyphicon glyphicon-pencil'"></span>編集
+								</button>
+								<button th:class="'btn btn-danger btn-sm delete_btn'"
+									th:id="*{pg.getName()}" th:deleteId="*{pg.getId()}">
+									<span th:class="'glyphicon glyphicon-trash'"></span>削除
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- ページナビ -->
+		<div th:class="'row'">
+			<div th:class="'col-lg-5'"
+				th:text="|The ${pageInfo.getNumber()+1} page in ${pageInfo.getTotalPages()} pages, ${pageInfo.getTotalElements()} records found.|"></div>
+			<nav th:class="'col-lg-7'"
+				th:with="previousPage=${pageInfo.getNumber()},nextPage=${pageInfo.getNumber()+2},totalPg=${pageInfo.getTotalPages()}">
+				<ul th:class="'pagination'">
+					<li><a
+						th:href="@{'/ssmcrud/city?pageNum=1&keyword='+${keyword eq null ? '' : keyword}}"
+						th:class="${pageInfo.isFirst()} eq true ? 'disabled' : 'enable'">最初のページへ</a>
+					</li>
+					<li><a
+						th:href="@{'/ssmcrud/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
+						th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">&laquo;</a>
+					</li>
+					<li th:each="i:${#numbers.sequence(pageFirstIndex,pageLastIndex)}"
+						th:class="${pageInfo.getNumber()} eq ${i} ? 'active' : 'enable'">
+						<a th:text="${i+1}"
+						th:href="@{'/ssmcrud/city?pageNum='+${i+1}+'&keyword='+${keyword eq null ? '' : keyword}}"></a>
+					</li>
+					<li><a
+						th:href="@{'/ssmcrud/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
+						th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">&raquo;</a>
+					</li>
+					<li><a
+						th:href="@{'/ssmcrud/city?pageNum='+${totalPg}+'&keyword='+${keyword eq null ? '' : keyword}}"
+						th:class="${pageInfo.isLast()} eq true ? 'disabled' : 'enable'">最後のページへ</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+	<!-- データ追加モーダル -->
+	<div th:class="'modal fade'" th:id="'cityAddModal'" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel">
+		<div th:class="'modal-dialog'" th:role="'document'">
+			<div th:class="'modal-content'">
+				<div th:class="'modal-header'">
+					<button th:type="'button'" th:class="'close'" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+					<h4 th:class="'modal-title'">都市情報追加</h4>
+				</div>
+				<div th:class="'modal-body'">
+					<form th:class="'form-horizontal'">
+						<div th:class="'form-group'">
+							<label for="nameInput" th:class="'col-sm-2 control-label'">都市名</label>
+							<div th:class="'col-sm-10'">
+								<input th:type="'text'" th:class="'form-control'" id="nameInput"
+									th:placeholder="'都市の正式的な名称'"> <span
+									th:class="'help-block'"></span>
+							</div>
+						</div>
+						<div th:class="'form-group'">
+							<label for="continentInput" th:class="'col-sm-2 control-label'">大陸</label>
+							<div th:class="'col-sm-5'">
+								<select id="continentInput" th:class="'form-control'"
+									th:name="'continent'"></select>
+							</div>
+						</div>
+						<div th:class="'form-group'">
+							<label for="nationInput" th:class="'col-sm-2 control-label'">国家</label>
+							<div th:class="'col-sm-5'">
+								<select id="nationInput" th:class="'form-control'"
+									th:name="'nation'"></select>
+							</div>
+						</div>
+						<div th:class="'form-group'">
+							<label for="districtInput" th:class="'col-sm-2 control-label'">地域</label>
+							<div th:class="'col-sm-10'">
+								<input th:type="'text'" th:class="'form-control'"
+									id="districtInput" th:placeholder="'都市の地域'"> <span
+									th:class="'help-block'"></span>
+							</div>
+						</div>
+						<div th:class="'form-group'">
+							<label for="populationInput" th:class="'col-sm-2 control-label'">人口数量</label>
+							<div th:class="'col-sm-10'">
+								<input th:type="'text'" th:class="'form-control'"
+									id="populationInput" th:placeholder="'都市の人口数量'"> <span
+									th:class="'help-block'"></span>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div th:class="'modal-footer'">
+					<button th:type="'button'" th:class="'btn btn-primary'"
+						th:id="'infoSaveBtn'">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- データ編集モーダル -->
+	<div th:class="'modal fade'" th:id="'cityEditModal'" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel">
+		<div th:class="'modal-dialog'" th:role="'document'">
+			<div th:class="'modal-content'">
+				<div th:class="'modal-header'">
+					<button th:type="'button'" th:class="'close'" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+					<h4 th:class="'modal-title'">都市情報修正</h4>
+				</div>
+				<div th:class="'modal-body'">
+					<form th:class="'form-horizontal'">
+						<div th:class="'form-group'">
+							<label th:class="'col-sm-2 control-label'">都市名</label>
+							<div th:class="'col-sm-10'">
+								<p th:id="'cityEdit'" th:class="'form-control-static'"></p>
+							</div>
+						</div>
+						<div th:class="'form-group'">
+							<label th:class="'col-sm-2 control-label'">大陸</label>
+							<div th:class="'col-sm-5'">
+								<p th:id="'continentEdit'" th:class="'form-control-static'"></p>
+							</div>
+						</div>
+						<div th:class="'form-group'">
+							<label for="nationEdit" th:class="'col-sm-2 control-label'">国家</label>
+							<div th:class="'col-sm-5'">
+								<select id="nationEdit" th:class="'form-control'"
+									th:name="'nation'"></select>
+							</div>
+						</div>
+						<div th:class="'form-group'">
+							<label th:class="'col-sm-2 control-label'">公用語</label>
+							<div th:class="'col-sm-5'">
+								<p th:id="'languageEdit'" th:class="'form-control-static'"></p>
+							</div>
+						</div>
+						<div th:class="'form-group'">
+							<label for="districtEdit" th:class="'col-sm-2 control-label'">地域</label>
+							<div th:class="'col-sm-10'">
+								<input th:type="'text'" th:name="'district'"
+									th:class="'form-control'" id="districtEdit"> <span
+									th:class="'help-block'"></span>
+							</div>
+						</div>
+						<div th:class="'form-group'">
+							<label for="populationEdit" th:class="'col-sm-2 control-label'">人口数量</label>
+							<div th:class="'col-sm-10'">
+								<input th:type="'text'" th:name="'population'"
+									th:class="'form-control'" id="populationEdit"> <span
+									th:class="'help-block'"></span>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div th:class="'modal-footer'">
+					<button th:type="'button'" th:class="'btn btn-info'"
+						th:id="'infoChangeBtn'">変更</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" th:inline="javascript">
+		let pageNum = /*[[${pageInfo.getNumber()+1}]]*/{};
+		let pageTotal = /*[[${pageInfo.getTotalPages()}]]*/{};
+		$("#searchBtn").on(
+				'click',
+				function() {
+					let keyword = $("#keywordInput").val().trim().toString();
+					$.ajax({
+						url : '/ssmcrud/city?pageNum=' + pageNum + '&keyword='
+								+ keyword,
+						type : 'GET',
+						dataType : 'html',
+						success : function() {
+							window.location
+									.replace('/ssmcrud/city?pageNum=1&keyword='
+											+ keyword);
+						}
+					});
+				});
+		$("#cityAddModalBtn").on('click', function() {
+			formReset("#cityAddModal form");
+			getContinents("#continentInput");
+			getNations($("#nationInput"), 'Africa');
+			$("#cityAddModal").modal({
+				backdrop : 'static'
+			});
+		});
+		function getContinents(element) {
+			$(element).empty();
+			$.ajax({
+				url : '/ssmcrud/continents',
+				type : 'GET',
+				dataType : 'json',
+				success : function(result) {
+					$.each(result.extend.continentList, function() {
+						let optionElement = $("<option></option>").append(this)
+								.attr("value", this);
+						optionElement.appendTo(element);
+					});
+				}
+			});
+		}
+		$("#continentInput").on('change', function() {
+			let continentVal = $("#continentInput option:selected").val();
+			getNations($("#nationInput"), continentVal);
+		});
+		function getNations(element, continentVal) {
+			$(element).empty();
+			$.ajax({
+				url : '/ssmcrud/nations',
+				data : 'continentVal=' + continentVal,
+				type : 'GET',
+				dataType : 'json',
+				success : function(result) {
+					$.each(result.extend.nationList, function() {
+						let optionElement = $("<option></option>").append(this)
+								.attr("value", this);
+						optionElement.appendTo(element);
+					});
+				}
+			});
+		}
+		$("#nameInput").change(
+				function() {
+					let cityName = this.value;
+					$.ajax({
+						url : '/ssmcrud/check',
+						data : 'cityName=' + cityName,
+						type : 'GET',
+						success : function(result) {
+							if (result.code === 200) {
+								showValidationMsg("#nameInput", "success", "");
+								$("#infoSaveBtn").attr("ajax-va", "success");
+							} else {
+								showValidationMsg("#nameInput", "error",
+										result.extend.validatedMsg);
+								$("#infoSaveBtn").attr("ajax-va", "error");
+							}
+						}
+					});
+				});
+		$("#infoSaveBtn")
+				.on(
+						'click',
+						function() {
+							let inputDistrict = $("#districtInput").val()
+									.trim();
+							let inputPopulation = $("#populationInput").val()
+									.trim();
+							let regularDistrict = /^[a-zA-Z-\s]{2,33}$/;
+							let regularPopulation = /^\d{4,18}$/;
+							if ($(this).attr("ajax-va") === "error") {
+								return false;
+							} else if (!regularDistrict.test(inputDistrict)
+									&& !regularPopulation.test(inputPopulation)) {
+								showValidationMsg("#districtInput", "error",
+										"入力した地域名称が2桁から23桁までのローマ字にしなければなりません。");
+								showValidationMsg("#populationInput", "error",
+										"入力した人口数量が4桁から18桁までの数字にしなければなりません。");
+								return false;
+							} else if (!regularDistrict.test(inputDistrict)
+									&& regularPopulation.test(inputPopulation)) {
+								showValidationMsg("#districtInput", "error",
+										"入力した地域名称が2桁から23桁までのローマ字にしなければなりません。");
+								showValidationMsg("#populationInput",
+										"success", "√");
+								return false;
+							} else if (regularDistrict.test(inputDistrict)
+									&& !regularPopulation.test(inputPopulation)) {
+								showValidationMsg("#districtInput", "success",
+										"√");
+								showValidationMsg("#populationInput", "error",
+										"入力した人口数量が4桁から18桁までの数字にしなければなりません。");
+								return false;
+							} else {
+								showValidationMsg("#districtInput", "success",
+										"√");
+								showValidationMsg("#populationInput",
+										"success", "√");
+								// Send an ajax request to commit save options.
+								$
+										.ajax({
+											url : '/ssmcrud/city',
+											type : 'POST',
+											dataType : 'json',
+											data : JSON
+													.stringify({
+														'name' : $("#nameInput")
+																.val().trim(),
+														'continent' : $(
+																"#continentInput option:selected")
+																.val(),
+														'nation' : $(
+																"#nationInput option:selected")
+																.val(),
+														'district' : inputDistrict,
+														'population' : inputPopulation
+													}),
+											contentType : 'application/json;charset=UTF-8',
+											success : function(result) {
+												if (result.code === 200) {
+													$("#cityAddModal").modal(
+															'hide');
+													window.location
+															.replace('/ssmcrud/city?pageNum='
+																	+ pageTotal
+																	+ '&keyword=');
+												} else if (undefined !== result.extend.errorFields.name) {
+													showValidationMsg(
+															"#nameInput",
+															"error",
+															result.extend.errorFields.name);
+												}
+											}
+										});
+							}
+						});
+		$(document).on("click", ".edit_btn", function() {
+			let id = $(this).attr("id");
+			formReset("#cityEditModal form");
+			getCityInfo(id);
+			$("#infoChangeBtn").attr("editId", id);
+			$("#cityEditModal").modal({
+				backdrop : 'static'
+			});
+		});
+		function getCityInfo(id) {
+			$.ajax({
+				url : '/ssmcrud/city/' + id,
+				type : 'GET',
+				dataType : 'json',
+				success : function(result) {
+					let cityData = result.extend.citySelected;
+					$("#cityEdit").text(cityData.name);
+					$("#continentEdit").text(cityData.continent);
+					$("#languageEdit").text(cityData.language);
+					$("#districtEdit").val(cityData.district);
+					$("#populationEdit").val(cityData.population);
+					getNationsById("#nationEdit", id);
+				}
+			});
+		}
+		function getNationsById(element, id) {
+			$(element).empty();
+			$.ajax({
+				url : '/ssmcrud/nations/' + id,
+				type : 'GET',
+				dataType : 'json',
+				success : function(result) {
+					$.each(result.extend.nationsWithName, function() {
+						let optionElement = $("<option></option>").append(this)
+								.attr("value", this);
+						optionElement.appendTo(element);
+					});
+				}
+			});
+		}
+		$("#nationEdit").on('change', function() {
+			let nationVal = $("#nationEdit option:selected").val();
+			getLanguages($("#languageEdit"), nationVal);
+		});
+		function getLanguages(element, nationVal) {
+			$(element).empty();
+			$.ajax({
+				url : '/ssmcrud/languages',
+				data : 'nationVal=' + nationVal,
+				type : 'GET',
+				dataType : 'json',
+				success : function(result) {
+					$("#languageEdit").text(result.extend.languages);
+				}
+			});
+		}
+		$("#infoChangeBtn").on(
+				'click',
+				function() {
+					let editId = $(this).attr("editId");
+					let inputDistrict = $("#districtEdit").val().trim();
+					let inputPopulation = $("#populationEdit").val().trim();
+					let regularDistrict = /^[a-zA-Z-\s]{2,33}$/;
+					let regularPopulation = /^\d{4,18}$/;
+					if (!regularDistrict.test(inputDistrict)
+							&& !regularPopulation.test(inputPopulation)) {
+						showValidationMsg("#districtEdit", "error",
+								"入力した地域名称が2桁から23桁までのローマ字にしなければなりません。");
+						showValidationMsg("#populationEdit", "error",
+								"入力した人口数量が4桁から18桁までの数字にしなければなりません。");
+						return false;
+					}
+					if (!regularDistrict.test(inputDistrict)
+							&& regularPopulation.test(inputPopulation)) {
+						showValidationMsg("#districtEdit", "error",
+								"入力した地域名称が2桁から23桁までのローマ字にしなければなりません。");
+						showValidationMsg("#populationEdit", "success", "√");
+						return false;
+					}
+					if (regularDistrict.test(inputDistrict)
+							&& !regularPopulation.test(inputPopulation)) {
+						showValidationMsg("#districtEdit", "success", "√");
+						showValidationMsg("#populationEdit", "error",
+								"入力した人口数量が4桁から18桁までの数字にしなければなりません。");
+						return false;
+					}
+					showValidationMsg("#districtEdit", "success", "√");
+					showValidationMsg("#populationEdit", "success", "√");
+					$.ajax({
+						url : '/ssmcrud/city/' + editId,
+						type : 'PUT',
+						dataType : 'json',
+						data : JSON.stringify({
+							'id' : editId,
+							'name' : $("#cityEdit").text(),
+							'continent' : $("#continentEdit").text(),
+							'nation' : $("#nationEdit option:selected").val(),
+							'district' : inputDistrict,
+							'population' : inputPopulation
+						}),
+						contentType : 'application/json;charset=UTF-8',
+						success : function() {
+							$("#cityEditModal").modal('hide');
+							window.location.replace('/ssmcrud/city?pageNum='
+									+ pageNum + '&keyword=');
+						}
+					});
+				});
+		$(document).on(
+				"click",
+				".delete_btn",
+				function() {
+					let cityName = $(this).attr("id");
+					let cityId = $(this).attr("deleteId");
+					if (confirm("この" + cityName + "という都市の情報を削除する、よろしいでしょうか。")) {
+						$.ajax({
+							url : '/ssmcrud/city/' + cityId,
+							type : 'DELETE',
+							dataType : 'json',
+							success : function(result) {
+								window.location
+										.replace('/ssmcrud/city?pageNum='
+												+ pageNum + '&keyword=');
+							}
+						});
+					}
+				});
+		function formReset(element) {
+			$(element)[0].reset();
+			$(element).find("*").removeClass("has-error has-success");
+			$(element).find(".help-block").text("");
+		}
+		function showValidationMsg(element, status, msg) {
+			$(element).parent().removeClass("has-success has-error");
+			$(element).next("span").text("");
+			if (status === "success") {
+				$(element).parent().addClass("has-success");
+				$(element).next("span").text(msg);
+			} else if (status === "error") {
+				$(element).parent().addClass("has-error");
+				$(element).next("span").text(msg);
+			}
+		}
+	</script>
+</body>
+</html>
