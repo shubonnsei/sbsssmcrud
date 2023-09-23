@@ -161,13 +161,11 @@ public class ZhuFanchengLogicServiceImpl implements ZhuFanchengLogicService {
 			final CityDto cityDto = new CityDto();
 			BeanUtils.copyProperties(item, cityDto);
 			final String language = this.languageMapper.getOfficialLanguageByCountryCode(item.getCountryCode());
+			if (StringUtils.isNotEmpty(language)) {
+				cityDto.setLanguage(language);
+			}
 			cityDto.setContinent(item.getCountry().getContinent());
 			cityDto.setNation(item.getCountry().getName());
-			if (StringUtils.isEmpty(language)) {
-				cityDto.setLanguage(StringUtils.EMPTY_STRING);
-				return cityDto;
-			}
-			cityDto.setLanguage(language);
 			return cityDto;
 		}).collect(Collectors.toList());
 		return Pagination.of(cityInfos, cityInfosCnt, pageNum);
