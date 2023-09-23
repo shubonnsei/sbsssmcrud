@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
 /**
  * 共通ストリング判断ツール
  *
- * @author ArcaHozota
- * @since 3.40
+ * @author shubonnsei
+ * @since 1.00
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class StringUtils {

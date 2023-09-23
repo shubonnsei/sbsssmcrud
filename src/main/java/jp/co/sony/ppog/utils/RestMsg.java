@@ -11,8 +11,8 @@ import lombok.Setter;
 /**
  * JSONData返信用クラス
  *
- * @author ArcaHozota
- * @since 2.44
+ * @author shubonnsei
+ * @since 1.00
  */
 @Getter
 @Setter
