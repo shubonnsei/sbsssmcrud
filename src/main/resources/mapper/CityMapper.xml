@@ -27,7 +27,7 @@
 		values ( 
 		    #{id,jdbcType=BIGINT}
 		    , #{name,jdbcType=NVARCHAR}
-		    , #{countryCode,jdbcType=NCHAR}
+		    , #{countryCode,jdbcType=NVARCHAR}
 		    , #{district,jdbcType=NVARCHAR}
 		    , #{population,jdbcType=BIGINT}
 		    , #{logicDeleteFlg,jdbcType=NVARCHAR}
@@ -37,7 +37,7 @@
 		UPDATE WORLD_CITY CN
 		SET
 		CN.LOGIC_DELETE_FLG = 'removed'
-		WHERE CN.ID = #{id,jdbcType=NUMERIC}
+		WHERE CN.ID = #{id,jdbcType=BIGINT}
 	</update>
 	<update id="updateById"
 		parameterType="jp.co.toshiba.ppok.entity.City">
@@ -47,7 +47,7 @@
 				name = #{name,jdbcType=NVARCHAR},
 			</if>
 			<if test="countryCode != null">
-				country_code = #{countryCode,jdbcType=NCHAR},
+				country_code = #{countryCode,jdbcType=NVARCHAR},
 			</if>
 			<if test="district != null">
 				district = #{district,jdbcType=NVARCHAR},
