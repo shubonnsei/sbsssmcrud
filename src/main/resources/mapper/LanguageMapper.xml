@@ -23,7 +23,7 @@
 		        where
 		            nl.delete_flg = 'visible' 
 		            and nl.is_official = 'T' 
-		            and nl.country_code = #{nationCode,jdbcType=NVARCHAR}
+		            and nl.country_code = #{countryCode,jdbcType=NVARCHAR}
 		    )
 	</select>
 </mapper>
