@@ -14,7 +14,7 @@
 		</association>
 	</resultMap>
 	<insert id="saveById"
-		parameterType="jp.co.toshiba.ppok.entity.City">
+		parameterType="jp.co.sony.ppog.entity.City">
 		insert 
 		into city( 
 		    id
@@ -40,7 +40,7 @@
 		WHERE CN.ID = #{id,jdbcType=BIGINT}
 	</update>
 	<update id="updateById"
-		parameterType="jp.co.toshiba.ppok.entity.City">
+		parameterType="jp.co.sony.ppog.entity.City">
 		update city
 		<set>
 			<if test="name != null">
@@ -61,7 +61,7 @@
 		    and id = #{id,jdbcType=BIGINT}
 	</update>
 	<select id="selectById" parameterType="java.lang.Integer"
-		resultType="BasicResultMap">
+		resultMap="BasicResultMap">
 		select
 		    cn.id
 		    , cn.name
@@ -78,7 +78,7 @@
 		    and cn.id = #{id,jdbcType=BIGINT}
 	</select>
 	<select id="findMaximumRanks" parameterType="java.lang.Integer"
-		resultType="BasicResultMap">
+		resultMap="BasicResultMap">
 		select
 		    cn.id
 		    , cn.name
@@ -98,7 +98,7 @@
 		    #{sort,jdbcType=INTEGER}
 	</select>
 	<select id="findMinimumRanks" parameterType="java.lang.Integer"
-		resultType="BasicResultMap">
+		resultMap="BasicResultMap">
 		select
 		    cn.id
 		    , cn.name
@@ -130,7 +130,7 @@
 		    and cn.name like #{name,jdbcType=NVARCHAR} 
 	</select>
 	<select id="getCityInfosByName" parameterType="java.lang.String"
-		resultType="BasicResultMap">
+		resultMap="BasicResultMap">
 		select
 		    cn.id
 		    , cn.name
@@ -160,7 +160,7 @@
 		where
 		    cn.delete_flg = 'visible' 
 	</select>
-	<select id="getCityInfos" resultType="BasicResultMap">
+	<select id="getCityInfos" resultMap="BasicResultMap">
 		select
 		    cn.id
 		    , cn.name
