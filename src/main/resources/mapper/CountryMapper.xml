@@ -27,7 +27,7 @@
 		    country as cty 
 		where
 		    cty.delete_flg = 'visible' 
-		    and cty.continent = #{continent;jdbcType=VARCHAR}
+		    and cty.continent = #{continent,jdbcType=VARCHAR}
 		group by
 			cty.name
 		order by
@@ -41,6 +41,6 @@
 		    country as cty 
 		where
 		    cty.delete_flg = 'visible' 
-		    and cty.name = #{nation;jdbcType=VARCHAR}
+		    and cty.name = #{nation,jdbcType=VARCHAR}
 	</select>
 </mapper>
