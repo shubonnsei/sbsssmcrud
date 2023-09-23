@@ -37,7 +37,7 @@ public final class Language implements Serializable {
 	private BigDecimal percentage;
 
 	/**
-	 * This field corresponds to the database column LOGIC_DELETE_FLG
+	 * This field corresponds to the database column DELETE_FLG
 	 */
 	private String deleteFlg;
 }
