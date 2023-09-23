@@ -9,6 +9,11 @@
 	</resultMap>
 	<select id="findNationCode" parameterType="java.lang.String"
 		resultType="java.lang.String">
-		select cty.code from country as cty where cty.name = #{name;jdbcType=NVARCHAR}
+		select
+		    cty.code 
+		from
+		    country as cty 
+		where
+		    cty.name = #{nation;jdbcType=NVARCHAR}
 	</select>
 </mapper>
