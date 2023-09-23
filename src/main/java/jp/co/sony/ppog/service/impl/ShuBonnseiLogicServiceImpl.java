@@ -159,6 +159,7 @@ public class ShuBonnseiLogicServiceImpl implements ShuBonnseiLogicService {
 			final String language = this.languageMapper.getOfficialLanguageByCountryCode(item.getCountryCode());
 			cityDto.setContinent(item.getCountry().getContinent());
 			cityDto.setNation(item.getCountry().getName());
+			cityDto.setLanguage(language);
 			return cityDto;
 		}).collect(Collectors.toList());
 		return Pagination.of(cityInfos, cityInfosCnt, pageNum);
