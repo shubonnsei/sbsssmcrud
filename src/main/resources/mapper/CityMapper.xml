@@ -61,7 +61,7 @@
 		    delete_flg = 'visible' 
 		    and id = #{id,jdbcType=BIGINT}
 	</update>
-	<select id="selectById" parameterType="java.lang.Integer"
+	<select id="selectById" parameterType="java.lang.Long"
 		resultMap="BasicResultMap">
 		select
 		    cn.id
