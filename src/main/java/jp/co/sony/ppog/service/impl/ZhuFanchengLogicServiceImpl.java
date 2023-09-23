@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import org.postgresql.util.PSQLException;
 import org.springframework.beans.BeanUtils;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,13 +74,10 @@ public class ZhuFanchengLogicServiceImpl implements ZhuFanchengLogicService {
 
 	@Override
 	public Pagination<CityDto> getPageInfo(final Integer pageNum, final String keyword) {
-		// ページングコンストラクタを宣言する；
-		final PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGE_SIZE, Sort.by(Direction.ASC, "id"));
 		// キーワードの属性を判断する；
 		if (StringUtils.isNotEmpty(keyword)) {
 			final String hankakuKeyword = StringUtils.toHankaku(keyword);
-			final int pageMin = PAGE_SIZE * (pageNum - 1);
-			final int pageMax = PAGE_SIZE * pageNum;
+			final int offset = PAGE_SIZE * (pageNum - 1);
 			int sort = SORT_NUMBER;
 			if (hankakuKeyword.startsWith("min(pop)")) {
 				final int indexOf = hankakuKeyword.indexOf(")");

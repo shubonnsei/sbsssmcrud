@@ -32,20 +32,20 @@ public interface CityMapper {
 	void removeById(@Param("id") Long id);
 
 	/**
-	 * 人口数量昇順で都市情報を検索する
-	 *
-	 * @param sort ソート
-	 * @return List<City>
-	 */
-	List<City> findMinimumRanks(@Param("sortNumber") Integer sort);
-
-	/**
 	 * 人口数量降順で都市情報を検索する
 	 *
-	 * @param sort ソート
+	 * @param sortNumber ソート
 	 * @return List<City>
 	 */
-	List<City> findMaximumRanks(@Param("sortNumber") Integer sort);
+	List<City> findMaximumRanks(@Param("sort") Integer sortNumber);
+
+	/**
+	 * 人口数量昇順で都市情報を検索する
+	 *
+	 * @param sortNumber ソート
+	 * @return List<City>
+	 */
+	List<City> findMinimumRanks(@Param("sort") Integer sortNumber);
 
 	/**
 	 * すべての都市情報を取得する
