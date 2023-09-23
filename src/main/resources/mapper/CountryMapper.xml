@@ -4,8 +4,8 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="jp.co.sony.ppog.mapper.CountryMapper">
 	<resultMap id="BasicResultMap"
-		type="jp.co.toshiba.ppok.entity.City" autoMapping="true">
-		<id property="id" jdbcType="NUMERIC" column="ID" />
+		type="jp.co.sony.ppog.entity.Country" autoMapping="true">
+		<id property="code" jdbcType="NVARCHAR" column="code" />
 	</resultMap>
 	<insert id="saveById"
 		parameterType="jp.co.toshiba.ppok.entity.City">
