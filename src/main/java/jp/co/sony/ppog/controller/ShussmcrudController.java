@@ -33,12 +33,12 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequestMapping("/ssmcrud")
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class CentreController {
+public class ShussmcrudController {
 
 	/**
 	 * 中央処理サービスインターフェス
 	 */
-	private final ZhuFanchengLogicService centreLogicService;
+	private final ZhuFanchengLogicService zhuFanchengLogicService;
 
 	/**
 	 * 都市情報を検索する
@@ -49,7 +49,7 @@ public class CentreController {
 	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
 			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
 		// ページング検索結果を吹き出します；
-		final Pagination<CityDto> pageInfo = this.centreLogicService.getPageInfo(pageNum, keyword);
+		final Pagination<CityDto> pageInfo = this.zhuFanchengLogicService.getPageInfo(pageNum, keyword);
 		// modelAndViewオブジェクトを宣言する；
 		final ModelAndView modelAndView = new ModelAndView("index");
 		modelAndView.addObject("pageInfo", pageInfo);
@@ -67,7 +67,7 @@ public class CentreController {
 	@GetMapping(value = "/city/{id}")
 	@ResponseBody
 	public RestMsg getCityInfo(@PathVariable("id") final Long id) {
-		final CityDto cityDto = this.centreLogicService.getCityInfoById(id);
+		final CityDto cityDto = this.zhuFanchengLogicService.getCityInfoById(id);
 		return RestMsg.success().add("citySelected", cityDto);
 	}
 
@@ -80,7 +80,7 @@ public class CentreController {
 	@GetMapping(value = "/nations/{id}")
 	@ResponseBody
 	public RestMsg getListOfNationsById(@PathVariable("id") final Long id) {
-		final List<String> nations = this.centreLogicService.getListOfNationsById(id);
+		final List<String> nations = this.zhuFanchengLogicService.getListOfNationsById(id);
 		return RestMsg.success().add("nationsWithName", nations);
 	}
 
@@ -93,7 +93,7 @@ public class CentreController {
 	@PutMapping(value = "/city/{id}")
 	@ResponseBody
 	public RestMsg updateCityInfo(@RequestBody final CityDto cityDto) {
-		this.centreLogicService.update(cityDto);
+		this.zhuFanchengLogicService.update(cityDto);
 		return RestMsg.success();
 	}
 
@@ -106,7 +106,7 @@ public class CentreController {
 	@PostMapping(value = "/city")
 	@ResponseBody
 	public RestMsg saveCityInfo(@RequestBody final CityDto cityDto) {
-		this.centreLogicService.save(cityDto);
+		this.zhuFanchengLogicService.save(cityDto);
 		return RestMsg.success();
 	}
 
@@ -119,7 +119,7 @@ public class CentreController {
 	@DeleteMapping(value = "/city/{id}")
 	@ResponseBody
 	public RestMsg deleteCityInfo(@PathVariable("id") final Long id) {
-		this.centreLogicService.removeById(id);
+		this.zhuFanchengLogicService.removeById(id);
 		return RestMsg.success();
 	}
 
@@ -131,7 +131,7 @@ public class CentreController {
 	@GetMapping(value = "/continents")
 	@ResponseBody
 	public RestMsg getContinents() {
-		final List<String> continents = this.centreLogicService.findAllContinents();
+		final List<String> continents = this.zhuFanchengLogicService.findAllContinents();
 		return RestMsg.success().add("continentList", continents);
 	}
 
@@ -144,7 +144,7 @@ public class CentreController {
 	@GetMapping(value = "/nations")
 	@ResponseBody
 	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
-		final List<String> nations = this.centreLogicService.findNationsByCnt(continentVal);
+		final List<String> nations = this.zhuFanchengLogicService.findNationsByCnt(continentVal);
 		return RestMsg.success().add("nationList", nations);
 	}
 
@@ -157,7 +157,7 @@ public class CentreController {
 	@GetMapping(value = "/languages")
 	@ResponseBody
 	public RestMsg getListOfLanguages(@RequestParam("nationVal") final String nationVal) {
-		final String language = this.centreLogicService.findLanguageByCty(nationVal);
+		final String language = this.zhuFanchengLogicService.findLanguageByCty(nationVal);
 		return RestMsg.success().add("languages", language);
 	}
 
@@ -173,7 +173,7 @@ public class CentreController {
 		if (!cityName.matches(Messages.MSG006)) {
 			return RestMsg.failure().add("validatedMsg", Messages.MSG005);
 		}
-		final List<City> lists = this.centreLogicService.checkDuplicate(cityName);
+		final List<City> lists = this.zhuFanchengLogicService.checkDuplicate(cityName);
 		if (!lists.isEmpty()) {
 			return RestMsg.failure().add("validatedMsg", Messages.MSG004);
 		}
