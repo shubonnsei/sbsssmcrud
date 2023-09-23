@@ -14,9 +14,9 @@ import jp.co.sony.ppog.dto.CityDto;
 import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.entity.Country;
 import jp.co.sony.ppog.entity.Language;
-import jp.co.sony.ppog.repository.CityRepository;
-import jp.co.sony.ppog.repository.CountryRepository;
-import jp.co.sony.ppog.repository.LanguageRepository;
+import jp.co.sony.ppog.repository.CityMapper;
+import jp.co.sony.ppog.repository.CountryMapper;
+import jp.co.sony.ppog.repository.LanguageMapper;
 import jp.co.sony.ppog.service.CentreLogicService;
 import jp.co.sony.ppog.utils.Messages;
 import jp.co.sony.ppog.utils.Pagination;
@@ -31,8 +31,8 @@ import lombok.RequiredArgsConstructor;
  * @since 1.00
  */
 @Service
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Transactional(rollbackFor = PSQLException.class)
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class CentreLogicServiceImpl implements CentreLogicService {
 
 	/**
@@ -48,17 +48,17 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	/**
 	 * 都市リポジトリ
 	 */
-	private final CityRepository cityRepository;
+	private final CityMapper cityMapper;
 
 	/**
 	 * 国家リポジトリ
 	 */
-	private final CountryRepository countryRepository;
+	private final CountryMapper countryMapper;
 
 	/**
 	 * 言語リポジトリ
 	 */
-	private final LanguageRepository languageRepository;
+	private final LanguageMapper languageMapper;
 
 	@Override
 	public CityDto getCityInfoById(final Long id) {
