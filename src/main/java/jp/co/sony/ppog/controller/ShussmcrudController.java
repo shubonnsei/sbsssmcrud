@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import jp.co.sony.ppog.dto.CityDto;
-import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.service.ZhuFanchengLogicService;
 import jp.co.sony.ppog.utils.Messages;
 import jp.co.sony.ppog.utils.Pagination;
@@ -173,8 +172,8 @@ public class ShussmcrudController {
 		if (!cityName.matches(Messages.MSG006)) {
 			return RestMsg.failure().add("validatedMsg", Messages.MSG005);
 		}
-		final List<City> lists = this.zhuFanchengLogicService.checkDuplicate(cityName);
-		if (!lists.isEmpty()) {
+		final Integer checkInteger = this.zhuFanchengLogicService.checkDuplicate(cityName);
+		if (checkInteger > 0) {
 			return RestMsg.failure().add("validatedMsg", Messages.MSG004);
 		}
 		return RestMsg.success();

@@ -3,7 +3,6 @@ package jp.co.sony.ppog.service;
 import java.util.List;
 
 import jp.co.sony.ppog.dto.CityDto;
-import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.utils.Pagination;
 
 /**
@@ -89,5 +88,5 @@ public interface ZhuFanchengLogicService {
 	 * @param cityName 都市名
 	 * @return List<City>
 	 */
-	List<City> checkDuplicate(String cityName);
+	Integer checkDuplicate(String cityName);
 }
