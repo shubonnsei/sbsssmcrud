@@ -11,14 +11,6 @@ spring:
     hikari:
       maximum-pool-size: 30
       max-lifetime: 1500000
-  jpa:
-    hibernate:
-      ddl-auto: update
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
-    database: POSTGRESQL
-    show-sql: true
-    open-in-view: false
   output:
     ansi:
       enabled: ALWAYS
@@ -30,3 +22,10 @@ spring:
       content-type: text/html
     prefix: classpath:/templates/
     suffix: .html
+mybatis:
+  configuration:
+    database-id: postgresql
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: jp.co.sony.ppog.entity
