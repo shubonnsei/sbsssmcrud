@@ -33,7 +33,7 @@
 		    , #{logicDeleteFlg,jdbcType=VARCHAR}
 		)
 	</insert>
-	<update id="removeById" parameterType="java.lang.Integer">
+	<update id="removeById" parameterType="java.lang.Long">
 		update city as cn 
 		set
 		    cn.logic_delete_flg = 'removed' 
