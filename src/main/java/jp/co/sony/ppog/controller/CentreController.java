@@ -27,8 +27,8 @@ import lombok.RequiredArgsConstructor;
 /**
  * 中央処理コントローラ
  *
- * @author ArcaHozota
- * @since 1.00beta
+ * @author shubonnsei
+ * @since 1.00
  */
 @Controller
 @RequestMapping("/ssmcrud")
