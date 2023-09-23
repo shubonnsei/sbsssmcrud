@@ -1,4 +1,4 @@
-package jp.co.sony.ppog.repository;
+package jp.co.sony.ppog.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
