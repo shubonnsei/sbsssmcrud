@@ -143,6 +143,10 @@ public class ZhuFanchengLogicServiceImpl implements ZhuFanchengLogicService {
 								.getOfficialLanguageByCountryCode(item.getCountryCode());
 						cityDto.setContinent(item.getCountry().getContinent());
 						cityDto.setNation(item.getCountry().getName());
+						if (StringUtils.isEmpty(language)) {
+							cityDto.setLanguage(StringUtils.EMPTY_STRING);
+							return cityDto;
+						}
 						cityDto.setLanguage(language);
 						return cityDto;
 					}).collect(Collectors.toList());
@@ -159,6 +163,10 @@ public class ZhuFanchengLogicServiceImpl implements ZhuFanchengLogicService {
 			final String language = this.languageMapper.getOfficialLanguageByCountryCode(item.getCountryCode());
 			cityDto.setContinent(item.getCountry().getContinent());
 			cityDto.setNation(item.getCountry().getName());
+			if (StringUtils.isEmpty(language)) {
+				cityDto.setLanguage(StringUtils.EMPTY_STRING);
+				return cityDto;
+			}
 			cityDto.setLanguage(language);
 			return cityDto;
 		}).collect(Collectors.toList());
