@@ -2,7 +2,6 @@ package jp.co.sony.ppog.controller;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +18,7 @@ import jp.co.sony.ppog.dto.CityDto;
 import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.service.CentreLogicService;
 import jp.co.sony.ppog.utils.Messages;
+import jp.co.sony.ppog.utils.Pagination;
 import jp.co.sony.ppog.utils.RestMsg;
 import jp.co.sony.ppog.utils.StringUtils;
 import lombok.AccessLevel;
@@ -49,25 +49,11 @@ public class CentreController {
 	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
 			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
 		// ページング検索結果を吹き出します；
-		final Page<CityDto> pageInfo = this.centreLogicService.getPageInfo(pageNum, keyword);
+		final Pagination<CityDto> pageInfo = this.centreLogicService.getPageInfo(pageNum, keyword);
 		// modelAndViewオブジェクトを宣言する；
 		final ModelAndView modelAndView = new ModelAndView("index");
-		// 前のページを取得する；
-		final int current = pageInfo.getNumber();
-		// ページングナビゲーションの数を定義する；
-		final int naviNums = 7;
-		// ページングナビの最初と最後の数を取得する；
-		final int pageFirstIndex = current / naviNums * naviNums;
-		int pageLastIndex = (current / naviNums + 1) * naviNums - 1;
-		if (pageLastIndex > pageInfo.getTotalPages() - 1) {
-			pageLastIndex = pageInfo.getTotalPages() - 1;
-		} else {
-			pageLastIndex = (current / naviNums + 1) * naviNums - 1;
-		}
 		modelAndView.addObject("pageInfo", pageInfo);
 		modelAndView.addObject("keyword", keyword);
-		modelAndView.addObject("pageFirstIndex", pageFirstIndex);
-		modelAndView.addObject("pageLastIndex", pageLastIndex);
 		modelAndView.addObject("title", "CityList");
 		return modelAndView;
 	}
