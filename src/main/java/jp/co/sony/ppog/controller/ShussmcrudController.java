@@ -51,8 +51,13 @@ public class ShussmcrudController {
 		final Pagination<CityDto> pageInfo = this.zhuFanchengLogicService.getPageInfo(pageNum, keyword);
 		// modelAndViewオブジェクトを宣言する；
 		final ModelAndView modelAndView = new ModelAndView("index");
+		// ページングナビの最初と最後の数を取得する；
+		final int pageFirstIndex = pageInfo.getNaviFirstPage();
+		final int pageLastIndex = pageInfo.getNaviLastPage();
 		modelAndView.addObject("pageInfo", pageInfo);
 		modelAndView.addObject("keyword", keyword);
+		modelAndView.addObject("pageFirstIndex", pageFirstIndex);
+		modelAndView.addObject("pageLastIndex", pageLastIndex);
 		modelAndView.addObject("title", "CityList");
 		return modelAndView;
 	}
