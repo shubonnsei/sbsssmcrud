@@ -34,8 +34,8 @@ import lombok.RequiredArgsConstructor;
 /**
  * 中央処理サービス実装クラス
  *
- * @author ArcaHozota
- * @since 4.40
+ * @author shubonnsei
+ * @since 1.00
  */
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
