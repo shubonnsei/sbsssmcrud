@@ -5,8 +5,8 @@ import lombok.Data;
 /**
  * 都市情報データ交換クラス
  *
- * @author ArcaHozota
- * @since 3.69
+ * @author shubonnsei
+ * @since 1.00
  */
 @Data
 public final class CityDto {
