@@ -14,16 +14,19 @@
 		    al.language 
 		from
 		    language as al 
-		where
-		    al.percentage = ( 
-		        select
-		            max(nl.percentage) 
+		    inner join ( 
+		        select distinct
+		            max(al.percentage) as maxpercentage 
 		        from
-		            language as nl 
+		            language as al 
 		        where
-		            nl.delete_flg = 'visible' 
-		            and nl.is_official = 'T' 
-		            and nl.country_code = #{countryCode,jdbcType=VARCHAR}
-		    )
+		            al.delete_flg = 'visible' 
+		        group by
+		            al.country_code
+		    ) nl 
+		        on nl.maxpercentage = al.percentage 
+		where
+		    al.is_official = 'T'
+		    and al.country_code = #{countryCode,jdbcType=VARCHAR}
 	</select>
 </mapper>

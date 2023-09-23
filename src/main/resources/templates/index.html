@@ -68,7 +68,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="pg:${pageInfo.getContent()}">
+						<tr th:each="pg:${pageInfo.getRecords()}">
 							<td th:text="${pg.getId()}" th:class="'text-center'"
 								th:style="'width:70px;'"></td>
 							<td th:text="${pg.getName()}" th:class="'text-center'"
