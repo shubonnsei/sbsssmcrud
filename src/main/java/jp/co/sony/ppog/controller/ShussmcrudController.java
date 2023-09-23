@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import jp.co.sony.ppog.dto.CityDto;
-import jp.co.sony.ppog.service.ZhuFanchengLogicService;
+import jp.co.sony.ppog.service.ShuBonnseiLogicService;
 import jp.co.sony.ppog.utils.Messages;
 import jp.co.sony.ppog.utils.Pagination;
 import jp.co.sony.ppog.utils.RestMsg;
@@ -37,7 +37,7 @@ public class ShussmcrudController {
 	/**
 	 * 中央処理サービスインターフェス
 	 */
-	private final ZhuFanchengLogicService zhuFanchengLogicService;
+	private final ShuBonnseiLogicService shuBonnseiLogicService;
 
 	/**
 	 * 都市情報を検索する
@@ -48,7 +48,7 @@ public class ShussmcrudController {
 	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
 			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
 		// ページング検索結果を吹き出します；
-		final Pagination<CityDto> pageInfo = this.zhuFanchengLogicService.getPageInfo(pageNum, keyword);
+		final Pagination<CityDto> pageInfo = this.shuBonnseiLogicService.getPageInfo(pageNum, keyword);
 		// modelAndViewオブジェクトを宣言する；
 		final ModelAndView modelAndView = new ModelAndView("index");
 		// ページングナビの最初と最後の数を取得する；
@@ -71,7 +71,7 @@ public class ShussmcrudController {
 	@GetMapping(value = "/city/{id}")
 	@ResponseBody
 	public RestMsg getCityInfo(@PathVariable("id") final Long id) {
-		final CityDto cityDto = this.zhuFanchengLogicService.getCityInfoById(id);
+		final CityDto cityDto = this.shuBonnseiLogicService.getCityInfoById(id);
 		return RestMsg.success().add("citySelected", cityDto);
 	}
 
@@ -84,7 +84,7 @@ public class ShussmcrudController {
 	@GetMapping(value = "/nations/{id}")
 	@ResponseBody
 	public RestMsg getListOfNationsById(@PathVariable("id") final Long id) {
-		final List<String> nations = this.zhuFanchengLogicService.getListOfNationsById(id);
+		final List<String> nations = this.shuBonnseiLogicService.getListOfNationsById(id);
 		return RestMsg.success().add("nationsWithName", nations);
 	}
 
@@ -97,7 +97,7 @@ public class ShussmcrudController {
 	@PutMapping(value = "/city/{id}")
 	@ResponseBody
 	public RestMsg updateCityInfo(@RequestBody final CityDto cityDto) {
-		this.zhuFanchengLogicService.update(cityDto);
+		this.shuBonnseiLogicService.update(cityDto);
 		return RestMsg.success();
 	}
 
@@ -110,7 +110,7 @@ public class ShussmcrudController {
 	@PostMapping(value = "/city")
 	@ResponseBody
 	public RestMsg saveCityInfo(@RequestBody final CityDto cityDto) {
-		this.zhuFanchengLogicService.save(cityDto);
+		this.shuBonnseiLogicService.save(cityDto);
 		return RestMsg.success();
 	}
 
@@ -123,7 +123,7 @@ public class ShussmcrudController {
 	@DeleteMapping(value = "/city/{id}")
 	@ResponseBody
 	public RestMsg deleteCityInfo(@PathVariable("id") final Long id) {
-		this.zhuFanchengLogicService.removeById(id);
+		this.shuBonnseiLogicService.removeById(id);
 		return RestMsg.success();
 	}
 
@@ -135,7 +135,7 @@ public class ShussmcrudController {
 	@GetMapping(value = "/continents")
 	@ResponseBody
 	public RestMsg getContinents() {
-		final List<String> continents = this.zhuFanchengLogicService.findAllContinents();
+		final List<String> continents = this.shuBonnseiLogicService.findAllContinents();
 		return RestMsg.success().add("continentList", continents);
 	}
 
@@ -148,7 +148,7 @@ public class ShussmcrudController {
 	@GetMapping(value = "/nations")
 	@ResponseBody
 	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
-		final List<String> nations = this.zhuFanchengLogicService.findNationsByCnt(continentVal);
+		final List<String> nations = this.shuBonnseiLogicService.findNationsByCnt(continentVal);
 		return RestMsg.success().add("nationList", nations);
 	}
 
@@ -161,7 +161,7 @@ public class ShussmcrudController {
 	@GetMapping(value = "/languages")
 	@ResponseBody
 	public RestMsg getListOfLanguages(@RequestParam("nationVal") final String nationVal) {
-		final String language = this.zhuFanchengLogicService.findLanguageByCty(nationVal);
+		final String language = this.shuBonnseiLogicService.findLanguageByCty(nationVal);
 		return RestMsg.success().add("languages", language);
 	}
 
@@ -177,7 +177,7 @@ public class ShussmcrudController {
 		if (!cityName.matches(Messages.MSG006)) {
 			return RestMsg.failure().add("validatedMsg", Messages.MSG005);
 		}
-		final Integer checkInteger = this.zhuFanchengLogicService.checkDuplicate(cityName);
+		final Integer checkInteger = this.shuBonnseiLogicService.checkDuplicate(cityName);
 		if (checkInteger > 0) {
 			return RestMsg.failure().add("validatedMsg", Messages.MSG004);
 		}

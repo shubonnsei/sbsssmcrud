@@ -11,7 +11,7 @@ import jp.co.sony.ppog.utils.Pagination;
  * @author shubonnsei
  * @since 1.00
  */
-public interface ZhuFanchengLogicService {
+public interface ShuBonnseiLogicService {
 
 	/**
 	 * パージング情報を抽出する
