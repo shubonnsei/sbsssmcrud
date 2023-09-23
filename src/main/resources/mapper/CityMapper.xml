@@ -34,10 +34,11 @@
 		)
 	</insert>
 	<update id="removeById" parameterType="java.lang.Integer">
-		UPDATE WORLD_CITY CN
-		SET
-		CN.LOGIC_DELETE_FLG = 'removed'
-		WHERE CN.ID = #{id,jdbcType=BIGINT}
+		update city as cn 
+		set
+		    cn.logic_delete_flg = 'removed' 
+		where
+		    cn.id = #{id,jdbcType=BIGINT}
 	</update>
 	<update id="updateById"
 		parameterType="jp.co.sony.ppog.entity.City">
