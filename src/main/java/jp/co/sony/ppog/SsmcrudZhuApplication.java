@@ -10,8 +10,8 @@ import lombok.extern.log4j.Log4j2;
 /**
  * JpaSsmcrudアプリケーション
  *
- * @author ArcaHozota
- * @since 1.00beta
+ * @author shubonnsei
+ * @since 1.00
  */
 @Log4j2
 @SpringBootApplication
