@@ -44,4 +44,9 @@ public final class City implements Serializable {
 	 * This field corresponds to the database column LOGIC_DELETE_FLG
 	 */
 	private String deleteFlg;
+
+	/**
+	 * This field corresponds to the database table country
+	 */
+	private Country country;
 }

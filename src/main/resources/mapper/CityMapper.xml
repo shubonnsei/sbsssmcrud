@@ -6,65 +6,193 @@
 	<resultMap id="BasicResultMap"
 		type="jp.co.sony.ppog.entity.City" autoMapping="true">
 		<id property="id" jdbcType="BIGINT" column="id" />
+		<association property="country"
+			javaType="jp.co.sony.ppog.entity.Country">
+			<id property="code" column="code" />
+			<result property="name" column="nation" />
+			<result property="continent" column="continent" />
+		</association>
 	</resultMap>
 	<insert id="saveById"
 		parameterType="jp.co.toshiba.ppok.entity.City">
-		INSERT 
-		INTO WORLD_CITY( 
-			ID,
-		    NAME, 
-		    COUNTRY_CODE, 
-		    DISTRICT, 
-		    POPULATION, 
-		    LOGIC_DELETE_FLG
+		insert 
+		into city( 
+		    id
+		    , name
+		    , country_code
+		    , district
+		    , population
+		    , logic_delete_flg
 		) 
-		VALUES ( 
-		    #{id,jdbcType=NUMERIC}, 
-		    #{name,jdbcType=NVARCHAR}, 
-		    #{countryCode,jdbcType=NCHAR}, 
-		    #{district,jdbcType=NVARCHAR}, 
-		    #{population,jdbcType=NUMERIC}, 
-		    #{logicDeleteFlg,jdbcType=NVARCHAR}
+		values ( 
+		    #{id,jdbcType=BIGINT}
+		    , #{name,jdbcType=NVARCHAR}
+		    , #{countryCode,jdbcType=NCHAR}
+		    , #{district,jdbcType=NVARCHAR}
+		    , #{population,jdbcType=BIGINT}
+		    , #{logicDeleteFlg,jdbcType=NVARCHAR}
 		)
 	</insert>
 	<update id="removeById" parameterType="java.lang.Integer">
-		UPDATE WORLD_CITY CN 
-		SET CN.LOGIC_DELETE_FLG = 'removed' 
+		UPDATE WORLD_CITY CN
+		SET
+		CN.LOGIC_DELETE_FLG = 'removed'
 		WHERE CN.ID = #{id,jdbcType=NUMERIC}
 	</update>
 	<update id="updateById"
 		parameterType="jp.co.toshiba.ppok.entity.City">
-		UPDATE WORLD_CITY CN
+		update city
 		<set>
 			<if test="name != null">
-				CN.NAME = #{name,jdbcType=NVARCHAR},
+				name = #{name,jdbcType=NVARCHAR},
 			</if>
 			<if test="countryCode != null">
-				CN.COUNTRY_CODE = #{countryCode,jdbcType=NCHAR},
+				country_code = #{countryCode,jdbcType=NCHAR},
 			</if>
 			<if test="district != null">
-				CN.DISTRICT = #{district,jdbcType=NVARCHAR},
+				district = #{district,jdbcType=NVARCHAR},
 			</if>
 			<if test="population != null">
-				CN.POPULATION = #{population,jdbcType=NUMERIC},
+				population = #{population,jdbcType=BIGINT},
 			</if>
 		</set>
-		WHERE CN.LOGIC_DELETE_FLG = 'visible'
-		AND CN.ID = #{id,jdbcType=NUMERIC}
+		where
+		    logic_delete_flg = 'visible' 
+		    and id = #{id,jdbcType=BIGINT}
 	</update>
-	<select id="saiban" resultType="java.lang.Long">
-		SELECT
-		    COUNT(CN.id) + 1 
-		FROM
-		    WORLD_CITY CN 
+	<select id="selectById" parameterType="java.lang.Integer"
+		resultType="BasicResultMap">
+		select
+		    cn.id
+		    , cn.name
+		    , cty.continent
+		    , cty.name as nation
+		    , cn.district
+		    , cn.population 
+		from
+		    city as cn 
+		    inner join country as cty 
+		        on cty.code = cn.country_code 
+		where
+		    cn.delete_flg = 'visible' 
+		    and cn.id = #{id,jdbcType=BIGINT}
 	</select>
-	<select id="checkDuplicatedName" parameterType="java.lang.String"
+	<select id="findMaximumRanks" parameterType="java.lang.Integer"
+		resultType="BasicResultMap">
+		select
+		    cn.id
+		    , cn.name
+		    , cty.continent
+		    , cty.name as nation
+		    , cn.district
+		    , cn.population 
+		from
+		    city as cn 
+		    inner join country as cty 
+		        on cty.code = cn.country_code 
+		where
+		    cn.delete_flg = 'visible' 
+		order by
+		    cn.population desc 
+		limit
+		    #{sort,jdbcType=INTEGER}
+	</select>
+	<select id="findMinimumRanks" parameterType="java.lang.Integer"
+		resultType="BasicResultMap">
+		select
+		    cn.id
+		    , cn.name
+		    , cty.continent
+		    , cty.name as nation
+		    , cn.district
+		    , cn.population 
+		from
+		    city as cn 
+		    inner join country as cty 
+		        on cty.code = cn.country_code 
+		where
+		    cn.delete_flg = 'visible' 
+		order by
+		    cn.population asc 
+		limit
+		    #{sort,jdbcType=INTEGER}
+	</select>
+	<select id="countCityInfosByName" parameterType="java.lang.String"
 		resultType="java.lang.Integer">
-		SELECT
-		    COUNT(1) 
-		FROM
-		    WORLD_CITY CN 
-		WHERE
-		    CN.NAME = #{cityName,jdbcType=NVARCHAR}
+		select
+		    count(1) 
+		from
+		    city as cn 
+		    inner join country as cty 
+		        on cty.code = cn.country_code 
+		where
+		    cn.delete_flg = 'visible' 
+		    and cn.name like #{name,jdbcType=NVARCHAR} 
+	</select>
+	<select id="getCityInfosByName" parameterType="java.lang.String"
+		resultType="BasicResultMap">
+		select
+		    cn.id
+		    , cn.name
+		    , cty.continent
+		    , cty.name as nation
+		    , cn.district
+		    , cn.population 
+		from
+		    city as cn 
+		    inner join country as cty 
+		        on cty.code = cn.country_code 
+		where
+		    cn.delete_flg = 'visible' 
+		    and cn.name like #{name,jdbcType=NVARCHAR} 
+		order by
+		    cn.id asc 
+		limit
+		    #{pageSize,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}
+	</select>
+	<select id="countCityInfos" resultType="java.lang.Integer">
+		select
+		    count(1) 
+		from
+		    city as cn 
+		    inner join country as cty 
+		        on cty.code = cn.country_code 
+		where
+		    cn.delete_flg = 'visible' 
+	</select>
+	<select id="getCityInfos" resultType="BasicResultMap">
+		select
+		    cn.id
+		    , cn.name
+		    , cty.continent
+		    , cty.name as nation
+		    , cn.district
+		    , cn.population 
+		from
+		    city as cn 
+		    inner join country as cty 
+		        on cty.code = cn.country_code 
+		where
+		    cn.delete_flg = 'visible' 
+		order by
+		    cn.id asc 
+		limit
+		    #{pageSize,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}
+	</select>
+	<select id="saiban" resultType="java.lang.Long">
+		select
+		    count(cn.id) + 1 
+		from
+		    city as cn
+	</select>
+	<select id="checkDuplicatedName"
+		parameterType="java.lang.String" resultType="java.lang.Integer">
+		select
+		    count(1) 
+		from
+		    city as cn 
+		where
+		    cn.logic_delete_flg = 'visible' 
+		    and cn.name = #{cityName,jdbcType=NVARCHAR}
 	</select>
 </mapper>
