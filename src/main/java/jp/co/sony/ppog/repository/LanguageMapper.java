@@ -1,5 +1,7 @@
 package jp.co.sony.ppog.repository;
 
+import org.apache.ibatis.annotations.Mapper;
+
 /**
  * 言語マッパー
  *

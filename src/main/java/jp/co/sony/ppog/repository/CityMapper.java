@@ -2,6 +2,9 @@ package jp.co.sony.ppog.repository;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
 import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.utils.Pagination;
 
