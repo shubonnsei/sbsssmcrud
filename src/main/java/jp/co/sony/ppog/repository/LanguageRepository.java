@@ -10,8 +10,8 @@ import jp.co.sony.ppog.utils.LanguageId;
 /**
  * 言語リポジトリ
  *
- * @author ArcaHozota
- * @since 4.12
+ * @author shubonnsei
+ * @since 1.00
  */
 @Repository
 public interface LanguageRepository extends JpaRepository<Language, LanguageId>, JpaSpecificationExecutor<Language> {
