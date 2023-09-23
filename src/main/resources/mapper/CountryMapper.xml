@@ -7,6 +7,32 @@
 		type="jp.co.sony.ppog.entity.Country" autoMapping="true">
 		<id property="code" jdbcType="VARCHAR" column="code" />
 	</resultMap>
+	<select id="findAllContinents" resultType="java.lang.String">
+		select 
+		    cty.continent 
+		from
+		    country as cty 
+		where
+		    cty.delete_flg = 'visible' 
+		group by
+			cty.continent
+		order by
+		    cty.continent
+	</select>
+	<select id="findNationsByCnt" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select 
+		    cty.name 
+		from
+		    country as cty 
+		where
+		    cty.delete_flg = 'visible' 
+		    and cty.continent = #{continent;jdbcType=VARCHAR}
+		group by
+			cty.name
+		order by
+			cty.name asc
+	</select>
 	<select id="findNationCode" parameterType="java.lang.String"
 		resultType="java.lang.String">
 		select
