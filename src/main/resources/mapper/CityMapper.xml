@@ -26,11 +26,11 @@
 		) 
 		values ( 
 		    #{id,jdbcType=BIGINT}
-		    , #{name,jdbcType=NVARCHAR}
-		    , #{countryCode,jdbcType=NVARCHAR}
-		    , #{district,jdbcType=NVARCHAR}
+		    , #{name,jdbcType=VARCHAR}
+		    , #{countryCode,jdbcType=VARCHAR}
+		    , #{district,jdbcType=VARCHAR}
 		    , #{population,jdbcType=BIGINT}
-		    , #{logicDeleteFlg,jdbcType=NVARCHAR}
+		    , #{logicDeleteFlg,jdbcType=VARCHAR}
 		)
 	</insert>
 	<update id="removeById" parameterType="java.lang.Integer">
@@ -44,13 +44,13 @@
 		update city
 		<set>
 			<if test="name != null">
-				name = #{name,jdbcType=NVARCHAR},
+				name = #{name,jdbcType=VARCHAR},
 			</if>
 			<if test="countryCode != null">
-				country_code = #{countryCode,jdbcType=NVARCHAR},
+				country_code = #{countryCode,jdbcType=VARCHAR},
 			</if>
 			<if test="district != null">
-				district = #{district,jdbcType=NVARCHAR},
+				district = #{district,jdbcType=VARCHAR},
 			</if>
 			<if test="population != null">
 				population = #{population,jdbcType=BIGINT},
@@ -130,7 +130,7 @@
 		        on cty.code = cn.country_code 
 		where
 		    cn.delete_flg = 'visible' 
-		    and cn.name like #{name,jdbcType=NVARCHAR} 
+		    and cn.name like #{name,jdbcType=VARCHAR} 
 	</select>
 	<select id="getCityInfosByName" parameterType="java.lang.String"
 		resultMap="BasicResultMap">
@@ -148,7 +148,7 @@
 		        on cty.code = cn.country_code 
 		where
 		    cn.delete_flg = 'visible' 
-		    and cn.name like #{name,jdbcType=NVARCHAR} 
+		    and cn.name like #{name,jdbcType=VARCHAR} 
 		order by
 		    cn.id asc 
 		limit
@@ -198,6 +198,6 @@
 		    city as cn 
 		where
 		    cn.logic_delete_flg = 'visible' 
-		    and cn.name = #{cityName,jdbcType=NVARCHAR}
+		    and cn.name = #{cityName,jdbcType=VARCHAR}
 	</select>
 </mapper>
