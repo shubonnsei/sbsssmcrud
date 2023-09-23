@@ -16,7 +16,8 @@
 		    language as al 
 		    inner join ( 
 		        select distinct
-		            max(al.percentage) as maxpercentage 
+		            al.country_code
+		            , max(al.percentage) as maxpercentage 
 		        from
 		            language as al 
 		        where
@@ -24,7 +25,8 @@
 		        group by
 		            al.country_code
 		    ) nl 
-		        on nl.maxpercentage = al.percentage 
+		        on nl.country_code = al.country_code 
+		        and nl.maxpercentage = al.percentage 
 		where
 		    al.is_official = 'T'
 		    and al.country_code = #{countryCode,jdbcType=VARCHAR}
