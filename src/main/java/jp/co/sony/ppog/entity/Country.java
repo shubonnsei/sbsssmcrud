@@ -2,12 +2,6 @@ package jp.co.sony.ppog.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import lombok.Data;
 
@@ -25,31 +19,26 @@ public final class Country implements Serializable {
 	/**
 	 * This field corresponds to the database column CODE
 	 */
-	@Id
 	private String code;
 
 	/**
 	 * This field corresponds to the database column NAME
 	 */
-	@Column(nullable = false)
 	private String name;
 
 	/**
 	 * This field corresponds to the database column CONTINENT
 	 */
-	@Column(nullable = false)
 	private String continent;
 
 	/**
 	 * This field corresponds to the database column REGION
 	 */
-	@Column(nullable = false)
 	private String region;
 
 	/**
 	 * This field corresponds to the database column SURFACE_AREA
 	 */
-	@Column(nullable = false)
 	private BigDecimal surfaceArea;
 
 	/**
@@ -60,7 +49,6 @@ public final class Country implements Serializable {
 	/**
 	 * This field corresponds to the database column POPULATION
 	 */
-	@Column(nullable = false)
 	private Long population;
 
 	/**
@@ -81,13 +69,11 @@ public final class Country implements Serializable {
 	/**
 	 * This field corresponds to the database column LOCAL_NAME
 	 */
-	@Column(nullable = false)
 	private String localName;
 
 	/**
 	 * This field corresponds to the database column GOVERNMENT_FORM
 	 */
-	@Column(nullable = false)
 	private String governmentForm;
 
 	/**
@@ -103,18 +89,10 @@ public final class Country implements Serializable {
 	/**
 	 * This field corresponds to the database column CODE2
 	 */
-	@Column(nullable = false)
 	private String code2;
 
 	/**
 	 * This field corresponds to the database column LOGIC_DELETE_FLG
 	 */
-	@Column(nullable = false)
 	private String deleteFlg;
-
-	/**
-	 * This field corresponds to the database table city
-	 */
-	@OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
-	private List<City> cities;
 }
