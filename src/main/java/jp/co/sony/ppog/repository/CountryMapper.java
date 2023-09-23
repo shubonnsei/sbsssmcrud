@@ -3,7 +3,7 @@ package jp.co.sony.ppog.repository;
 import java.util.List;
 
 /**
- * 国家リポジトリ
+ * 国家マッパー
  *
  * @author shubonnsei
  * @since 1.00

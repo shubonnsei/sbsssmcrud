@@ -1,7 +1,7 @@
 package jp.co.sony.ppog.repository;
 
 /**
- * 言語リポジトリ
+ * 言語マッパー
  *
  * @author shubonnsei
  * @since 1.00

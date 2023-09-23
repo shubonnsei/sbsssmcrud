@@ -6,7 +6,7 @@ import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.utils.Pagination;
 
 /**
- * 都市リポジトリ
+ * 都市マッパー
  *
  * @author shubonnsei
  * @since 1.00
