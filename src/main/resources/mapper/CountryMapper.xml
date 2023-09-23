@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.toshiba.ppok.mapper.CityMapper">
+	<resultMap id="BasicResultMap"
+		type="jp.co.toshiba.ppok.entity.City" autoMapping="true">
+		<id property="id" jdbcType="NUMERIC" column="ID" />
+	</resultMap>
+	<insert id="saveById"
+		parameterType="jp.co.toshiba.ppok.entity.City">
+		INSERT 
+		INTO WORLD_CITY( 
+			ID,
+		    NAME, 
+		    COUNTRY_CODE, 
+		    DISTRICT, 
+		    POPULATION, 
+		    LOGIC_DELETE_FLG
+		) 
+		VALUES ( 
+		    #{id,jdbcType=NUMERIC}, 
+		    #{name,jdbcType=NVARCHAR}, 
+		    #{countryCode,jdbcType=NCHAR}, 
+		    #{district,jdbcType=NVARCHAR}, 
+		    #{population,jdbcType=NUMERIC}, 
+		    #{logicDeleteFlg,jdbcType=NVARCHAR}
+		)
+	</insert>
+	<update id="removeById" parameterType="java.lang.Integer">
+		UPDATE WORLD_CITY CN 
+		SET CN.LOGIC_DELETE_FLG = 'removed' 
+		WHERE CN.ID = #{id,jdbcType=NUMERIC}
+	</update>
+	<update id="updateById"
+		parameterType="jp.co.toshiba.ppok.entity.City">
+		UPDATE WORLD_CITY CN
+		<set>
+			<if test="name != null">
+				CN.NAME = #{name,jdbcType=NVARCHAR},
+			</if>
+			<if test="countryCode != null">
+				CN.COUNTRY_CODE = #{countryCode,jdbcType=NCHAR},
+			</if>
+			<if test="district != null">
+				CN.DISTRICT = #{district,jdbcType=NVARCHAR},
+			</if>
+			<if test="population != null">
+				CN.POPULATION = #{population,jdbcType=NUMERIC},
+			</if>
+		</set>
+		WHERE CN.LOGIC_DELETE_FLG = 'visible'
+		AND CN.ID = #{id,jdbcType=NUMERIC}
+	</update>
+	<select id="saiban" resultType="java.lang.Long">
+		SELECT
+		    COUNT(CN.id) + 1 
+		FROM
+		    WORLD_CITY CN 
+	</select>
+	<select id="checkDuplicatedName" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		SELECT
+		    COUNT(1) 
+		FROM
+		    WORLD_CITY CN 
+		WHERE
+		    CN.NAME = #{cityName,jdbcType=NVARCHAR}
+	</select>
+</mapper>
