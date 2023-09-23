@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jp.co.sony.ppog.dto.CityDto;
 import jp.co.sony.ppog.entity.City;
-import jp.co.sony.ppog.service.CentreLogicService;
+import jp.co.sony.ppog.service.ZhuFanchengLogicService;
 import jp.co.sony.ppog.utils.Messages;
 import jp.co.sony.ppog.utils.Pagination;
 import jp.co.sony.ppog.utils.RestMsg;
@@ -38,7 +38,7 @@ public class CentreController {
 	/**
 	 * 中央処理サービスインターフェス
 	 */
-	private final CentreLogicService centreLogicService;
+	private final ZhuFanchengLogicService centreLogicService;
 
 	/**
 	 * 都市情報を検索する

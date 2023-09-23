@@ -18,7 +18,7 @@ import jp.co.sony.ppog.entity.Language;
 import jp.co.sony.ppog.mapper.CityMapper;
 import jp.co.sony.ppog.mapper.CountryMapper;
 import jp.co.sony.ppog.mapper.LanguageMapper;
-import jp.co.sony.ppog.service.CentreLogicService;
+import jp.co.sony.ppog.service.ZhuFanchengLogicService;
 import jp.co.sony.ppog.utils.Messages;
 import jp.co.sony.ppog.utils.Pagination;
 import jp.co.sony.ppog.utils.StringUtils;
@@ -34,7 +34,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @Transactional(rollbackFor = PSQLException.class)
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-public class CentreLogicServiceImpl implements CentreLogicService {
+public class ZhuFanchengLogicServiceImpl implements ZhuFanchengLogicService {
 
 	/**
 	 * ページサイズ
