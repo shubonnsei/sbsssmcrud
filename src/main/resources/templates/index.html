@@ -101,9 +101,9 @@
 		<!-- ページナビ -->
 		<div th:class="'row'">
 			<div th:class="'col-lg-5'"
-				th:text="|The ${pageInfo.getNumber()+1} page in ${pageInfo.getTotalPages()} pages, ${pageInfo.getTotalElements()} records found.|"></div>
+				th:text="|The ${pageInfo.getPageNum()} page in ${pageInfo.getTotalPages()} pages, ${pageInfo.getTotalRecords()} records found.|"></div>
 			<nav th:class="'col-lg-7'"
-				th:with="previousPage=${pageInfo.getNumber()},nextPage=${pageInfo.getNumber()+2},totalPg=${pageInfo.getTotalPages()}">
+				th:with="previousPage=${pageInfo.getPageNum()-1},nextPage=${pageInfo.getNumber()+1},totalPg=${pageInfo.getTotalPages()}">
 				<ul th:class="'pagination'">
 					<li><a
 						th:href="@{'/ssmcrud/city?pageNum=1&keyword='+${keyword eq null ? '' : keyword}}"
@@ -111,7 +111,7 @@
 					</li>
 					<li><a
 						th:href="@{'/ssmcrud/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
-						th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">&laquo;</a>
+						th:class="${pageInfo.hasPreviousPage()} eq true ? 'enable' : 'disabled'">&laquo;</a>
 					</li>
 					<li th:each="i:${#numbers.sequence(pageFirstIndex,pageLastIndex)}"
 						th:class="${pageInfo.getNumber()} eq ${i} ? 'active' : 'enable'">
@@ -120,7 +120,7 @@
 					</li>
 					<li><a
 						th:href="@{'/ssmcrud/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
-						th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">&raquo;</a>
+						th:class="${pageInfo.hasNextPage()} eq true ? 'enable' : 'disabled'">&raquo;</a>
 					</li>
 					<li><a
 						th:href="@{'/ssmcrud/city?pageNum='+${totalPg}+'&keyword='+${keyword eq null ? '' : keyword}}"
