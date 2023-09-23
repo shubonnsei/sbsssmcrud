@@ -14,6 +14,7 @@
 		from
 		    country as cty 
 		where
-		    cty.name = #{nation;jdbcType=VARCHAR}
+		    cty.delete_flg = 'visible' 
+		    and cty.name = #{nation;jdbcType=VARCHAR}
 	</select>
 </mapper>

@@ -22,7 +22,7 @@
 		    , country_code
 		    , district
 		    , population
-		    , logic_delete_flg
+		    , delete_flg
 		) 
 		values ( 
 		    #{id,jdbcType=BIGINT}
@@ -30,13 +30,13 @@
 		    , #{countryCode,jdbcType=VARCHAR}
 		    , #{district,jdbcType=VARCHAR}
 		    , #{population,jdbcType=BIGINT}
-		    , #{logicDeleteFlg,jdbcType=VARCHAR}
+		    , #{deleteFlg,jdbcType=VARCHAR}
 		)
 	</insert>
 	<update id="removeById" parameterType="java.lang.Long">
 		update city 
 		set
-		    logic_delete_flg = 'removed' 
+		    delete_flg = 'removed' 
 		where
 		    id = #{id,jdbcType=BIGINT}
 	</update>
@@ -58,7 +58,7 @@
 			</if>
 		</set>
 		where
-		    logic_delete_flg = 'visible' 
+		    delete_flg = 'visible' 
 		    and id = #{id,jdbcType=BIGINT}
 	</update>
 	<select id="selectById" parameterType="java.lang.Integer"
@@ -198,7 +198,7 @@
 		from
 		    city as cn 
 		where
-		    cn.logic_delete_flg = 'visible' 
+		    cn.delete_flg = 'visible' 
 		    and cn.name = #{cityName,jdbcType=VARCHAR}
 	</select>
 </mapper>
