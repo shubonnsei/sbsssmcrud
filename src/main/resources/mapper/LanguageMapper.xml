@@ -5,8 +5,8 @@
 <mapper namespace="jp.co.sony.ppog.mapper.LanguageMapper">
 	<resultMap id="BasicResultMap"
 		type="jp.co.sony.ppog.entity.Language" autoMapping="true">
-		<id property="countryCode" jdbcType="NVARCHAR" column="country_code" />
-		<id property="language" jdbcType="NVARCHAR" column="language" />
+		<id property="countryCode" jdbcType="VARCHAR" column="country_code" />
+		<id property="language" jdbcType="VARCHAR" column="language" />
 	</resultMap>
 	<select id="getOfficialLanguageByCountryCode" parameterType="java.lang.String"
 		resultType="java.lang.String">
