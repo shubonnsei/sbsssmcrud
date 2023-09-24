@@ -133,8 +133,7 @@
 		    cn.delete_flg = 'visible' 
 		    and cn.name like #{name,jdbcType=VARCHAR} 
 	</select>
-	<select id="getCityInfosByName" parameterType="java.lang.String"
-		resultMap="BasicResultMap">
+	<select id="getCityInfosByName" resultMap="BasicResultMap">
 		select
 		    cn.id
 		    , cn.name
