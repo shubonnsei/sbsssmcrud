@@ -110,9 +110,6 @@ public class ShuBonnseiLogicServiceImpl implements ShuBonnseiLogicService {
 					final CityDto cityDto = new CityDto();
 					BeanUtils.copyProperties(item, cityDto);
 					final String language = this.languageMapper.getOfficialLanguageByCountryCode(item.getCountryCode());
-//					final City city = this.cityMapper.findById(item.getId()).orElseGet(City::new);
-//					final Country country = this.countryMapper.findById(city.getCountryCode()).orElseGet(Country::new);
-//					final String language = this.getLanguage(item.getCountryCode());
 					cityDto.setContinent(item.getCountry().getContinent());
 					cityDto.setNation(item.getCountry().getName());
 					cityDto.setLanguage(language);
