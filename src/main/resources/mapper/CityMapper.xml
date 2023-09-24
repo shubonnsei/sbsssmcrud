@@ -131,7 +131,7 @@
 		        on cty.code = cn.country_code 
 		where
 		    cn.delete_flg = 'visible' 
-		    and cn.name like #{name,jdbcType=VARCHAR} 
+		    and cn.name like concat('%', #{name,jdbcType=VARCHAR}, '%')
 	</select>
 	<select id="getCityInfosByName" resultMap="BasicResultMap">
 		select
@@ -148,7 +148,7 @@
 		        on cty.code = cn.country_code 
 		where
 		    cn.delete_flg = 'visible' 
-		    and cn.name like #{name,jdbcType=VARCHAR} 
+		    and cn.name like concat('%', #{name,jdbcType=VARCHAR}, '%')
 		order by
 		    cn.id asc 
 		limit
