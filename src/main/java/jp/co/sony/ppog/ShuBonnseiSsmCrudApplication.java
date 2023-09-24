@@ -16,9 +16,9 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @SpringBootApplication
 @ServletComponentScan
-public class SsmcrudZhuApplication {
+public class ShuBonnseiSsmCrudApplication {
 	public static void main(final String[] args) {
-		SpringApplication.run(SsmcrudZhuApplication.class, args);
+		SpringApplication.run(ShuBonnseiSsmCrudApplication.class, args);
 		log.info(Messages.MSG003);
 	}
 }

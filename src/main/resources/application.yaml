@@ -2,7 +2,7 @@ server:
   port: 8281
 spring:
   application:
-    name: jpassmcrud
+    name: ShubonnseiSsmcrud
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://35.79.110.136:5432/shuworld
