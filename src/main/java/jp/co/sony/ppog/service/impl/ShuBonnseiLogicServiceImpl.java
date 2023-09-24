@@ -99,30 +99,31 @@ public class ShuBonnseiLogicServiceImpl implements ShuBonnseiLogicService {
 				}
 				return Pagination.of(minimumRanks.subList(offset, offset + PAGE_SIZE), minimumRanks.size(), pageNum);
 			}
-//			if (hankakuKeyword.startsWith("max(pop)")) {
-//				final int indexOf = hankakuKeyword.indexOf(")");
-//				final String keisan = hankakuKeyword.substring(indexOf + 1);
-//				if (StringUtils.isNotEmpty(keisan)) {
-//					sort = Integer.parseInt(keisan);
-//				}
-//				// 人口数量降順で最初の15個都市の情報を吹き出します；
-//				final List<CityDto> maximumRanks = this.cityMapper.findMaximumRanks(sort).stream().map(item -> {
-//					final CityDto cityDto = new CityDto();
-//					BeanUtils.copyProperties(item, cityDto);
+			if (hankakuKeyword.startsWith("max(pop)")) {
+				final int indexOf = hankakuKeyword.indexOf(")");
+				final String keisan = hankakuKeyword.substring(indexOf + 1);
+				if (StringUtils.isNotEmpty(keisan)) {
+					sort = Integer.parseInt(keisan);
+				}
+				// 人口数量降順で最初の15個都市の情報を吹き出します；
+				final List<CityDto> maximumRanks = this.cityMapper.findMaximumRanks(sort).stream().map(item -> {
+					final CityDto cityDto = new CityDto();
+					BeanUtils.copyProperties(item, cityDto);
+					final String language = this.languageMapper.getOfficialLanguageByCountryCode(item.getCountryCode());
 //					final City city = this.cityMapper.findById(item.getId()).orElseGet(City::new);
 //					final Country country = this.countryMapper.findById(city.getCountryCode()).orElseGet(Country::new);
 //					final String language = this.getLanguage(item.getCountryCode());
-//					cityDto.setContinent(country.getContinent());
-//					cityDto.setNation(country.getName());
-//					cityDto.setLanguage(language);
-//					return cityDto;
-//				}).collect(Collectors.toList());
-//				if (pageMax >= sort) {
-//					return new PageImpl<>(maximumRanks.subList(pageMin, sort), pageRequest, maximumRanks.size());
-//				}
-//				return new PageImpl<>(maximumRanks.subList(pageMin, pageMax), pageRequest, maximumRanks.size());
-//			}
-			// ページング検索；
+					cityDto.setContinent(item.getCountry().getContinent());
+					cityDto.setNation(item.getCountry().getName());
+					cityDto.setLanguage(language);
+					return cityDto;
+				}).collect(Collectors.toList());
+				if (offset + PAGE_SIZE >= sort) {
+					return Pagination.of(maximumRanks.subList(offset, sort), maximumRanks.size(), pageNum);
+				}
+				return Pagination.of(maximumRanks.subList(offset, offset + PAGE_SIZE), maximumRanks.size(), pageNum);
+			}
+//			// ページング検索；
 //			final String nationCode = this.countryMapper.findNationCode(hankakuKeyword);
 //			if (StringUtils.isNotEmpty(nationCode)) {
 //				city.setCountryCode(nationCode);
