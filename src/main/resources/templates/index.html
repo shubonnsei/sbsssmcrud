@@ -99,10 +99,10 @@
 				th:with="previousPage=${pageInfo.getPageNum()-1},nextPage=${pageInfo.getPageNum()+1},totalPg=${pageInfo.getTotalPages()}">
 				<ul th:class="'pagination'">
 					<li><a th:href="@{'/ssmcrud/city?pageNum=1&keyword='+${keyword eq null ? '' : keyword}}"
-							th:class="${!pageInfo.hasPreviousPage} eq true ? 'disabled' : 'enable'">最初のページへ</a>
+							th:class="${!pageInfo.isHasPreviousPage()} eq true ? 'disabled' : 'enable'">最初のページへ</a>
 					</li>
 					<li><a th:href="@{'/ssmcrud/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
-							th:class="${pageInfo.hasPreviousPage} eq true ? 'enable' : 'disabled'">&laquo;</a>
+							th:class="${pageInfo.isHasPreviousPage()} eq true ? 'enable' : 'disabled'">&laquo;</a>
 					</li>
 					<li th:each="i:${#numbers.sequence(pageFirstIndex,pageLastIndex)}"
 						th:class="${pageInfo.getPageNum()} eq ${i} ? 'active' : 'enable'">
@@ -110,10 +110,10 @@
 							th:href="@{'/ssmcrud/city?pageNum='+${i}+'&keyword='+${keyword eq null ? '' : keyword}}"></a>
 					</li>
 					<li><a th:href="@{'/ssmcrud/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
-							th:class="${pageInfo.hasNextPage} eq true ? 'enable' : 'disabled'">&raquo;</a>
+							th:class="${pageInfo.isHasNextPage()} eq true ? 'enable' : 'disabled'">&raquo;</a>
 					</li>
 					<li><a th:href="@{'/ssmcrud/city?pageNum='+${totalPg}+'&keyword='+${keyword eq null ? '' : keyword}}"
-							th:class="${!pageInfo.hasNextPage} eq true ? 'disabled' : 'enable'">最後のページへ</a>
+							th:class="${!pageInfo.isHasNextPage()} eq true ? 'disabled' : 'enable'">最後のページへ</a>
 					</li>
 				</ul>
 			</nav>
