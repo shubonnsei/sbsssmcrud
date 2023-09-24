@@ -154,6 +154,39 @@
 		limit
 		    #{pageSize,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}
 	</select>
+	<select id="countCityInfosByNation" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		select
+		    count(1) 
+		from
+		    city as cn 
+		    inner join country as cty 
+		        on cty.code = cn.country_code 
+		where
+		    cn.delete_flg = 'visible' 
+		    and cty.code = #{nation,jdbcType=VARCHAR} 
+	</select>
+	<select id="getCityInfosByNation" resultMap="BasicResultMap">
+		select
+		    cn.id
+		    , cn.name
+		    , cn.country_code
+		    , cty.continent
+		    , cty.name as nation
+		    , cn.district
+		    , cn.population 
+		from
+		    city as cn 
+		    inner join country as cty 
+		        on cty.code = cn.country_code 
+		where
+		    cn.delete_flg = 'visible' 
+		    and cty.code = #{nation,jdbcType=VARCHAR} 
+		order by
+		    cn.id asc 
+		limit
+		    #{pageSize,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}
+	</select>
 	<select id="countCityInfos" resultType="java.lang.Integer">
 		select
 		    count(1) 

@@ -120,15 +120,26 @@ public class ShuBonnseiLogicServiceImpl implements ShuBonnseiLogicService {
 				}
 				return Pagination.of(maximumRanks.subList(offset, offset + PAGE_SIZE), maximumRanks.size(), pageNum);
 			}
-//			// ページング検索；
-//			final String nationCode = this.countryMapper.findNationCode(hankakuKeyword);
-//			if (StringUtils.isNotEmpty(nationCode)) {
-//				city.setCountryCode(nationCode);
-//				city.setDeleteFlg(Messages.MSG007);
-//				final Example<City> example = Example.of(city, ExampleMatcher.matchingAll());
-//				final Page<City> pages = this.cityMapper.findAll(example, pageRequest);
-//				return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
-//			}
+			// ページング検索；
+			final String nationCode = this.countryMapper.findNationCode(hankakuKeyword);
+			if (StringUtils.isNotEmpty(nationCode)) {
+				final Integer cityInfosByNationCnt = this.cityMapper.countCityInfosByNation(nationCode);
+				if (cityInfosByNationCnt == 0) {
+					return Pagination.of(Lists.newArrayList(), 0, pageNum);
+				}
+				final List<CityDto> cityInfosByNation = this.cityMapper
+						.getCityInfosByNation(nationCode, offset, PAGE_SIZE).stream().map(item -> {
+							final CityDto cityDto = new CityDto();
+							BeanUtils.copyProperties(item, cityDto);
+							final String language = this.languageMapper
+									.getOfficialLanguageByCountryCode(item.getCountryCode());
+							cityDto.setContinent(item.getCountry().getContinent());
+							cityDto.setNation(item.getCountry().getName());
+							cityDto.setLanguage(language);
+							return cityDto;
+						}).collect(Collectors.toList());
+				return Pagination.of(cityInfosByNation, cityInfosByNationCnt, pageNum);
+			}
 			final Integer cityInfosByNameCnt = this.cityMapper.countCityInfosByName(hankakuKeyword);
 			if (cityInfosByNameCnt == 0) {
 				return Pagination.of(Lists.newArrayList(), 0, pageNum);

@@ -69,6 +69,23 @@ public interface CityMapper {
 	List<City> findMinimumRanks(@Param("sort") Integer sortNumber);
 
 	/**
+	 * 国名によって都市情報を取得する
+	 * 
+	 * @param nationCode
+	 * @return Integer
+	 */
+	List<City> getCityInfosByNation(@Param("nation") String nationCode, @Param("offset") Integer offset,
+			@Param("pageSize") Integer pageSize);
+
+	/**
+	 * 国名によって都市情報のレコード数を取得する
+	 * 
+	 * @param nationCode
+	 * @return Integer
+	 */
+	Integer countCityInfosByNation(@Param("nation") String nationCode);
+
+	/**
 	 * 都市名によって都市情報を取得する
 	 *
 	 * @param name 都市名
@@ -106,4 +123,5 @@ public interface CityMapper {
 	 * @return Integer
 	 */
 	Integer checkDuplicatedName(@Param("cityName") String cityName);
+
 }
