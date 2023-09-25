@@ -7209,7 +7209,9 @@ button.close {
 }
 
 a.disabled {
+	color: gray;
     pointer-events: none;
+    cursor: not-allowed;
 }
 
 /*# sourceMappingURL=bootstrap.min.css.map */
