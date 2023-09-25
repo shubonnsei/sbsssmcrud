@@ -7208,4 +7208,8 @@ button.close {
     }
 }
 
+a.disabled {
+    pointer-events: none;
+}
+
 /*# sourceMappingURL=bootstrap.min.css.map */
