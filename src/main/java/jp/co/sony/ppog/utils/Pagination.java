@@ -35,12 +35,12 @@ public final class Pagination<T> {
 	/**
 	 * すべてのページ数
 	 */
-	private int totalPages;
+	private long totalPages;
 
 	/**
 	 * すべてのレコード数
 	 */
-	private int totalRecords;
+	private long totalRecords;
 
 	/**
 	 * 前のページはあるか
@@ -89,8 +89,8 @@ public final class Pagination<T> {
 	 * @param totalRecords すべてのレコード数
 	 * @param pageNum      当ページ
 	 */
-	public static <T> Pagination<T> of(final List<T> records, final int totalRecords, final int pageNum) {
-		return new Pagination<>(records, totalRecords, pageNum, records.size(), 5);
+	public static <T> Pagination<T> of(final List<T> records, final long totalRecords, final int pageNum) {
+		return new Pagination<>(records, totalRecords, pageNum, 12, 5);
 	}
 
 	/**
@@ -101,7 +101,7 @@ public final class Pagination<T> {
 	 * @param pageNum      当ページ
 	 * @param pageSize     ページサイズ
 	 */
-	public static <T> Pagination<T> of(final List<T> records, final int totalRecords, final int pageNum,
+	public static <T> Pagination<T> of(final List<T> records, final long totalRecords, final int pageNum,
 			final int pageSize) {
 		return new Pagination<>(records, totalRecords, pageNum, pageSize, 5);
 	}
@@ -115,7 +115,7 @@ public final class Pagination<T> {
 	 * @param pageSize      ページサイズ
 	 * @param navigatePages ナビゲーションのページ数
 	 */
-	public static <T> Pagination<T> of(final List<T> records, final int totalRecords, final int pageNum,
+	public static <T> Pagination<T> of(final List<T> records, final long totalRecords, final int pageNum,
 			final int pageSize, final int navigatePages) {
 		return new Pagination<>(records, totalRecords, pageNum, pageSize, navigatePages);
 	}
@@ -129,21 +129,21 @@ public final class Pagination<T> {
 	 * @param pageSize      ページサイズ
 	 * @param navigatePages ナビゲーションのページ数
 	 */
-	private Pagination(final List<T> records, final int totalRecords, final int pageNum, final int pageSize,
+	private Pagination(final List<T> records, final long totalRecords, final int pageNum, final int pageSize,
 			final int navigatePages) {
 		if (records != null && !records.isEmpty()) {
 			this.pageNum = pageNum;
 			this.records = records;
-			this.pageSize = pageSize;
+			this.pageSize = records.size();
 			this.totalRecords = totalRecords;
-			final int ape = this.totalRecords / pageSize;
+			final long ape = this.totalRecords / pageSize;
 			this.totalPages = this.totalRecords % pageSize == 0 ? ape : ape + 1;
 		} else if (records != null) {
 			this.pageNum = 1;
 			this.records = null;
 			this.pageSize = 0;
-			this.totalRecords = 0;
-			this.totalPages = 1;
+			this.totalRecords = 0L;
+			this.totalPages = 1L;
 		} else {
 			throw new PaginationException("データのコレクションは間違いました。");
 		}
@@ -171,7 +171,7 @@ public final class Pagination<T> {
 	 */
 	private void calcNavigatePageNums() {
 		if (this.totalPages <= this.navigatePages) {
-			this.navigatePageNums = new int[this.totalPages];
+			this.navigatePageNums = new int[(int) this.totalPages];
 			for (int i = 0; i < this.totalPages; i++) {
 				this.navigatePageNums[i] = i + 1;
 			}
@@ -181,10 +181,11 @@ public final class Pagination<T> {
 		int startNum = this.pageNum - this.navigatePages / 2;
 		int endNum = this.pageNum + this.navigatePages / 2;
 		if (endNum > this.totalPages && startNum >= 1) {
-			endNum = this.totalPages;
+			endNum = (int) this.totalPages;
 			// 最後のナビゲーションページ
 			for (int i = this.navigatePages - 1; i >= 0; i--) {
-				this.navigatePageNums[i] = endNum--;
+				this.navigatePageNums[i] = endNum;
+				endNum--;
 			}
 		} else {
 			if (startNum < 1) {
@@ -192,7 +193,8 @@ public final class Pagination<T> {
 			}
 			// 他のナビゲーションページ
 			for (int i = 0; i < this.navigatePages; i++) {
-				this.navigatePageNums[i] = startNum++;
+				this.navigatePageNums[i] = startNum;
+				startNum++;
 			}
 		}
 	}
