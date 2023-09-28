@@ -18,7 +18,7 @@ public final class City implements Serializable {
 	/**
 	 * This field corresponds to the database column ID
 	 */
-	private Long id;
+	private Integer id;
 
 	/**
 	 * This field corresponds to the database column NAME
@@ -38,7 +38,7 @@ public final class City implements Serializable {
 	/**
 	 * This field corresponds to the database column POPULATION
 	 */
-	private Long population;
+	private Integer population;
 
 	/**
 	 * This field corresponds to the database column DELETE_FLG
