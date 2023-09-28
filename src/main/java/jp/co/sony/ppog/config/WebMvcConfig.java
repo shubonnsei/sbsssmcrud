@@ -38,16 +38,14 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	}
 
 	/**
-	 * 静的リソースマッピングを設定する
+	 * 設置靜態資源映射
 	 *
-	 * @param registry 登録
+	 * @param registry 注冊説明
 	 */
 	@Override
 	protected void addResourceHandlers(final ResourceHandlerRegistry registry) {
 		log.info(Messages.MSG002);
 		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-		registry.addResourceHandler("/jquery/**").addResourceLocations("classpath:/static/jquery/");
-		registry.addResourceHandler("/bootstrap-3.4.1-dist/**")
-				.addResourceLocations("classpath:/static/bootstrap-3.4.1-dist/");
+		registry.addResourceHandler("/public/**").addResourceLocations("classpath:/public/");
 	}
 }
