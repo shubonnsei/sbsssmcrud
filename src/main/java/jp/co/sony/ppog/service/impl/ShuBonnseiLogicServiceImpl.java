@@ -199,7 +199,7 @@ public class ShuBonnseiLogicServiceImpl implements ShuBonnseiLogicService {
 	public void save(final CityDto cityDto) {
 		final City city = new City();
 		BeanUtils.copyProperties(cityDto, city, "continent", "nation", "language");
-		final Long saiban = this.cityMapper.saiban();
+		final Integer saiban = this.cityMapper.saiban();
 		final String countryCode = this.countryMapper.findNationCode(cityDto.getNation());
 		city.setId(saiban);
 		city.setCountryCode(countryCode);
