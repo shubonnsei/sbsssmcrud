@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import jp.co.sony.ppog.dto.CityDto;
 import jp.co.sony.ppog.service.ShuBonnseiLogicService;
@@ -45,21 +44,12 @@ public class SbsSsmcrudController {
 	 * @return modelAndView
 	 */
 	@GetMapping(value = "/city")
-	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
+	@ResponseBody
+	public RestMsg getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
 			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
 		// ページング検索結果を吹き出します；
 		final Pagination<CityDto> pageInfo = this.shuBonnseiLogicService.getPageInfo(pageNum, keyword);
-		// modelAndViewオブジェクトを宣言する；
-		final ModelAndView modelAndView = new ModelAndView("index");
-		// ページングナビの最初と最後の数を取得する；
-		final int pageFirstIndex = pageInfo.getNaviFirstPage();
-		final int pageLastIndex = pageInfo.getNaviLastPage();
-		modelAndView.addObject("pageInfo", pageInfo);
-		modelAndView.addObject("keyword", keyword);
-		modelAndView.addObject("pageFirstIndex", pageFirstIndex);
-		modelAndView.addObject("pageLastIndex", pageLastIndex);
-		modelAndView.addObject("title", "CityList");
-		return modelAndView;
+		return RestMsg.success().add("pageInfo", pageInfo);
 	}
 
 	/**

@@ -25,23 +25,21 @@
 		</div>
 		<!-- 検索バーとボタン -->
 		<div class="row">
-			<form class="form-inline col-lg-8" role="form">
-				<div class="input-group has-feedback col-lg-8">
-					<div class="input-group-prepend">
-						<span class="input-group-text" id="basic-addon1">@</span>
-					</div>
-					<input id="keywordInput" class="form-control" type="text" placeholder="都市名を入力してください"
-						aria-describedby="button-addon4">
-					<div class="input-group-append" id="button-addon4">
-						<button id="searchBtn" class="btn btn-warning my-2 my-sm-0" type="button">
-							<span th:class="glyphicon glyphicon-search"></span>検索
-						</button>
+			<form class="form-inline" role="form" style="float: left;">
+				<div class="form-group has-feedback">
+					<div class="input-group">
+						<div class="input-group-addon">検索条件</div>
+						<input id="keywordInput" class="form-control has-success" type="text"
+							placeholder="検索条件を入力してください">
 					</div>
 				</div>
+				<button id="searchBtn" type="button" class="btn btn-info">
+					<i class="glyphicon glyphicon-search"></i>検索
+				</button>
 			</form>
-			<div class="col-lg-2 offset-lg-2">
+			<div class="col-lg-2 col-lg-offset-10">
 				<button class="btn btn-success" id="cityAddModalBtn">
-					<span th:class="glyphicon glyphicon-pawn"></span>情報追加
+					<span class="glyphicon glyphicon-pawn"></span>情報追加
 				</button>
 			</div>
 		</div>
