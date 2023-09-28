@@ -32,7 +32,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequestMapping("/public/sbsssmcrud")
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class ShussmcrudController {
+public class SbsSsmcrudController {
 
 	/**
 	 * 中央処理サービスインターフェス
