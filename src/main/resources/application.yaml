@@ -5,7 +5,7 @@ spring:
     name: sbsssmcrud
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://52.199.163.241:5432/world
+    url: jdbc:postgresql://35.79.110.136:5432/shuworld
     username: postgres
     password: postgres
     hikari:
