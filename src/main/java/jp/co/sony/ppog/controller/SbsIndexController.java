@@ -8,7 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
- * @author Administrator
+ * インデクスコントローラ
+ *
+ * @author ArcaHozota
+ * @since 1.87
  */
 @Controller
 public class SbsIndexController {
