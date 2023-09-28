@@ -217,7 +217,7 @@
 		limit
 		    #{pageSize,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}
 	</select>
-	<select id="saiban" resultType="java.lang.Long">
+	<select id="saiban" resultType="java.lang.Integer">
 		select
 		    count(cn.id) + 1 
 		from
