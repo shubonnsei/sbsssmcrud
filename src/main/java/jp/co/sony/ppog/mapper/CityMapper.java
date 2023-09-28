@@ -21,7 +21,7 @@ public interface CityMapper {
 	 *
 	 * @return 採番値
 	 */
-	Long saiban();
+	Integer saiban();
 
 	/**
 	 * 保存
@@ -32,7 +32,7 @@ public interface CityMapper {
 
 	/**
 	 * 都市IDによって都市情報を取得する
-	 * 
+	 *
 	 * @param id 都市ID
 	 * @return City
 	 */
@@ -70,7 +70,7 @@ public interface CityMapper {
 
 	/**
 	 * 国名によって都市情報を取得する
-	 * 
+	 *
 	 * @param nationCode
 	 * @return Integer
 	 */
@@ -79,7 +79,7 @@ public interface CityMapper {
 
 	/**
 	 * 国名によって都市情報のレコード数を取得する
-	 * 
+	 *
 	 * @param nationCode
 	 * @return Integer
 	 */
@@ -118,7 +118,7 @@ public interface CityMapper {
 
 	/**
 	 * 都市名は重複するかどうかを判断する
-	 * 
+	 *
 	 * @param cityName 都市名
 	 * @return Integer
 	 */
