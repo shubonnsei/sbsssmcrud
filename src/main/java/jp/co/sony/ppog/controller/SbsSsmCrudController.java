@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jp.co.sony.ppog.dto.CityDto;
-import jp.co.sony.ppog.service.SbsSsmcrudLogicService;
+import jp.co.sony.ppog.service.SbsSsmCrudLogicService;
 import jp.co.sony.ppog.utils.Messages;
 import jp.co.sony.ppog.utils.Pagination;
 import jp.co.sony.ppog.utils.RestMsg;
@@ -37,7 +37,7 @@ public class SbsSsmCrudController {
 	/**
 	 * 中央処理サービスインターフェス
 	 */
-	private final SbsSsmcrudLogicService sbsSsmcrudLogicService;
+	private final SbsSsmCrudLogicService sbsSsmCrudLogicService;
 
 	/**
 	 * 都市情報を検索する
