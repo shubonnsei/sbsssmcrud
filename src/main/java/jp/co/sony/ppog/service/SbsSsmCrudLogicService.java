@@ -11,7 +11,7 @@ import jp.co.sony.ppog.utils.Pagination;
  * @author shubonnsei
  * @since 1.00
  */
-public interface SbsSsmcrudLogicService {
+public interface SbsSsmCrudLogicService {
 
 	/**
 	 * パージング情報を抽出する
