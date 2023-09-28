@@ -29,6 +29,7 @@ import lombok.RequiredArgsConstructor;
  * @since 1.00
  */
 @Controller
+@ResponseBody
 @RequestMapping("/public/sbsssmcrud")
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SbsSsmcrudController {
@@ -44,7 +45,6 @@ public class SbsSsmcrudController {
 	 * @return modelAndView
 	 */
 	@GetMapping(value = "/city")
-	@ResponseBody
 	public RestMsg getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
 			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
 		// ページング検索結果を吹き出します；
@@ -59,7 +59,6 @@ public class SbsSsmcrudController {
 	 * @return 都市情報
 	 */
 	@GetMapping(value = "/city/{id}")
-	@ResponseBody
 	public RestMsg getCityInfo(@PathVariable("id") final Long id) {
 		final CityDto cityDto = this.sbsSsmcrudLogicService.getCityInfoById(id);
 		return RestMsg.success().add("citySelected", cityDto);
@@ -72,7 +71,6 @@ public class SbsSsmcrudController {
 	 * @return 国のリスト
 	 */
 	@GetMapping(value = "/nations/{id}")
-	@ResponseBody
 	public RestMsg getListOfNationsById(@PathVariable("id") final Long id) {
 		final List<String> nations = this.sbsSsmcrudLogicService.getListOfNationsById(id);
 		return RestMsg.success().add("nationsWithName", nations);
@@ -85,7 +83,6 @@ public class SbsSsmcrudController {
 	 * @return 処理成功のメッセージ
 	 */
 	@PutMapping(value = "/city/{id}")
-	@ResponseBody
 	public RestMsg updateCityInfo(@RequestBody final CityDto cityDto) {
 		this.sbsSsmcrudLogicService.update(cityDto);
 		return RestMsg.success();
@@ -98,7 +95,6 @@ public class SbsSsmcrudController {
 	 * @return 処理成功のメッセージ
 	 */
 	@PostMapping(value = "/city")
-	@ResponseBody
 	public RestMsg saveCityInfo(@RequestBody final CityDto cityDto) {
 		this.sbsSsmcrudLogicService.save(cityDto);
 		return RestMsg.success();
@@ -111,7 +107,6 @@ public class SbsSsmcrudController {
 	 * @return 処理成功のメッセージ
 	 */
 	@DeleteMapping(value = "/city/{id}")
-	@ResponseBody
 	public RestMsg deleteCityInfo(@PathVariable("id") final Long id) {
 		this.sbsSsmcrudLogicService.removeById(id);
 		return RestMsg.success();
@@ -123,7 +118,6 @@ public class SbsSsmcrudController {
 	 * @return 大陸名称のリスト
 	 */
 	@GetMapping(value = "/continents")
-	@ResponseBody
 	public RestMsg getContinents() {
 		final List<String> continents = this.sbsSsmcrudLogicService.findAllContinents();
 		return RestMsg.success().add("continentList", continents);
@@ -136,7 +130,6 @@ public class SbsSsmcrudController {
 	 * @return 国のリスト
 	 */
 	@GetMapping(value = "/nations")
-	@ResponseBody
 	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
 		final List<String> nations = this.sbsSsmcrudLogicService.findNationsByCnt(continentVal);
 		return RestMsg.success().add("nationList", nations);
@@ -149,7 +142,6 @@ public class SbsSsmcrudController {
 	 * @return 言語のリスト
 	 */
 	@GetMapping(value = "/languages")
-	@ResponseBody
 	public RestMsg getListOfLanguages(@RequestParam("nationVal") final String nationVal) {
 		final String language = this.sbsSsmcrudLogicService.findLanguageByCty(nationVal);
 		return RestMsg.success().add("languages", language);
@@ -162,7 +154,6 @@ public class SbsSsmcrudController {
 	 * @return 処理成功のメッセージ
 	 */
 	@GetMapping(value = "/check")
-	@ResponseBody
 	public RestMsg checkName(@RequestParam("cityName") final String cityName) {
 		if (!cityName.matches(Messages.MSG006)) {
 			return RestMsg.failure().add("validatedMsg", Messages.MSG005);
