@@ -40,6 +40,11 @@ public class ShuBonnseiLogicServiceImpl implements ShuBonnseiLogicService {
 	private static final Integer PAGE_SIZE = 12;
 
 	/**
+	 * ページングナビゲーションのページ数
+	 */
+	private static final Integer NAVIGATION_PAGES = 7;
+
+	/**
 	 * デフォルトソート値
 	 */
 	private static final Integer SORT_NUMBER = 100;
@@ -95,9 +100,11 @@ public class ShuBonnseiLogicServiceImpl implements ShuBonnseiLogicService {
 					return cityDto;
 				}).collect(Collectors.toList());
 				if (offset + PAGE_SIZE >= sort) {
-					return Pagination.of(minimumRanks.subList(offset, sort), minimumRanks.size(), pageNum);
+					return Pagination.of(minimumRanks.subList(offset, sort), minimumRanks.size(), pageNum, PAGE_SIZE,
+							NAVIGATION_PAGES);
 				}
-				return Pagination.of(minimumRanks.subList(offset, offset + PAGE_SIZE), minimumRanks.size(), pageNum);
+				return Pagination.of(minimumRanks.subList(offset, offset + PAGE_SIZE), minimumRanks.size(), pageNum,
+						PAGE_SIZE, NAVIGATION_PAGES);
 			}
 			if (hankakuKeyword.startsWith("max(pop)")) {
 				final int indexOf = hankakuKeyword.indexOf(")");
@@ -116,9 +123,11 @@ public class ShuBonnseiLogicServiceImpl implements ShuBonnseiLogicService {
 					return cityDto;
 				}).collect(Collectors.toList());
 				if (offset + PAGE_SIZE >= sort) {
-					return Pagination.of(maximumRanks.subList(offset, sort), maximumRanks.size(), pageNum);
+					return Pagination.of(maximumRanks.subList(offset, sort), maximumRanks.size(), pageNum, PAGE_SIZE,
+							NAVIGATION_PAGES);
 				}
-				return Pagination.of(maximumRanks.subList(offset, offset + PAGE_SIZE), maximumRanks.size(), pageNum);
+				return Pagination.of(maximumRanks.subList(offset, offset + PAGE_SIZE), maximumRanks.size(), pageNum,
+						PAGE_SIZE, NAVIGATION_PAGES);
 			}
 			// ページング検索；
 			final String nationCode = this.countryMapper.findNationCode(hankakuKeyword);
@@ -138,7 +147,7 @@ public class ShuBonnseiLogicServiceImpl implements ShuBonnseiLogicService {
 							cityDto.setLanguage(language);
 							return cityDto;
 						}).collect(Collectors.toList());
-				return Pagination.of(cityInfosByNation, cityInfosByNationCnt, pageNum);
+				return Pagination.of(cityInfosByNation, cityInfosByNationCnt, pageNum, PAGE_SIZE, NAVIGATION_PAGES);
 			}
 			final Integer cityInfosByNameCnt = this.cityMapper.countCityInfosByName(hankakuKeyword);
 			if (cityInfosByNameCnt == 0) {
@@ -155,7 +164,7 @@ public class ShuBonnseiLogicServiceImpl implements ShuBonnseiLogicService {
 						cityDto.setLanguage(language);
 						return cityDto;
 					}).collect(Collectors.toList());
-			return Pagination.of(cityInfosByName, cityInfosByNameCnt, pageNum);
+			return Pagination.of(cityInfosByName, cityInfosByNameCnt, pageNum, PAGE_SIZE, NAVIGATION_PAGES);
 		}
 		final Integer cityInfosCnt = this.cityMapper.countCityInfos();
 		if (cityInfosCnt == 0) {
@@ -171,7 +180,7 @@ public class ShuBonnseiLogicServiceImpl implements ShuBonnseiLogicService {
 			cityDto.setLanguage(language);
 			return cityDto;
 		}).collect(Collectors.toList());
-		return Pagination.of(cityInfos, cityInfosCnt, pageNum);
+		return Pagination.of(cityInfos, cityInfosCnt, pageNum, PAGE_SIZE, NAVIGATION_PAGES);
 	}
 
 	@Override
