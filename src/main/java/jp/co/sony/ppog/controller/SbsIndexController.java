@@ -15,6 +15,6 @@ public class SbsIndexController {
 
 	@GetMapping("/index")
 	public void index(final HttpServletResponse response) throws IOException {
-		response.sendRedirect("/public/cities.html");
+		response.sendRedirect("/public/sbscities.html");
 	}
 }
