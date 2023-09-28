@@ -5,7 +5,7 @@ plugins {
 
 group = 'jp.co.sony.ppog'
 version = '1.0-SNAPSHOT'
-description = 'ssmcrudzhu'
+description = 'sbsssmcrud'
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
