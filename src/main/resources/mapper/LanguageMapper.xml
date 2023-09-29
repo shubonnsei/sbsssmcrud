@@ -17,12 +17,12 @@
 		        else coalesce(om.otlanguage, um.oflanguage) 
 		        end as language 
 		from
-		    language al 
+		    language as al 
 		    left join ( 
 		        select
-		            country_code
-		            , language as otlanguage
-		            , percentage as otpercentage
+		            nl.country_code
+		            , nl.language as otlanguage
+		            , nl.percentage as otpercentage
 		            , row_number() over ( 
 		                partition by
 		                    country_code 
@@ -30,18 +30,18 @@
 		                    percentage desc
 		            ) as rnk 
 		        from
-		            language 
+		            language as nl
 		        where
-		            delete_flg = 'visible' 
-		            and is_official = 'T'
+		            nl.delete_flg = 'visible' 
+		            and nl.is_official = 'T'
 		    ) om 
 		        on om.country_code = al.country_code 
 		        and om.rnk = 1 
 		    left join ( 
 		        select
-		            country_code
-		            , language as oflanguage
-		            , percentage as ofpercentage
+		            nl.country_code
+		            , nl.language as oflanguage
+		            , nl.percentage as ofpercentage
 		            , row_number() over ( 
 		                partition by
 		                    country_code 
@@ -49,10 +49,10 @@
 		                    percentage desc
 		            ) as rnk 
 		        from
-		            language 
+		            nl.language 
 		        where
-		            delete_flg = 'visible' 
-		            and is_official = 'F'
+		            nl.delete_flg = 'visible' 
+		            and nl.is_official = 'F'
 		    ) um 
 		        on um.country_code = al.country_code 
 		        and um.rnk = 1 
@@ -63,6 +63,6 @@
 		    , um.oflanguage
 		    , om.otlanguage
 		    , um.ofpercentage
-		    , om.otpercentage;
+		    , om.otpercentage
 	</select>
 </mapper>
