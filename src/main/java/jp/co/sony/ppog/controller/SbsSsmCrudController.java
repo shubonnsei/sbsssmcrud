@@ -71,7 +71,7 @@ public class SbsSsmCrudController {
 	 * @return 国のリスト
 	 */
 	@GetMapping(value = "/nations/{id}")
-	public RestMsg getListOfNationsById(@PathVariable("id") final Long id) {
+	public RestMsg getListOfNationsById(@PathVariable("id") final Integer id) {
 		final List<String> nations = this.sbsSsmCrudLogicService.getListOfNationsById(id);
 		return RestMsg.success().add("nationsByName", nations);
 	}
@@ -107,7 +107,7 @@ public class SbsSsmCrudController {
 	 * @return 処理成功のメッセージ
 	 */
 	@DeleteMapping(value = "/city/{id}")
-	public RestMsg deleteCityInfo(@PathVariable("id") final Long id) {
+	public RestMsg deleteCityInfo(@PathVariable("id") final Integer id) {
 		this.sbsSsmCrudLogicService.removeById(id);
 		return RestMsg.success();
 	}

@@ -184,7 +184,7 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 	}
 
 	@Override
-	public List<String> getListOfNationsById(final Long id) {
+	public List<String> getListOfNationsById(final Integer id) {
 		final List<String> list = new ArrayList<>();
 		final City city = this.cityMapper.selectById(id);
 		final String nationName = city.getCountry().getName();
@@ -217,7 +217,7 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 	}
 
 	@Override
-	public void removeById(final Long id) {
+	public void removeById(final Integer id) {
 		this.cityMapper.removeById(id);
 	}
 

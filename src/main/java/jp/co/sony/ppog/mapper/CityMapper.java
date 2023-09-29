@@ -36,7 +36,7 @@ public interface CityMapper {
 	 * @param id 都市ID
 	 * @return City
 	 */
-	City selectById(@Param("id") Long id);
+	City selectById(@Param("id") Integer id);
 
 	/**
 	 * 更新
@@ -50,7 +50,7 @@ public interface CityMapper {
 	 *
 	 * @param id id of the selected city
 	 */
-	void removeById(@Param("id") Long id);
+	void removeById(@Param("id") Integer id);
 
 	/**
 	 * 人口数量降順で都市情報を検索する
