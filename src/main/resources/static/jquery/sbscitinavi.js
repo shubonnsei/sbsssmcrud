@@ -169,7 +169,7 @@ function getContinent(element) {
 		url: pathdeApp + '/continents',
 		type: 'GET',
 		success: function(result) {
-			$.each(result.extend.continentList, function() {
+			$.each(result.extend.continents, function() {
 				let optionElement = $("<option></option>").append(this).attr(
 					"value", this);
 				optionElement.appendTo(element);
@@ -186,7 +186,7 @@ function getNations(element, continentVal) {
 		data: 'continentVal=' + continentVal,
 		type: 'GET',
 		success: function(result) {
-			$.each(result.extend.nationList, function() {
+			$.each(result.extend.nations, function() {
 				let optionElement = $("<option></option>").append(this).attr(
 					"value", this);
 				optionElement.appendTo(element);
@@ -309,7 +309,7 @@ function getNationsById(element, id) {
 		url: pathdeApp + '/countries/' + id,
 		type: 'GET',
 		success: function(result) {
-			$.each(result.extend.nationListByName, function() {
+			$.each(result.extend.nationsByName, function() {
 				let optionElement = $("<option></option>").append(this).attr("value", this);
 				optionElement.appendTo(element);
 			});

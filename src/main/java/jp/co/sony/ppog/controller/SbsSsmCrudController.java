@@ -71,7 +71,7 @@ public class SbsSsmCrudController {
 	@GetMapping(value = "/nations/{id}")
 	public RestMsg getListOfNationsById(@PathVariable("id") final Integer id) {
 		final List<String> nations = this.sbsSsmCrudLogicService.getListOfNationsById(id);
-		return RestMsg.success().add("nationListByName", nations);
+		return RestMsg.success().add("nationsByName", nations);
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class SbsSsmCrudController {
 	@GetMapping(value = "/continents")
 	public RestMsg getContinents() {
 		final List<String> continents = this.sbsSsmCrudLogicService.findAllContinents();
-		return RestMsg.success().add("continentList", continents);
+		return RestMsg.success().add("continents", continents);
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class SbsSsmCrudController {
 	@GetMapping(value = "/nations")
 	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
 		final List<String> nations = this.sbsSsmCrudLogicService.findNationsByCnt(continentVal);
-		return RestMsg.success().add("nationList", nations);
+		return RestMsg.success().add("nations", nations);
 	}
 
 	/**
