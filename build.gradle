@@ -23,8 +23,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-thymeleaf
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools
     implementation 'org.springframework.boot:spring-boot-devtools'
     // https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter
