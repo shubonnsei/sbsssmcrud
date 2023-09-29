@@ -14,14 +14,6 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
-  thymeleaf:
-    cache: false
-    mode: HTML
-    encoding: UTF-8
-    servlet:
-      content-type: text/html
-    prefix: classpath:/templates/
-    suffix: .html
 mybatis:
   configuration:
     database-id: postgresql
