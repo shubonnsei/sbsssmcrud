@@ -73,7 +73,7 @@ public class SbsSsmCrudController {
 	@GetMapping(value = "/nations/{id}")
 	public RestMsg getListOfNationsById(@PathVariable("id") final Long id) {
 		final List<String> nations = this.sbsSsmCrudLogicService.getListOfNationsById(id);
-		return RestMsg.success().add("nationsWithName", nations);
+		return RestMsg.success().add("nationsByName", nations);
 	}
 
 	/**
