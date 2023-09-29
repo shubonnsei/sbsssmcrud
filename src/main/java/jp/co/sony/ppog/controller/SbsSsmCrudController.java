@@ -2,7 +2,6 @@ package jp.co.sony.ppog.controller;
 
 import java.util.List;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.sony.ppog.dto.CityDto;
 import jp.co.sony.ppog.service.SbsSsmCrudLogicService;
@@ -28,8 +27,7 @@ import lombok.RequiredArgsConstructor;
  * @author shubonnsei
  * @since 1.00
  */
-@Controller
-@ResponseBody
+@RestController
 @RequestMapping("/public/sbsssmcrud")
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class SbsSsmCrudController {
@@ -73,7 +71,7 @@ public class SbsSsmCrudController {
 	@GetMapping(value = "/nations/{id}")
 	public RestMsg getListOfNationsById(@PathVariable("id") final Integer id) {
 		final List<String> nations = this.sbsSsmCrudLogicService.getListOfNationsById(id);
-		return RestMsg.success().add("nationsByName", nations);
+		return RestMsg.success().add("nationListByName", nations);
 	}
 
 	/**
