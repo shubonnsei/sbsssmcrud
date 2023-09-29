@@ -49,7 +49,7 @@
 		                    percentage desc
 		            ) as rnk 
 		        from
-		            nl.language 
+		            language as nl
 		        where
 		            nl.delete_flg = 'visible' 
 		            and nl.is_official = 'F'
