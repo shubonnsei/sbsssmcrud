@@ -4093,7 +4093,7 @@ INSERT INTO "public"."city" VALUES (4076, 'Hebron', 'PSE', 'Hebron', 119401, 'vi
 INSERT INTO "public"."city" VALUES (4077, 'Jabaliya', 'PSE', 'North Gaza', 113901, 'visible');
 INSERT INTO "public"."city" VALUES (4078, 'Nablus', 'PSE', 'Nablus', 100231, 'visible');
 INSERT INTO "public"."city" VALUES (4079, 'Rafah', 'PSE', 'Rafah', 92020, 'visible');
-INSERT INTO "public"."city" VALUES (20, 'Hertogenbosch', 'NLD', 'Noord-Brabant', 129170, 'visible');
+INSERT INTO "public"."city" VALUES (20, '´s-Hertogenbosch', 'NLD', 'Noord-Brabant', 129170, 'visible');
 
 -- ----------------------------
 -- Indexes structure for table city
