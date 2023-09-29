@@ -139,7 +139,7 @@ public class SbsSsmCrudController {
 	 * @param nationVal 国名
 	 * @return 言語のリスト
 	 */
-	@GetMapping(value = "/languages")
+	@GetMapping(value = "/language")
 	public RestMsg getListOfLanguages(@RequestParam("nationVal") final String nationVal) {
 		final String language = this.sbsSsmCrudLogicService.findLanguageByCty(nationVal);
 		return RestMsg.success().add("languages", language);
