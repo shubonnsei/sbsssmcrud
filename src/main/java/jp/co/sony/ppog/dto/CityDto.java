@@ -14,7 +14,7 @@ public final class CityDto {
 	/**
 	 * 都市ID
 	 */
-	private Long id;
+	private Integer id;
 
 	/**
 	 * 都市名
@@ -39,7 +39,7 @@ public final class CityDto {
 	/**
 	 * 人口
 	 */
-	private Long population;
+	private Integer population;
 
 	/**
 	 * 公用語
