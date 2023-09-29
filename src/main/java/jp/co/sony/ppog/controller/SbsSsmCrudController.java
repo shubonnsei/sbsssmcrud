@@ -59,7 +59,7 @@ public class SbsSsmCrudController {
 	 * @return 都市情報
 	 */
 	@GetMapping(value = "/city/{id}")
-	public RestMsg getCityInfo(@PathVariable("id") final Long id) {
+	public RestMsg getCityInfo(@PathVariable("id") final Integer id) {
 		final CityDto cityDto = this.sbsSsmCrudLogicService.getCityInfoById(id);
 		return RestMsg.success().add("citySelected", cityDto);
 	}

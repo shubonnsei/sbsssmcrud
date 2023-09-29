@@ -28,7 +28,7 @@ public interface SbsSsmCrudLogicService {
 	 * @param id 都市ID
 	 * @return CityInfoDto
 	 */
-	CityDto getCityInfoById(Long id);
+	CityDto getCityInfoById(Integer id);
 
 	/**
 	 * 都市IDによって国家名を抽出する

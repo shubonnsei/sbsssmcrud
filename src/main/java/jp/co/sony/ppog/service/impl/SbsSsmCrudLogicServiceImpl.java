@@ -65,7 +65,7 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 	private final LanguageMapper languageMapper;
 
 	@Override
-	public CityDto getCityInfoById(final Long id) {
+	public CityDto getCityInfoById(final Integer id) {
 		final CityDto cityDto = new CityDto();
 		final City city = this.cityMapper.selectById(id);
 		BeanUtils.copyProperties(city, cityDto);
