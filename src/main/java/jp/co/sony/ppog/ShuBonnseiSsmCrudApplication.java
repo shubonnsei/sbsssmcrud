@@ -8,7 +8,7 @@ import jp.co.sony.ppog.utils.Messages;
 import lombok.extern.log4j.Log4j2;
 
 /**
- * JpaSsmcrudアプリケーション
+ * SbsSsmcrudアプリケーション
  *
  * @author shubonnsei
  * @since 1.00
