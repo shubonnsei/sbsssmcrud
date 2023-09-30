@@ -1,5 +1,4 @@
-create 
-or replace materialized view city_info as 
+create materialized view city_info as 
 select
     cn.id
     , cn.name
