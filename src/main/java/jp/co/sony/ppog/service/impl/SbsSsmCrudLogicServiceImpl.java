@@ -53,6 +53,11 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 	 * 都市マッパー
 	 */
 	private final CityMapper cityMapper;
+	
+	/**
+	 * 都市マッパー
+	 */
+	private final CityInfoMapper cityInfoMapper;
 
 	/**
 	 * 国家マッパー
@@ -67,9 +72,9 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 	@Override
 	public CityDto getCityInfoById(final Integer id) {
 		final CityDto cityDto = new CityDto();
-		final City city = this.cityMapper.selectById(id);
+		final City city = this.cityInfoMapper.selectById(id);
 		BeanUtils.copyProperties(city, cityDto);
-		final String language = this.languageMapper.getOfficialLanguageByCountryCode(city.getCountryCode());
+		final String language = this.cityInfoMapper.getOfficialLanguageByCountryCode(city.getCountryCode());
 		cityDto.setContinent(city.getCountry().getContinent());
 		cityDto.setNation(city.getCountry().getName());
 		cityDto.setLanguage(language);
