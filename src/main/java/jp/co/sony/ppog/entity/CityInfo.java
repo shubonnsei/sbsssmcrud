@@ -1,5 +1,7 @@
 package jp.co.sony.ppog.entity;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 /**
@@ -9,7 +11,7 @@ import lombok.Data;
  * @since 1.00
  */
 @Data
-public final class CityInfo {
+public final class CityInfo implements Serializable {
 
 	/**
 	 * 都市ID

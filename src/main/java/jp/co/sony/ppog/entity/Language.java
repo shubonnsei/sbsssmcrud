@@ -14,8 +14,6 @@ import lombok.Data;
 @Data
 public final class Language implements Serializable {
 
-	private static final long serialVersionUID = -8085659909634431823L;
-
 	/**
 	 * This field corresponds to the database column COUNTRY_CODE
 	 */
