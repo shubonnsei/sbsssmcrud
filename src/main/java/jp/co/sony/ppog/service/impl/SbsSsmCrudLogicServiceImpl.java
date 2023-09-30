@@ -74,9 +74,8 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 	@Override
 	public CityDto getCityInfoById(final Integer id) {
 		final CityInfo cityInfo = this.cityInfoMapper.selectById(id);
-		final CityDto cityDto = new CityDto();
-		BeanUtils.copyProperties(cityInfo, cityDto);
-		return cityDto;
+		return new CityDto(cityInfo.getId(), cityInfo.getName(), cityInfo.getContinent(), cityInfo.getNation(),
+				cityInfo.getDistrict(), cityInfo.getPopulation(), cityInfo.getLanguage());
 	}
 
 	@Override
@@ -93,11 +92,10 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 					sort = Integer.parseInt(keisan);
 				}
 				// 人口数量昇順で最初の15個都市の情報を吹き出します；
-				final List<CityDto> minimumRanks = this.cityInfoMapper.findMinimumRanks(sort).stream().map(item -> {
-					final CityDto cityDto = new CityDto();
-					BeanUtils.copyProperties(item, cityDto);
-					return cityDto;
-				}).collect(Collectors.toList());
+				final List<CityDto> minimumRanks = this.cityInfoMapper.findMinimumRanks(sort).stream()
+						.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
+								item.getDistrict(), item.getPopulation(), item.getLanguage()))
+						.toList();
 				if (offset + PAGE_SIZE >= sort) {
 					return Pagination.of(minimumRanks.subList(offset, sort), minimumRanks.size(), pageNum, PAGE_SIZE,
 							NAVIGATION_PAGES);
@@ -112,11 +110,10 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 					sort = Integer.parseInt(keisan);
 				}
 				// 人口数量降順で最初の15個都市の情報を吹き出します；
-				final List<CityDto> maximumRanks = this.cityInfoMapper.findMaximumRanks(sort).stream().map(item -> {
-					final CityDto cityDto = new CityDto();
-					BeanUtils.copyProperties(item, cityDto);
-					return cityDto;
-				}).collect(Collectors.toList());
+				final List<CityDto> maximumRanks = this.cityInfoMapper.findMaximumRanks(sort).stream()
+						.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
+								item.getDistrict(), item.getPopulation(), item.getLanguage()))
+						.toList();
 				if (offset + PAGE_SIZE >= sort) {
 					return Pagination.of(maximumRanks.subList(offset, sort), maximumRanks.size(), pageNum, PAGE_SIZE,
 							NAVIGATION_PAGES);
@@ -132,11 +129,10 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 					return Pagination.of(Lists.newArrayList(), 0, pageNum);
 				}
 				final List<CityDto> cityInfosByNation = this.cityInfoMapper
-						.getCityInfosByNation(nationCode, offset, PAGE_SIZE).stream().map(item -> {
-							final CityDto cityDto = new CityDto();
-							BeanUtils.copyProperties(item, cityDto);
-							return cityDto;
-						}).collect(Collectors.toList());
+						.getCityInfosByNation(nationCode, offset, PAGE_SIZE).stream()
+						.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
+								item.getDistrict(), item.getPopulation(), item.getLanguage()))
+						.toList();
 				return Pagination.of(cityInfosByNation, cityInfosByNationCnt, pageNum, PAGE_SIZE, NAVIGATION_PAGES);
 			}
 			final Integer cityInfosByNameCnt = this.cityInfoMapper.countCityInfosByName(hankakuKeyword);
@@ -145,11 +141,10 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 			}
 			final List<CityDto> cityInfosByName = this.cityInfoMapper
 					.getCityInfosByName(hankakuKeyword, offset, PAGE_SIZE)
-					.stream().map(item -> {
-						final CityDto cityDto = new CityDto();
-						BeanUtils.copyProperties(item, cityDto);
-						return cityDto;
-					}).collect(Collectors.toList());
+					.stream()
+					.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
+							item.getDistrict(), item.getPopulation(), item.getLanguage()))
+					.toList();
 			return Pagination.of(cityInfosByName, cityInfosByNameCnt, pageNum, PAGE_SIZE, NAVIGATION_PAGES);
 		}
 		final Integer cityInfosCnt = this.cityInfoMapper.countCityInfos();
@@ -157,11 +152,10 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 			return Pagination.of(Lists.newArrayList(), 0, pageNum);
 		}
 		// ページング検索；
-		final List<CityDto> cityInfos = this.cityInfoMapper.getCityInfos(offset, PAGE_SIZE).stream().map(item -> {
-			final CityDto cityDto = new CityDto();
-			BeanUtils.copyProperties(item, cityDto);
-			return cityDto;
-		}).collect(Collectors.toList());
+		final List<CityDto> cityInfos = this.cityInfoMapper.getCityInfos(offset, PAGE_SIZE).stream()
+				.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
+						item.getDistrict(), item.getPopulation(), item.getLanguage()))
+				.toList();
 		return Pagination.of(cityInfos, cityInfosCnt, pageNum, PAGE_SIZE, NAVIGATION_PAGES);
 	}
 
@@ -182,7 +176,7 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 		final City city = new City();
 		BeanUtils.copyProperties(cityDto, city, "continent", "nation", "language");
 		final Integer saiban = this.cityMapper.saiban();
-		final String countryCode = this.countryMapper.findNationCode(cityDto.getNation());
+		final String countryCode = this.countryMapper.findNationCode(cityDto.nation());
 		city.setId(saiban);
 		city.setCountryCode(countryCode);
 		city.setDeleteFlg(Messages.MSG007);
@@ -192,8 +186,8 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 	@Override
 	public void update(final CityDto cityDto) {
 		final City city = new City();
-		BeanUtils.copyProperties(cityDto, city);
-		final String countryCode = this.countryMapper.findNationCode(cityDto.getNation());
+		BeanUtils.copyProperties(cityDto, city, "continent", "nation", "language");
+		final String countryCode = this.countryMapper.findNationCode(cityDto.nation());
 		city.setCountryCode(countryCode);
 		this.cityMapper.updateById(city);
 	}
