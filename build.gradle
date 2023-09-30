@@ -6,7 +6,7 @@ plugins {
 group = 'jp.co.sony.ppog'
 version = '1.0-SNAPSHOT'
 description = 'sbsssmcrud'
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
@@ -25,7 +25,7 @@ tasks.withType(Javadoc) {
 
 dependencyManagement {
     imports {
-        mavenBom 'org.springframework.boot:spring-boot-starter-parent:2.7.16'
+        mavenBom 'org.springframework.boot:spring-boot-starter-parent:3.1.4'
     }
 }
 
@@ -37,7 +37,7 @@ dependencies {
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools
     implementation 'org.springframework.boot:spring-boot-devtools'
     // https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter
-	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
     // https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
     implementation 'org.hibernate.validator:hibernate-validator'
     // https://mvnrepository.com/artifact/com.google.guava/guava

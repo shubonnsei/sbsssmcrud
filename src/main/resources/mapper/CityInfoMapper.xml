@@ -20,7 +20,7 @@
 		from
 		    city_info as cl 
 		where
-		    cl.id = #{id,jdbcType=Integer}
+		    cl.id = #{id,jdbcType=INTEGER}
 	</select>
 	<select id="findMaximumRanks" parameterType="java.lang.Integer"
 		resultMap="BasicResultMap">
@@ -128,7 +128,7 @@
 		from
 		    city_info as cl 
 		order by
-		    cn.id asc 
+		    cl.id asc 
 		limit
 		    #{pageSize,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}
 	</select>
