@@ -16,9 +16,9 @@ spring:
       enabled: ALWAYS
 mybatis:
   configuration:
-    database-id: postgresql
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    lazy-loading-enabled: true
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: jp.co.sony.ppog.entity
 # DBFile is in the classpath:public/dbfiles/*

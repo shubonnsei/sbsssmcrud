@@ -37,14 +37,14 @@ import lombok.RequiredArgsConstructor;
 public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 
 	/**
-	 * ページサイズ
-	 */
-	private static final Integer PAGE_SIZE = 12;
-
-	/**
 	 * ページングナビゲーションのページ数
 	 */
 	private static final Integer NAVIGATION_PAGES = 7;
+
+	/**
+	 * ページサイズ
+	 */
+	private static final Integer PAGE_SIZE = 8;
 
 	/**
 	 * デフォルトソート値
