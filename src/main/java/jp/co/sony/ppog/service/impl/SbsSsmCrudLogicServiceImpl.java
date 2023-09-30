@@ -14,7 +14,6 @@ import com.google.common.collect.Lists;
 import jp.co.sony.ppog.dto.CityDto;
 import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.entity.CityInfo;
-import jp.co.sony.ppog.mapper.CityInfoMapper;
 import jp.co.sony.ppog.mapper.CityMapper;
 import jp.co.sony.ppog.mapper.CountryMapper;
 import jp.co.sony.ppog.mapper.LanguageMapper;
@@ -40,7 +39,7 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 	 * ページングナビゲーションのページ数
 	 */
 	private static final Integer NAVIGATION_PAGES = 7;
-	
+
 	/**
 	 * ページサイズ
 	 */
@@ -57,11 +56,6 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 	private final CityMapper cityMapper;
 
 	/**
-	 * 都市マッパー
-	 */
-	private final CityInfoMapper cityInfoMapper;
-
-	/**
 	 * 国家マッパー
 	 */
 	private final CountryMapper countryMapper;
@@ -73,9 +67,9 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 
 	@Override
 	public CityDto getCityInfoById(final Integer id) {
-		final CityInfo cityInfo = this.cityInfoMapper.selectById(id);
-		return new CityDto(cityInfo.getId(), cityInfo.getName(), cityInfo.getContinent(), cityInfo.getNation(),
-				cityInfo.getDistrict(), cityInfo.getPopulation(), cityInfo.getLanguage());
+		final City city = this.cityMapper.selectById(id);
+		return new CityDto(city.getId(), city.getName(), city.getCountry().getContinent(), city.getNation(),
+				city.getDistrict(), city.getPopulation(), city.getLanguage());
 	}
 
 	@Override
