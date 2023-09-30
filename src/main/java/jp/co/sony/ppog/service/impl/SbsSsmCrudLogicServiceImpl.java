@@ -40,7 +40,7 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 	 * ページングナビゲーションのページ数
 	 */
 	private static final Integer NAVIGATION_PAGES = 7;
-
+	
 	/**
 	 * ページサイズ
 	 */
