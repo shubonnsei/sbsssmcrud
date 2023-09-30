@@ -7,7 +7,12 @@ import org.apache.ibatis.annotations.Param;
 
 import jp.co.sony.ppog.entity.CityInfo;
 
-
+/**
+ * 都市情報マッパー
+ *
+ * @author shubonnsei
+ * @since 2.35
+ */
 @Mapper
 public interface CityInfoMapper {
 
