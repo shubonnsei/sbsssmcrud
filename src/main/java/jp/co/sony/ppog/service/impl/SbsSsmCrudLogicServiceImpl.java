@@ -13,7 +13,6 @@ import com.google.common.collect.Lists;
 
 import jp.co.sony.ppog.dto.CityDto;
 import jp.co.sony.ppog.entity.City;
-import jp.co.sony.ppog.entity.CityInfo;
 import jp.co.sony.ppog.mapper.CityMapper;
 import jp.co.sony.ppog.mapper.CountryMapper;
 import jp.co.sony.ppog.mapper.LanguageMapper;
@@ -68,8 +67,11 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 	@Override
 	public CityDto getCityInfoById(final Integer id) {
 		final City city = this.cityMapper.selectById(id);
-		return new CityDto(city.getId(), city.getName(), city.getCountry().getContinent(), city.getNation(),
-				city.getDistrict(), city.getPopulation(), city.getLanguage());
+		final String languageByCountryCode = this.languageMapper
+				.getOfficialLanguageByCountryCode(city.getCountryCode());
+		return new CityDto(city.getId(), city.getName(), city.getCountry().getContinent(),
+				city.getCountry().getName(),
+				city.getDistrict(), city.getPopulation(), languageByCountryCode);
 	}
 
 	@Override
@@ -86,10 +88,14 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 					sort = Integer.parseInt(keisan);
 				}
 				// 人口数量昇順で最初の15個都市の情報を吹き出します；
-				final List<CityDto> minimumRanks = this.cityInfoMapper.findMinimumRanks(sort).stream()
-						.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
-								item.getDistrict(), item.getPopulation(), item.getLanguage()))
-						.toList();
+				final List<CityDto> minimumRanks = this.cityMapper.findMinimumRanks(sort).stream()
+						.map(item -> {
+							final String language = this.languageMapper
+									.getOfficialLanguageByCountryCode(item.getCountryCode());
+							return new CityDto(item.getId(), item.getName(), item.getCountry().getContinent(),
+									item.getCountry().getName(),
+									item.getDistrict(), item.getPopulation(), language);
+						}).toList();
 				if (offset + PAGE_SIZE >= sort) {
 					return Pagination.of(minimumRanks.subList(offset, sort), minimumRanks.size(), pageNum, PAGE_SIZE,
 							NAVIGATION_PAGES);
@@ -104,10 +110,14 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 					sort = Integer.parseInt(keisan);
 				}
 				// 人口数量降順で最初の15個都市の情報を吹き出します；
-				final List<CityDto> maximumRanks = this.cityInfoMapper.findMaximumRanks(sort).stream()
-						.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
-								item.getDistrict(), item.getPopulation(), item.getLanguage()))
-						.toList();
+				final List<CityDto> maximumRanks = this.cityMapper.findMaximumRanks(sort).stream()
+						.map(item -> {
+							final String language = this.languageMapper
+									.getOfficialLanguageByCountryCode(item.getCountryCode());
+							return new CityDto(item.getId(), item.getName(), item.getCountry().getContinent(),
+									item.getCountry().getName(),
+									item.getDistrict(), item.getPopulation(), language);
+						}).toList();
 				if (offset + PAGE_SIZE >= sort) {
 					return Pagination.of(maximumRanks.subList(offset, sort), maximumRanks.size(), pageNum, PAGE_SIZE,
 							NAVIGATION_PAGES);
@@ -118,48 +128,60 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 			// ページング検索；
 			final String nationCode = this.countryMapper.findNationCode(hankakuKeyword);
 			if (StringUtils.isNotEmpty(nationCode)) {
-				final Integer cityInfosByNationCnt = this.cityInfoMapper.countCityInfosByNation(nationCode);
+				final Integer cityInfosByNationCnt = this.cityMapper.countCityInfosByNation(nationCode);
 				if (cityInfosByNationCnt == 0) {
 					return Pagination.of(Lists.newArrayList(), 0, pageNum);
 				}
-				final List<CityDto> cityInfosByNation = this.cityInfoMapper
+				final List<CityDto> cityInfosByNation = this.cityMapper
 						.getCityInfosByNation(nationCode, offset, PAGE_SIZE).stream()
-						.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
-								item.getDistrict(), item.getPopulation(), item.getLanguage()))
-						.toList();
+						.map(item -> {
+							final String language = this.languageMapper
+									.getOfficialLanguageByCountryCode(item.getCountryCode());
+							return new CityDto(item.getId(), item.getName(), item.getCountry().getContinent(),
+									item.getCountry().getName(),
+									item.getDistrict(), item.getPopulation(), language);
+						}).toList();
 				return Pagination.of(cityInfosByNation, cityInfosByNationCnt, pageNum, PAGE_SIZE, NAVIGATION_PAGES);
 			}
-			final Integer cityInfosByNameCnt = this.cityInfoMapper.countCityInfosByName(hankakuKeyword);
+			final Integer cityInfosByNameCnt = this.cityMapper.countCityInfosByName(hankakuKeyword);
 			if (cityInfosByNameCnt == 0) {
 				return Pagination.of(Lists.newArrayList(), 0, pageNum);
 			}
-			final List<CityDto> cityInfosByName = this.cityInfoMapper
+			final List<CityDto> cityInfosByName = this.cityMapper
 					.getCityInfosByName(hankakuKeyword, offset, PAGE_SIZE)
 					.stream()
-					.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
-							item.getDistrict(), item.getPopulation(), item.getLanguage()))
-					.toList();
+					.map(item -> {
+						final String language = this.languageMapper
+								.getOfficialLanguageByCountryCode(item.getCountryCode());
+						return new CityDto(item.getId(), item.getName(), item.getCountry().getContinent(),
+								item.getCountry().getName(),
+								item.getDistrict(), item.getPopulation(), language);
+					}).toList();
 			return Pagination.of(cityInfosByName, cityInfosByNameCnt, pageNum, PAGE_SIZE, NAVIGATION_PAGES);
 		}
-		final Integer cityInfosCnt = this.cityInfoMapper.countCityInfos();
+		final Integer cityInfosCnt = this.cityMapper.countCityInfos();
 		if (cityInfosCnt == 0) {
 			return Pagination.of(Lists.newArrayList(), 0, pageNum);
 		}
 		// ページング検索；
-		final List<CityDto> cityInfos = this.cityInfoMapper.getCityInfos(offset, PAGE_SIZE).stream()
-				.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
-						item.getDistrict(), item.getPopulation(), item.getLanguage()))
-				.toList();
+		final List<CityDto> cityInfos = this.cityMapper.getCityInfos(offset, PAGE_SIZE).stream()
+				.map(item -> {
+					final String language = this.languageMapper
+							.getOfficialLanguageByCountryCode(item.getCountryCode());
+					return new CityDto(item.getId(), item.getName(), item.getCountry().getContinent(),
+							item.getCountry().getName(),
+							item.getDistrict(), item.getPopulation(), language);
+				}).toList();
 		return Pagination.of(cityInfos, cityInfosCnt, pageNum, PAGE_SIZE, NAVIGATION_PAGES);
 	}
 
 	@Override
 	public List<String> getListOfNationsById(final Integer id) {
 		final List<String> list = new ArrayList<>();
-		final CityInfo cityInfo = this.cityInfoMapper.selectById(id);
-		final String nation = cityInfo.getNation();
+		final City city = this.cityMapper.selectById(id);
+		final String nation = city.getCountry().getName();
 		list.add(nation);
-		final List<String> nations = this.countryMapper.findNationsByCnt(cityInfo.getContinent()).stream()
+		final List<String> nations = this.countryMapper.findNationsByCnt(city.getCountry().getContinent()).stream()
 				.filter(item -> StringUtils.isNotEqual(item, nation)).collect(Collectors.toList());
 		list.addAll(nations);
 		return list;
