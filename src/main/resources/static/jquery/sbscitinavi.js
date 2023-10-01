@@ -39,7 +39,7 @@ function buildCityTable(result) {
 		let idTd = $("<th scope='row' class='text-center' style='width:70px;vertical-align:bottom;'></th>").append(item.id);
 		let nameTd;
 		if (cityName.length >= 15) {
-			nameTd = $("<td class='text-center' style='width:120px;font-size:12px;vertical-align:bottom;'></td>").append(cityName);
+			nameTd = $("<td class='text-center' style='width:120px;font-size:10px;vertical-align:bottom;'></td>").append(cityName);
 		} else {
 			nameTd = $("<td class='text-center' style='width:120px;font-size:15px;vertical-align:bottom;'></td>").append(cityName);
 		}
@@ -54,22 +54,22 @@ function buildCityTable(result) {
 		}
 		let districtTd;
 		if (districtName.length >= 15) {
-			districtTd = $("<td class='text-center' style='width:120px;font-size:12px;vertical-align:bottom;'></td>").append(districtName);
+			districtTd = $("<td class='text-center' style='width:120px;font-size:10px;vertical-align:bottom;'></td>").append(districtName);
 		} else {
 			districtTd = $("<td class='text-center' style='width:120px;font-size:15px;vertical-align:bottom'></td>").append(districtName);
 		}
 		let populationTd = $("<td class='text-center' style='width:70px;vertical-align:bottom;'></td>").append(item.population);
 		let languageTd;
 		if (languageName.length >= 15) {
-			languageTd = $("<td class='text-center' style='width:80px;font-size:12px;vertical-align:bottom;'></td>").append(languageName);
+			languageTd = $("<td class='text-center' style='width:80px;font-size:10px;vertical-align:bottom;'></td>").append(languageName);
 		} else {
 			languageTd = $("<td class='text-center' style='width:80px;font-size:15px;vertical-align:bottom;'></td>").append(languageName);
 		}
 		let editBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
-			.append($("<span class='glyphicon glyphicon-pencil'></span>")).append("編集");
+			.append($("<i class='bi bi-pencil-fill'></i>")).append("編集");
 		editBtn.attr("editId", item.id);
 		let deleteBtn = $("<button></button>").addClass("btn btn-danger btn-sm delete_btn")
-			.append($("<span th:class='glyphicon glyphicon-trash'></span>")).append("削除");
+			.append($("<i class='bi bi-trash'></i>")).append("削除");
 		deleteBtn.attr("deleteId", item.id);
 		let btnTd = $("<td class='text-center' style='width:120px;vertical-align:bottom;'></td>").append(editBtn).append(" ").append(deleteBtn);
 		$("<tr></tr>").append(idTd).append(nameTd).append(continentTd).append(nationTd).append(districtTd).append(populationTd).append(languageTd)
