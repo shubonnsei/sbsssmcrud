@@ -3,7 +3,7 @@ plugins {
     id "io.spring.dependency-management" version "1.1.0"
 }
 
-group = 'jp.co.sony.ppog'
+group = 'jp.co.sbsssmcrud.ppog'
 version = '1.0-SNAPSHOT'
 description = 'sbsssmcrud'
 java.sourceCompatibility = JavaVersion.VERSION_17
