@@ -1,8 +1,6 @@
 package jp.co.sbsssmcrud.ppog.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import jp.co.sbsssmcrud.ppog.dto.CityDto;
 import jp.co.sbsssmcrud.ppog.entity.City;
@@ -177,12 +175,12 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 
 	@Override
 	public List<String> getListOfNationsById(final Integer id) {
-		final List<String> list = new ArrayList<>();
+		final List<String> list = Lists.newArrayList();
 		final City city = this.cityMapper.selectById(id);
 		final String nation = city.getCountry().getName();
 		list.add(nation);
 		final List<String> nations = this.countryMapper.findNationsByCnt(city.getCountry().getContinent()).stream()
-				.filter(item -> StringUtils.isNotEqual(item, nation)).collect(Collectors.toList());
+				.filter(item -> StringUtils.isNotEqual(item, nation)).toList();
 		list.addAll(nations);
 		return list;
 	}
