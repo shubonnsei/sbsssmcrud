@@ -1,4 +1,4 @@
-package jp.co.sony.ppog.dto;
+package jp.co.sbsssmcrud.ppog.dto;
 
 /**
  * 都市情報データ交換クラス

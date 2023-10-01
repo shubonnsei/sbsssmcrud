@@ -2,19 +2,19 @@
 <!DOCTYPE mapper 
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="jp.co.sony.ppog.mapper.CityMapper">
+<mapper namespace="jp.co.sbsssmcrud.ppog.mapper.CityMapper">
 	<resultMap id="BasicResultMap"
-		type="jp.co.sony.ppog.entity.City" autoMapping="true">
+               type="jp.co.sbsssmcrud.ppog.entity.City" autoMapping="true">
 		<id property="id" jdbcType="BIGINT" column="id" />
 		<association property="country"
-			javaType="jp.co.sony.ppog.entity.Country">
+			javaType="jp.co.sbsssmcrud.ppog.entity.Country">
 			<id property="code" column="code" />
 			<result property="name" column="nation" />
 			<result property="continent" column="continent" />
 		</association>
 	</resultMap>
 	<insert id="saveById"
-		parameterType="jp.co.sony.ppog.entity.City">
+		parameterType="jp.co.sbsssmcrud.ppog.entity.City">
 		insert 
 		into city( 
 		    id
@@ -41,7 +41,7 @@
 		    id = #{id,jdbcType=BIGINT}
 	</update>
 	<update id="updateById"
-		parameterType="jp.co.sony.ppog.entity.City">
+		parameterType="jp.co.sbsssmcrud.ppog.entity.City">
 		update city
 		<set>
 			<if test="name != null">

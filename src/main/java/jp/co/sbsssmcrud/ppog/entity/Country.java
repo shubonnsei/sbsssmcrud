@@ -1,4 +1,4 @@
-package jp.co.sony.ppog.entity;
+package jp.co.sbsssmcrud.ppog.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

@@ -1,4 +1,4 @@
-package jp.co.sony.ppog.config;
+package jp.co.sbsssmcrud.ppog.config;
 
 import java.math.BigInteger;
 import java.time.LocalDate;

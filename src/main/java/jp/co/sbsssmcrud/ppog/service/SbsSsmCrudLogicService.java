@@ -1,9 +1,9 @@
-package jp.co.sony.ppog.service;
+package jp.co.sbsssmcrud.ppog.service;
 
 import java.util.List;
 
-import jp.co.sony.ppog.dto.CityDto;
-import jp.co.sony.ppog.utils.Pagination;
+import jp.co.sbsssmcrud.ppog.dto.CityDto;
+import jp.co.sbsssmcrud.ppog.utils.Pagination;
 
 /**
  * 中央処理サービスインターフェス

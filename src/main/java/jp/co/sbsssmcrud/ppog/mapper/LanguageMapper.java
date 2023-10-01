@@ -1,4 +1,4 @@
-package jp.co.sony.ppog.mapper;
+package jp.co.sbsssmcrud.ppog.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

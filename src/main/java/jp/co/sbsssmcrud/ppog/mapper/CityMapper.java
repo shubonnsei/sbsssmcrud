@@ -1,11 +1,11 @@
-package jp.co.sony.ppog.mapper;
+package jp.co.sbsssmcrud.ppog.mapper;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import jp.co.sony.ppog.entity.City;
+import jp.co.sbsssmcrud.ppog.entity.City;
 
 /**
  * 都市マッパー

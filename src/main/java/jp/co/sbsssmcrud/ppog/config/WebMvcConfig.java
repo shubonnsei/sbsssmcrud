@@ -1,14 +1,14 @@
-package jp.co.sony.ppog.config;
+package jp.co.sbsssmcrud.ppog.config;
 
 import java.util.List;
 
+import jp.co.sbsssmcrud.ppog.utils.Messages;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
-import jp.co.sony.ppog.utils.Messages;
 import lombok.extern.log4j.Log4j2;
 
 /**

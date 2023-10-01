@@ -1,4 +1,4 @@
-package jp.co.sony.ppog.utils;
+package jp.co.sbsssmcrud.ppog.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

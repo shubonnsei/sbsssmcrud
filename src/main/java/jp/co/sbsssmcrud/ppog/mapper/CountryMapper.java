@@ -1,4 +1,4 @@
-package jp.co.sony.ppog.mapper;
+package jp.co.sbsssmcrud.ppog.mapper;
 
 import java.util.List;
 

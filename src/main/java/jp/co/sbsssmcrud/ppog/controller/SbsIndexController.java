@@ -1,4 +1,4 @@
-package jp.co.sony.ppog.controller;
+package jp.co.sbsssmcrud.ppog.controller;
 
 import java.io.IOException;
 

@@ -2,9 +2,9 @@
 <!DOCTYPE mapper 
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="jp.co.sony.ppog.mapper.LanguageMapper">
+<mapper namespace="jp.co.sbsssmcrud.ppog.mapper.LanguageMapper">
 	<resultMap id="BasicResultMap"
-		type="jp.co.sony.ppog.entity.Language" autoMapping="true">
+               type="jp.co.sbsssmcrud.ppog.entity.Language" autoMapping="true">
 		<id property="countryCode" jdbcType="VARCHAR" column="country_code" />
 		<id property="language" jdbcType="VARCHAR" column="language" />
 	</resultMap>

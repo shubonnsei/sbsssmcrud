@@ -1,10 +1,10 @@
-package jp.co.sony.ppog;
+package jp.co.sbsssmcrud.ppog;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 
-import jp.co.sony.ppog.utils.Messages;
+import jp.co.sbsssmcrud.ppog.utils.Messages;
 import lombok.extern.log4j.Log4j2;
 
 /**
