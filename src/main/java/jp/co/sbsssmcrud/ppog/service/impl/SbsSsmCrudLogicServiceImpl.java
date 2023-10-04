@@ -63,6 +63,28 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 	private final LanguageMapper languageMapper;
 
 	@Override
+	public Integer checkDuplicate(final String cityName) {
+		return this.cityMapper.checkDuplicatedName(cityName);
+	}
+
+	@Override
+	public List<String> findAllContinents() {
+		return this.countryMapper.findAllContinents();
+	}
+
+	@Override
+	public String findLanguageByCty(final String nationVal) {
+		final String nationCode = this.countryMapper.findNationCode(StringUtils.toHankaku(nationVal));
+		return this.languageMapper.getOfficialLanguageByCountryCode(nationCode);
+	}
+
+	@Override
+	public List<String> findNationsByCnt(final String continentVal) {
+		final String hankaku = StringUtils.toHankaku(continentVal);
+		return this.countryMapper.findNationsByCnt(hankaku);
+	}
+
+	@Override
 	public CityDto getCityInfoById(final Integer id) {
 		final City city = this.cityMapper.selectById(id);
 		final String languageByCountryCode = this.languageMapper
@@ -72,9 +94,21 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 	}
 
 	@Override
+	public List<String> getListOfNationsById(final Integer id) {
+		final List<String> list = Lists.newArrayList();
+		final City city = this.cityMapper.selectById(id);
+		final String nation = city.getCountry().getName();
+		list.add(nation);
+		final List<String> nations = this.countryMapper.findNationsByCnt(city.getCountry().getContinent()).stream()
+				.filter(item -> StringUtils.isNotEqual(item, nation)).toList();
+		list.addAll(nations);
+		return list;
+	}
+
+	@Override
 	public Pagination<CityDto> getPageInfo(final Integer pageNum, final String keyword) {
-		int sort = SORT_NUMBER;
-		final int offset = PAGE_SIZE * (pageNum - 1);
+		int sort = SbsSsmCrudLogicServiceImpl.SORT_NUMBER;
+		final int offset = SbsSsmCrudLogicServiceImpl.PAGE_SIZE * (pageNum - 1);
 		// キーワードの属性を判断する；
 		if (StringUtils.isNotEmpty(keyword)) {
 			final String hankakuKeyword = StringUtils.toHankaku(keyword);
@@ -90,12 +124,13 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 					return new CityDto(item.getId(), item.getName(), item.getCountry().getContinent(),
 							item.getCountry().getName(), item.getDistrict(), item.getPopulation(), language);
 				}).toList();
-				if (offset + PAGE_SIZE >= sort) {
-					return Pagination.of(minimumRanks.subList(offset, sort), minimumRanks.size(), pageNum, PAGE_SIZE,
-							NAVIGATION_PAGES);
+				if ((offset + SbsSsmCrudLogicServiceImpl.PAGE_SIZE) >= sort) {
+					return Pagination.of(minimumRanks.subList(offset, sort), minimumRanks.size(), pageNum,
+							SbsSsmCrudLogicServiceImpl.PAGE_SIZE, SbsSsmCrudLogicServiceImpl.NAVIGATION_PAGES);
 				}
-				return Pagination.of(minimumRanks.subList(offset, offset + PAGE_SIZE), minimumRanks.size(), pageNum,
-						PAGE_SIZE, NAVIGATION_PAGES);
+				return Pagination.of(minimumRanks.subList(offset, offset + SbsSsmCrudLogicServiceImpl.PAGE_SIZE),
+						minimumRanks.size(), pageNum, SbsSsmCrudLogicServiceImpl.PAGE_SIZE,
+						SbsSsmCrudLogicServiceImpl.NAVIGATION_PAGES);
 			}
 			if (hankakuKeyword.startsWith("max(pop)")) {
 				final int indexOf = hankakuKeyword.indexOf(")");
@@ -109,12 +144,13 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 					return new CityDto(item.getId(), item.getName(), item.getCountry().getContinent(),
 							item.getCountry().getName(), item.getDistrict(), item.getPopulation(), language);
 				}).toList();
-				if (offset + PAGE_SIZE >= sort) {
-					return Pagination.of(maximumRanks.subList(offset, sort), maximumRanks.size(), pageNum, PAGE_SIZE,
-							NAVIGATION_PAGES);
+				if ((offset + SbsSsmCrudLogicServiceImpl.PAGE_SIZE) >= sort) {
+					return Pagination.of(maximumRanks.subList(offset, sort), maximumRanks.size(), pageNum,
+							SbsSsmCrudLogicServiceImpl.PAGE_SIZE, SbsSsmCrudLogicServiceImpl.NAVIGATION_PAGES);
 				}
-				return Pagination.of(maximumRanks.subList(offset, offset + PAGE_SIZE), maximumRanks.size(), pageNum,
-						PAGE_SIZE, NAVIGATION_PAGES);
+				return Pagination.of(maximumRanks.subList(offset, offset + SbsSsmCrudLogicServiceImpl.PAGE_SIZE),
+						maximumRanks.size(), pageNum, SbsSsmCrudLogicServiceImpl.PAGE_SIZE,
+						SbsSsmCrudLogicServiceImpl.NAVIGATION_PAGES);
 			}
 			// ページング検索；
 			final String nationCode = this.countryMapper.findNationCode(hankakuKeyword);
@@ -124,50 +160,49 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 					return Pagination.of(Lists.newArrayList(), 0, pageNum);
 				}
 				final List<CityDto> cityInfosByNation = this.cityMapper
-						.getCityInfosByNation(nationCode, offset, PAGE_SIZE).stream().map(item -> {
+						.getCityInfosByNation(nationCode, offset, SbsSsmCrudLogicServiceImpl.PAGE_SIZE).stream()
+						.map(item -> {
 							final String language = this.languageMapper
 									.getOfficialLanguageByCountryCode(item.getCountryCode());
 							return new CityDto(item.getId(), item.getName(), item.getCountry().getContinent(),
 									item.getCountry().getName(), item.getDistrict(), item.getPopulation(), language);
 						}).toList();
-				return Pagination.of(cityInfosByNation, cityInfosByNationCnt, pageNum, PAGE_SIZE, NAVIGATION_PAGES);
+				return Pagination.of(cityInfosByNation, cityInfosByNationCnt, pageNum,
+						SbsSsmCrudLogicServiceImpl.PAGE_SIZE, SbsSsmCrudLogicServiceImpl.NAVIGATION_PAGES);
 			}
 			final Integer cityInfosByNameCnt = this.cityMapper.countCityInfosByName(hankakuKeyword);
 			if (cityInfosByNameCnt == 0) {
 				return Pagination.of(Lists.newArrayList(), 0, pageNum);
 			}
-			final List<CityDto> cityInfosByName = this.cityMapper.getCityInfosByName(hankakuKeyword, offset, PAGE_SIZE)
-					.stream().map(item -> {
+			final List<CityDto> cityInfosByName = this.cityMapper
+					.getCityInfosByName(hankakuKeyword, offset, SbsSsmCrudLogicServiceImpl.PAGE_SIZE).stream()
+					.map(item -> {
 						final String language = this.languageMapper
 								.getOfficialLanguageByCountryCode(item.getCountryCode());
 						return new CityDto(item.getId(), item.getName(), item.getCountry().getContinent(),
 								item.getCountry().getName(), item.getDistrict(), item.getPopulation(), language);
 					}).toList();
-			return Pagination.of(cityInfosByName, cityInfosByNameCnt, pageNum, PAGE_SIZE, NAVIGATION_PAGES);
+			return Pagination.of(cityInfosByName, cityInfosByNameCnt, pageNum, SbsSsmCrudLogicServiceImpl.PAGE_SIZE,
+					SbsSsmCrudLogicServiceImpl.NAVIGATION_PAGES);
 		}
 		final Integer cityInfosCnt = this.cityMapper.countCityInfos();
 		if (cityInfosCnt == 0) {
 			return Pagination.of(Lists.newArrayList(), 0, pageNum);
 		}
 		// ページング検索；
-		final List<CityDto> cityInfos = this.cityMapper.getCityInfos(offset, PAGE_SIZE).stream().map(item -> {
-			final String language = this.languageMapper.getOfficialLanguageByCountryCode(item.getCountryCode());
-			return new CityDto(item.getId(), item.getName(), item.getCountry().getContinent(),
-					item.getCountry().getName(), item.getDistrict(), item.getPopulation(), language);
-		}).toList();
-		return Pagination.of(cityInfos, cityInfosCnt, pageNum, PAGE_SIZE, NAVIGATION_PAGES);
+		final List<CityDto> cityInfos = this.cityMapper.getCityInfos(offset, SbsSsmCrudLogicServiceImpl.PAGE_SIZE)
+				.stream().map(item -> {
+					final String language = this.languageMapper.getOfficialLanguageByCountryCode(item.getCountryCode());
+					return new CityDto(item.getId(), item.getName(), item.getCountry().getContinent(),
+							item.getCountry().getName(), item.getDistrict(), item.getPopulation(), language);
+				}).toList();
+		return Pagination.of(cityInfos, cityInfosCnt, pageNum, SbsSsmCrudLogicServiceImpl.PAGE_SIZE,
+				SbsSsmCrudLogicServiceImpl.NAVIGATION_PAGES);
 	}
 
 	@Override
-	public List<String> getListOfNationsById(final Integer id) {
-		final List<String> list = Lists.newArrayList();
-		final City city = this.cityMapper.selectById(id);
-		final String nation = city.getCountry().getName();
-		list.add(nation);
-		final List<String> nations = this.countryMapper.findNationsByCnt(city.getCountry().getContinent()).stream()
-				.filter(item -> StringUtils.isNotEqual(item, nation)).toList();
-		list.addAll(nations);
-		return list;
+	public void removeById(final Integer id) {
+		this.cityMapper.removeById(id);
 	}
 
 	@Override
@@ -189,32 +224,5 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 		final String countryCode = this.countryMapper.findNationCode(cityDto.nation());
 		city.setCountryCode(countryCode);
 		this.cityMapper.updateById(city);
-	}
-
-	@Override
-	public void removeById(final Integer id) {
-		this.cityMapper.removeById(id);
-	}
-
-	@Override
-	public List<String> findAllContinents() {
-		return this.countryMapper.findAllContinents();
-	}
-
-	@Override
-	public List<String> findNationsByCnt(final String continentVal) {
-		final String hankaku = StringUtils.toHankaku(continentVal);
-		return this.countryMapper.findNationsByCnt(hankaku);
-	}
-
-	@Override
-	public String findLanguageByCty(final String nationVal) {
-		final String nationCode = this.countryMapper.findNationCode(StringUtils.toHankaku(nationVal));
-		return this.languageMapper.getOfficialLanguageByCountryCode(nationCode);
-	}
-
-	@Override
-	public Integer checkDuplicate(final String cityName) {
-		return this.cityMapper.checkDuplicatedName(cityName);
 	}
 }
