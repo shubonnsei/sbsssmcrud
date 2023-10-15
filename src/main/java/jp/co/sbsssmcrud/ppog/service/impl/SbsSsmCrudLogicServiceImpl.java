@@ -193,6 +193,7 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 	@Override
 	public void removeById(final Integer id) {
 		this.cityMapper.removeById(id);
+		this.cityInfoMapper.refresh();
 	}
 
 	@Override
@@ -205,6 +206,7 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 		city.setCountryCode(countryCode);
 		city.setDeleteFlg(Messages.MSG007);
 		this.cityMapper.saveById(city);
+		this.cityInfoMapper.refresh();
 	}
 
 	@Override
@@ -214,5 +216,6 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 		final String countryCode = this.countryMapper.findNationCode(cityDto.nation());
 		city.setCountryCode(countryCode);
 		this.cityMapper.updateById(city);
+		this.cityInfoMapper.refresh();
 	}
 }
