@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.sbsssmcrud.ppog.mapper.CityInfoMapper">
+	<resultMap id="BasicResultMap"
+               type="jp.co.sbsssmcrud.ppog.entity.CityInfo" autoMapping="true">
+		<id property="id" jdbcType="INTEGER" column="id" />
+	</resultMap>
+	<select id="selectById" parameterType="java.lang.Integer"
+		resultMap="BasicResultMap">
+		select
+		    cin.id
+		    , cin.name
+		    , cin.continent
+		    , cin.nation
+		    , cin.district
+		    , cin.population 
+		    , cin.language 
+		from
+		    city_info as cin 
+		where
+		    cin.id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="findMaximumRanks" parameterType="java.lang.Integer"
+		resultMap="BasicResultMap">
+		select
+		    cin.id
+		    , cin.name
+		    , cin.continent
+		    , cin.nation
+		    , cin.district
+		    , cin.population 
+		    , cin.language 
+		from
+		    city_info as cin 
+		order by
+		    cin.population desc 
+		limit
+		    #{sort,jdbcType=INTEGER}
+	</select>
+	<select id="findMinimumRanks" parameterType="java.lang.Integer"
+		resultMap="BasicResultMap">
+		select
+		    cin.id
+		    , cin.name
+		    , cin.continent
+		    , cin.nation
+		    , cin.district
+		    , cin.population 
+		    , cin.language 
+		from
+		    city_info as cin 
+		order by
+		    cin.population asc 
+		limit
+		    #{sort,jdbcType=INTEGER}
+	</select>
+	<select id="countCityInfosByName" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		select
+		    count(1) 
+		from
+		    city_info as cin 
+		where
+		    cin.name like concat('%', #{name,jdbcType=VARCHAR}, '%')
+	</select>
+	<select id="getCityInfosByName" resultMap="BasicResultMap">
+		select
+		    cin.id
+		    , cin.name
+		    , cin.continent
+		    , cin.nation
+		    , cin.district
+		    , cin.population 
+		    , cin.language 
+		from
+		    city_info as cin 
+		where
+		    cin.name like concat('%', #{name,jdbcType=VARCHAR}, '%')
+		order by
+		    cin.id asc 
+		limit
+		    #{pageSize,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}
+	</select>
+	<select id="countCityInfosByNation" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		select
+		    count(1) 
+		from
+		    city_info as cin 
+		where
+		    cin.nation = #{nation,jdbcType=VARCHAR} 
+	</select>
+	<select id="getCityInfosByNation" resultMap="BasicResultMap">
+		select
+		    cin.id
+		    , cin.name
+		    , cin.continent
+		    , cin.nation
+		    , cin.district
+		    , cin.population 
+		    , cin.language 
+		from
+		    city_info as cin 
+		where
+		    cin.nation = #{nation,jdbcType=VARCHAR} 
+		order by
+		    cin.id asc 
+		limit
+		    #{pageSize,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}
+	</select>
+	<select id="countCityInfos" resultType="java.lang.Integer">
+		select
+		    count(1) 
+		from
+		    city_info as cin 
+	</select>
+	<select id="getCityInfos" resultMap="BasicResultMap">
+		select
+		    cin.id
+		    , cin.name
+		    , cin.continent
+		    , cin.nation
+		    , cin.district
+		    , cin.population 
+		    , cin.language 
+		from
+		    city_info as cin 
+		order by
+		    cin.id asc 
+		limit
+		    #{pageSize,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}
+	</select>
+</mapper>
