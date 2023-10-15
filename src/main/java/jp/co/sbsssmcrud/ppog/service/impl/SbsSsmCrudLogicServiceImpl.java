@@ -11,6 +11,8 @@ import com.google.common.collect.Lists;
 
 import jp.co.sbsssmcrud.ppog.dto.CityDto;
 import jp.co.sbsssmcrud.ppog.entity.City;
+import jp.co.sbsssmcrud.ppog.entity.CityInfo;
+import jp.co.sbsssmcrud.ppog.mapper.CityInfoMapper;
 import jp.co.sbsssmcrud.ppog.mapper.CityMapper;
 import jp.co.sbsssmcrud.ppog.mapper.CountryMapper;
 import jp.co.sbsssmcrud.ppog.mapper.LanguageMapper;
@@ -53,6 +55,11 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 	private final CityMapper cityMapper;
 
 	/**
+	 * 都市情報マッパー
+	 */
+	private final CityInfoMapper cityInfoMapper;
+
+	/**
 	 * 国家マッパー
 	 */
 	private final CountryMapper countryMapper;
@@ -86,20 +93,18 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 
 	@Override
 	public CityDto getCityInfoById(final Integer id) {
-		final City city = this.cityMapper.selectById(id);
-		final String languageByCountryCode = this.languageMapper
-				.getOfficialLanguageByCountryCode(city.getCountryCode());
-		return new CityDto(city.getId(), city.getName(), city.getCountry().getContinent(), city.getCountry().getName(),
-				city.getDistrict(), city.getPopulation(), languageByCountryCode);
+		final CityInfo cityInfo = this.cityInfoMapper.selectById(id);
+		return new CityDto(cityInfo.getId(), cityInfo.getName(), cityInfo.getContinent(), cityInfo.getNation(),
+				cityInfo.getDistrict(), cityInfo.getPopulation(), cityInfo.getLanguage());
 	}
 
 	@Override
 	public List<String> getListOfNationsById(final Integer id) {
 		final List<String> list = Lists.newArrayList();
-		final City city = this.cityMapper.selectById(id);
-		final String nation = city.getCountry().getName();
+		final CityInfo cityInfo = this.cityInfoMapper.selectById(id);
+		final String nation = cityInfo.getNation();
 		list.add(nation);
-		final List<String> nations = this.countryMapper.findNationsByCnt(city.getCountry().getContinent()).stream()
+		final List<String> nations = this.countryMapper.findNationsByCnt(cityInfo.getContinent()).stream()
 				.filter(item -> StringUtils.isNotEqual(item, nation)).toList();
 		list.addAll(nations);
 		return list;
