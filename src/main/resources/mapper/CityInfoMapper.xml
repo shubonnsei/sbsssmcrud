@@ -132,4 +132,7 @@
 		limit
 		    #{pageSize,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}
 	</select>
+	<update id="refresh">
+		refresh materialized view city_info
+	</update>
 </mapper>

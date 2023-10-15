@@ -2,10 +2,18 @@ package jp.co.sbsssmcrud.ppog.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import jp.co.sbsssmcrud.ppog.entity.CityInfo;
 
+/**
+ * 都市情報マッパー
+ *
+ * @author shubonnsei
+ * @since 2.69
+ */
+@Mapper
 public interface CityInfoMapper {
 
 	/**
@@ -71,6 +79,11 @@ public interface CityInfoMapper {
 	 */
 	List<CityInfo> getCityInfosByNation(@Param("nation") String nationCode, @Param("offset") Integer offset,
 			@Param("pageSize") Integer pageSize);
+
+	/**
+	 * マテリアライズドビューのリフレッシュ
+	 */
+	void refresh();
 
 	/**
 	 * 都市IDによって都市情報を取得する
