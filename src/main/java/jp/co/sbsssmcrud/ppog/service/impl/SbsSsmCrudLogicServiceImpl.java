@@ -124,18 +124,16 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 					sort = Integer.parseInt(keisan);
 				}
 				// 人口数量昇順で最初の15個都市の情報を吹き出します；
-				final List<CityDto> minimumRanks = this.cityMapper.findMinimumRanks(sort).stream().map(item -> {
-					final String language = this.languageMapper.getOfficialLanguageByCountryCode(item.getCountryCode());
-					return new CityDto(item.getId(), item.getName(), item.getCountry().getContinent(),
-							item.getCountry().getName(), item.getDistrict(), item.getPopulation(), language);
-				}).toList();
+				final List<CityDto> minimumRanks = this.cityInfoMapper.findMinimumRanks(sort).stream()
+						.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
+								item.getDistrict(), item.getPopulation(), item.getLanguage()))
+						.toList();
 				if ((offset + SbsSsmCrudLogicServiceImpl.PAGE_SIZE) >= sort) {
-					return Pagination.of(minimumRanks.subList(offset, sort), minimumRanks.size(), pageNum,
-							SbsSsmCrudLogicServiceImpl.PAGE_SIZE, SbsSsmCrudLogicServiceImpl.NAVIGATION_PAGES);
+					return Pagination.of(minimumRanks.subList(offset, sort), minimumRanks.size(), pageNum, PAGE_SIZE,
+							NAVIGATION_PAGES);
 				}
 				return Pagination.of(minimumRanks.subList(offset, offset + SbsSsmCrudLogicServiceImpl.PAGE_SIZE),
-						minimumRanks.size(), pageNum, SbsSsmCrudLogicServiceImpl.PAGE_SIZE,
-						SbsSsmCrudLogicServiceImpl.NAVIGATION_PAGES);
+						minimumRanks.size(), pageNum, PAGE_SIZE, NAVIGATION_PAGES);
 			}
 			if (hankakuKeyword.startsWith("max(pop)")) {
 				final int indexOf = hankakuKeyword.indexOf(")");
@@ -144,65 +142,52 @@ public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
 					sort = Integer.parseInt(keisan);
 				}
 				// 人口数量降順で最初の15個都市の情報を吹き出します；
-				final List<CityDto> maximumRanks = this.cityMapper.findMaximumRanks(sort).stream().map(item -> {
-					final String language = this.languageMapper.getOfficialLanguageByCountryCode(item.getCountryCode());
-					return new CityDto(item.getId(), item.getName(), item.getCountry().getContinent(),
-							item.getCountry().getName(), item.getDistrict(), item.getPopulation(), language);
-				}).toList();
+				final List<CityDto> maximumRanks = this.cityInfoMapper.findMaximumRanks(sort).stream()
+						.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
+								item.getDistrict(), item.getPopulation(), item.getLanguage()))
+						.toList();
 				if ((offset + SbsSsmCrudLogicServiceImpl.PAGE_SIZE) >= sort) {
-					return Pagination.of(maximumRanks.subList(offset, sort), maximumRanks.size(), pageNum,
-							SbsSsmCrudLogicServiceImpl.PAGE_SIZE, SbsSsmCrudLogicServiceImpl.NAVIGATION_PAGES);
+					return Pagination.of(maximumRanks.subList(offset, sort), maximumRanks.size(), pageNum, PAGE_SIZE,
+							NAVIGATION_PAGES);
 				}
-				return Pagination.of(maximumRanks.subList(offset, offset + SbsSsmCrudLogicServiceImpl.PAGE_SIZE),
-						maximumRanks.size(), pageNum, SbsSsmCrudLogicServiceImpl.PAGE_SIZE,
-						SbsSsmCrudLogicServiceImpl.NAVIGATION_PAGES);
+				return Pagination.of(maximumRanks.subList(offset, offset + PAGE_SIZE), maximumRanks.size(), pageNum,
+						PAGE_SIZE, NAVIGATION_PAGES);
 			}
 			// ページング検索；
 			final String nationCode = this.countryMapper.findNationCode(hankakuKeyword);
 			if (StringUtils.isNotEmpty(nationCode)) {
-				final Integer cityInfosByNationCnt = this.cityMapper.countCityInfosByNation(nationCode);
+				final Integer cityInfosByNationCnt = this.cityInfoMapper.countCityInfosByNation(hankakuKeyword);
 				if (cityInfosByNationCnt == 0) {
 					return Pagination.of(Lists.newArrayList(), 0, pageNum);
 				}
-				final List<CityDto> cityInfosByNation = this.cityMapper
-						.getCityInfosByNation(nationCode, offset, SbsSsmCrudLogicServiceImpl.PAGE_SIZE).stream()
-						.map(item -> {
-							final String language = this.languageMapper
-									.getOfficialLanguageByCountryCode(item.getCountryCode());
-							return new CityDto(item.getId(), item.getName(), item.getCountry().getContinent(),
-									item.getCountry().getName(), item.getDistrict(), item.getPopulation(), language);
-						}).toList();
-				return Pagination.of(cityInfosByNation, cityInfosByNationCnt, pageNum,
-						SbsSsmCrudLogicServiceImpl.PAGE_SIZE, SbsSsmCrudLogicServiceImpl.NAVIGATION_PAGES);
+				final List<CityDto> cityInfosByNation = this.cityInfoMapper
+						.getCityInfosByNation(hankakuKeyword, offset, PAGE_SIZE).stream()
+						.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
+								item.getDistrict(), item.getPopulation(), item.getLanguage()))
+						.toList();
+				return Pagination.of(cityInfosByNation, cityInfosByNationCnt, pageNum, PAGE_SIZE, NAVIGATION_PAGES);
 			}
-			final Integer cityInfosByNameCnt = this.cityMapper.countCityInfosByName(hankakuKeyword);
+			final Integer cityInfosByNameCnt = this.cityInfoMapper.countCityInfosByName(hankakuKeyword);
 			if (cityInfosByNameCnt == 0) {
 				return Pagination.of(Lists.newArrayList(), 0, pageNum);
 			}
-			final List<CityDto> cityInfosByName = this.cityMapper
+			final List<CityDto> cityInfosByName = this.cityInfoMapper
 					.getCityInfosByName(hankakuKeyword, offset, SbsSsmCrudLogicServiceImpl.PAGE_SIZE).stream()
-					.map(item -> {
-						final String language = this.languageMapper
-								.getOfficialLanguageByCountryCode(item.getCountryCode());
-						return new CityDto(item.getId(), item.getName(), item.getCountry().getContinent(),
-								item.getCountry().getName(), item.getDistrict(), item.getPopulation(), language);
-					}).toList();
-			return Pagination.of(cityInfosByName, cityInfosByNameCnt, pageNum, SbsSsmCrudLogicServiceImpl.PAGE_SIZE,
-					SbsSsmCrudLogicServiceImpl.NAVIGATION_PAGES);
+					.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
+							item.getDistrict(), item.getPopulation(), item.getLanguage()))
+					.toList();
+			return Pagination.of(cityInfosByName, cityInfosByNameCnt, pageNum, PAGE_SIZE, NAVIGATION_PAGES);
 		}
-		final Integer cityInfosCnt = this.cityMapper.countCityInfos();
+		final Integer cityInfosCnt = this.cityInfoMapper.countCityInfos();
 		if (cityInfosCnt == 0) {
 			return Pagination.of(Lists.newArrayList(), 0, pageNum);
 		}
 		// ページング検索；
-		final List<CityDto> cityInfos = this.cityMapper.getCityInfos(offset, SbsSsmCrudLogicServiceImpl.PAGE_SIZE)
-				.stream().map(item -> {
-					final String language = this.languageMapper.getOfficialLanguageByCountryCode(item.getCountryCode());
-					return new CityDto(item.getId(), item.getName(), item.getCountry().getContinent(),
-							item.getCountry().getName(), item.getDistrict(), item.getPopulation(), language);
-				}).toList();
-		return Pagination.of(cityInfos, cityInfosCnt, pageNum, SbsSsmCrudLogicServiceImpl.PAGE_SIZE,
-				SbsSsmCrudLogicServiceImpl.NAVIGATION_PAGES);
+		final List<CityDto> cityInfos = this.cityInfoMapper.getCityInfos(offset, PAGE_SIZE).stream()
+				.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
+						item.getDistrict(), item.getPopulation(), item.getLanguage()))
+				.toList();
+		return Pagination.of(cityInfos, cityInfosCnt, pageNum, PAGE_SIZE, NAVIGATION_PAGES);
 	}
 
 	@Override
