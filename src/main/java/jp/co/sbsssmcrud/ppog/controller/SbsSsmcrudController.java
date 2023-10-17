@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.sbsssmcrud.ppog.dto.CityDto;
-import jp.co.sbsssmcrud.ppog.service.SbsSsmCrudLogicService;
+import jp.co.sbsssmcrud.ppog.service.SbsSsmcrudLogicService;
 import jp.co.sbsssmcrud.ppog.utils.Messages;
 import jp.co.sbsssmcrud.ppog.utils.Pagination;
 import jp.co.sbsssmcrud.ppog.utils.RestMsg;
@@ -35,7 +35,7 @@ public class SbsSsmcrudController {
 	/**
 	 * 中央処理サービスインターフェス
 	 */
-	private final SbsSsmCrudLogicService sbsSsmCrudLogicService;
+	private final SbsSsmcrudLogicService sbsSsmcrudLogicService;
 
 	/**
 	 * 入力した都市名を重複かどうかをチェックする
@@ -48,7 +48,7 @@ public class SbsSsmcrudController {
 		if (!cityName.matches(Messages.MSG006)) {
 			return RestMsg.failure().add("validatedMsg", Messages.MSG005);
 		}
-		final Integer checkInteger = this.sbsSsmCrudLogicService.checkDuplicate(cityName);
+		final Integer checkInteger = this.sbsSsmcrudLogicService.checkDuplicate(cityName);
 		if (checkInteger > 0) {
 			return RestMsg.failure().add("validatedMsg", Messages.MSG004);
 		}
@@ -63,7 +63,7 @@ public class SbsSsmcrudController {
 	 */
 	@DeleteMapping(value = "/city/{id}")
 	public RestMsg deleteCityInfo(@PathVariable("id") final Integer id) {
-		this.sbsSsmCrudLogicService.removeById(id);
+		this.sbsSsmcrudLogicService.removeById(id);
 		return RestMsg.success();
 	}
 
@@ -75,7 +75,7 @@ public class SbsSsmcrudController {
 	 */
 	@GetMapping(value = "/city/{id}")
 	public RestMsg getCityInfo(@PathVariable("id") final Integer id) {
-		final CityDto cityDto = this.sbsSsmCrudLogicService.getCityInfoById(id);
+		final CityDto cityDto = this.sbsSsmcrudLogicService.getCityInfoById(id);
 		return RestMsg.success().add("citySelected", cityDto);
 	}
 
@@ -88,7 +88,7 @@ public class SbsSsmcrudController {
 	public RestMsg getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
 			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
 		// ページング検索結果を吹き出します；
-		final Pagination<CityDto> pageInfo = this.sbsSsmCrudLogicService.getPageInfo(pageNum, keyword);
+		final Pagination<CityDto> pageInfo = this.sbsSsmcrudLogicService.getPageInfo(pageNum, keyword);
 		return RestMsg.success().add("pageInfo", pageInfo);
 	}
 
@@ -99,7 +99,7 @@ public class SbsSsmcrudController {
 	 */
 	@GetMapping(value = "/continents")
 	public RestMsg getContinents() {
-		final List<String> continents = this.sbsSsmCrudLogicService.findAllContinents();
+		final List<String> continents = this.sbsSsmcrudLogicService.findAllContinents();
 		return RestMsg.success().add("continents", continents);
 	}
 
@@ -111,7 +111,7 @@ public class SbsSsmcrudController {
 	 */
 	@GetMapping(value = "/language")
 	public RestMsg getListOfLanguages(@RequestParam("nationVal") final String nationVal) {
-		final String language = this.sbsSsmCrudLogicService.findLanguageByCty(nationVal);
+		final String language = this.sbsSsmcrudLogicService.findLanguageByCty(nationVal);
 		return RestMsg.success().add("languages", language);
 	}
 
@@ -123,7 +123,7 @@ public class SbsSsmcrudController {
 	 */
 	@GetMapping(value = "/countries/{id}")
 	public RestMsg getListOfNationsById(@PathVariable("id") final Integer id) {
-		final List<String> nations = this.sbsSsmCrudLogicService.getListOfNationsById(id);
+		final List<String> nations = this.sbsSsmcrudLogicService.getListOfNationsById(id);
 		return RestMsg.success().add("nationsByName", nations);
 	}
 
@@ -135,7 +135,7 @@ public class SbsSsmcrudController {
 	 */
 	@GetMapping(value = "/countries")
 	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
-		final List<String> nations = this.sbsSsmCrudLogicService.findNationsByCnt(continentVal);
+		final List<String> nations = this.sbsSsmcrudLogicService.findNationsByCnt(continentVal);
 		return RestMsg.success().add("nations", nations);
 	}
 
@@ -147,7 +147,7 @@ public class SbsSsmcrudController {
 	 */
 	@PostMapping(value = "/city")
 	public RestMsg saveCityInfo(@RequestBody final CityDto cityDto) {
-		this.sbsSsmCrudLogicService.save(cityDto);
+		this.sbsSsmcrudLogicService.save(cityDto);
 		return RestMsg.success();
 	}
 
@@ -159,7 +159,7 @@ public class SbsSsmcrudController {
 	 */
 	@PutMapping(value = "/city/{id}")
 	public RestMsg updateCityInfo(@RequestBody final CityDto cityDto) {
-		this.sbsSsmCrudLogicService.update(cityDto);
+		this.sbsSsmcrudLogicService.update(cityDto);
 		return RestMsg.success();
 	}
 }
