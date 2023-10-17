@@ -29,7 +29,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	 */
 	@Override
 	protected void addResourceHandlers(final ResourceHandlerRegistry registry) {
-		WebMvcConfig.log.info(Messages.MSG002);
+		log.info(Messages.MSG002);
 		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
 		registry.addResourceHandler("/public/**").addResourceLocations("classpath:/public/");
 	}
@@ -51,7 +51,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	 */
 	@Override
 	protected void extendMessageConverters(final List<HttpMessageConverter<?>> converters) {
-		WebMvcConfig.log.info(Messages.MSG001);
+		log.info(Messages.MSG001);
 		// メッセージコンバータオブジェクトを作成する。
 		final MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
 		// オブジェクトコンバータを設定し、Jacksonを使用してJavaオブジェクトをJSONに変換します。
