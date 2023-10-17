@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import jp.co.sbsssmcrud.ppog.utils.Messages;
@@ -31,6 +32,16 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 		WebMvcConfig.log.info(Messages.MSG002);
 		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
 		registry.addResourceHandler("/public/**").addResourceLocations("classpath:/public/");
+	}
+
+	/**
+	 * ビューコントローラを定義する
+	 *
+	 * @param registry
+	 */
+	@Override
+	public void addViewControllers(final ViewControllerRegistry registry) {
+		registry.addRedirectViewController("/index", "/public/sbscities.html");
 	}
 
 	/**
