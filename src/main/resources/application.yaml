@@ -20,5 +20,5 @@ mybatis:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: jp.co.sony.sbsssmcrud.entity
+  type-aliases-package: jp.co.sbsssmcrud.ppog.entity
 # The dbfiles are in the classpath:public/dbfiles/*
