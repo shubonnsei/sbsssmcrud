@@ -11,7 +11,7 @@ import jp.co.sbsssmcrud.ppog.utils.Pagination;
  * @author shubonnsei
  * @since 1.00
  */
-public interface SbsSsmCrudLogicService {
+public interface SbsSsmcrudLogicService {
 
 	/**
 	 * 入力した都市名の重複するかどうかを検証する

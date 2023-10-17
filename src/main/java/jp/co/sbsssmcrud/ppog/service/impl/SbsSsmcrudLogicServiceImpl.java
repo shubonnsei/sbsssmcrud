@@ -16,7 +16,7 @@ import jp.co.sbsssmcrud.ppog.mapper.CityInfoMapper;
 import jp.co.sbsssmcrud.ppog.mapper.CityMapper;
 import jp.co.sbsssmcrud.ppog.mapper.CountryMapper;
 import jp.co.sbsssmcrud.ppog.mapper.LanguageMapper;
-import jp.co.sbsssmcrud.ppog.service.SbsSsmCrudLogicService;
+import jp.co.sbsssmcrud.ppog.service.SbsSsmcrudLogicService;
 import jp.co.sbsssmcrud.ppog.utils.Messages;
 import jp.co.sbsssmcrud.ppog.utils.Pagination;
 import jp.co.sbsssmcrud.ppog.utils.StringUtils;
@@ -32,7 +32,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @Transactional(rollbackFor = PSQLException.class)
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-public class SbsSsmCrudLogicServiceImpl implements SbsSsmCrudLogicService {
+public class SbsSsmcrudLogicServiceImpl implements SbsSsmcrudLogicService {
 
 	/**
 	 * ページングナビゲーションのページ数
