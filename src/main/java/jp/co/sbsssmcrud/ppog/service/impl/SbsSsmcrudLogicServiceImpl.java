@@ -112,8 +112,8 @@ public class SbsSsmcrudLogicServiceImpl implements SbsSsmcrudLogicService {
 
 	@Override
 	public Pagination<CityDto> getPageInfo(final Integer pageNum, final String keyword) {
-		int sort = SbsSsmCrudLogicServiceImpl.SORT_NUMBER;
-		final int offset = SbsSsmCrudLogicServiceImpl.PAGE_SIZE * (pageNum - 1);
+		int sort = SORT_NUMBER;
+		final int offset = PAGE_SIZE * (pageNum - 1);
 		// キーワードの属性を判断する；
 		if (StringUtils.isNotEmpty(keyword)) {
 			final String hankakuKeyword = StringUtils.toHankaku(keyword);
@@ -128,12 +128,12 @@ public class SbsSsmcrudLogicServiceImpl implements SbsSsmcrudLogicService {
 						.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
 								item.getDistrict(), item.getPopulation(), item.getLanguage()))
 						.toList();
-				if ((offset + SbsSsmCrudLogicServiceImpl.PAGE_SIZE) >= sort) {
+				if ((offset + PAGE_SIZE) >= sort) {
 					return Pagination.of(minimumRanks.subList(offset, sort), minimumRanks.size(), pageNum, PAGE_SIZE,
 							NAVIGATION_PAGES);
 				}
-				return Pagination.of(minimumRanks.subList(offset, offset + SbsSsmCrudLogicServiceImpl.PAGE_SIZE),
-						minimumRanks.size(), pageNum, PAGE_SIZE, NAVIGATION_PAGES);
+				return Pagination.of(minimumRanks.subList(offset, offset + PAGE_SIZE), minimumRanks.size(), pageNum,
+						PAGE_SIZE, NAVIGATION_PAGES);
 			}
 			if (hankakuKeyword.startsWith("max(pop)")) {
 				final int indexOf = hankakuKeyword.indexOf(")");
@@ -146,7 +146,7 @@ public class SbsSsmcrudLogicServiceImpl implements SbsSsmcrudLogicService {
 						.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
 								item.getDistrict(), item.getPopulation(), item.getLanguage()))
 						.toList();
-				if ((offset + SbsSsmCrudLogicServiceImpl.PAGE_SIZE) >= sort) {
+				if ((offset + PAGE_SIZE) >= sort) {
 					return Pagination.of(maximumRanks.subList(offset, sort), maximumRanks.size(), pageNum, PAGE_SIZE,
 							NAVIGATION_PAGES);
 				}
@@ -172,7 +172,7 @@ public class SbsSsmcrudLogicServiceImpl implements SbsSsmcrudLogicService {
 				return Pagination.of(Lists.newArrayList(), 0, pageNum);
 			}
 			final List<CityDto> cityInfosByName = this.cityInfoMapper
-					.getCityInfosByName(hankakuKeyword, offset, SbsSsmCrudLogicServiceImpl.PAGE_SIZE).stream()
+					.getCityInfosByName(hankakuKeyword, offset, PAGE_SIZE).stream()
 					.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
 							item.getDistrict(), item.getPopulation(), item.getLanguage()))
 					.toList();
