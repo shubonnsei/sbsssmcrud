@@ -405,19 +405,21 @@ $(document).on('click', '.delete_btn', function() {
 // Reset the modal form.
 function formReset(element) {
 	$(element)[0].reset();
-	$(element).find("*").removeClass("has-error has-success");
-	$(element).find(".help-block").text("");
+	$(element).find(".form-control").removeClass("is-valid is-invalid");
+	$(element).find(".form-text").removeClass("valid-feedback invalid-feedback");
+	$(element).find(".form-text").text("");
 }
 
 // Add status color to the modal form input rows.
 function showValidationMsg(element, status, msg) {
-	$(element).parent().removeClass("has-success has-error");
+	$(element).removeClass("is-valid is-invalid");
+	$(element).next("span").removeClass("valid-feedback invalid-feedback");
 	$(element).next("span").text("");
 	if (status === "success") {
-		$(element).parent().addClass("has-success");
-		$(element).next("span").text(msg);
+		$(element).addClass("is-valid");
+		$(element).next("span").addClass("valid-feedback");
 	} else if (status === "error") {
-		$(element).parent().addClass("has-error");
-		$(element).next("span").text(msg);
+		$(element).addClass("is-invalid");
+		$(element).next("span").addClass("invalid-feedback").text(msg);
 	}
 }
