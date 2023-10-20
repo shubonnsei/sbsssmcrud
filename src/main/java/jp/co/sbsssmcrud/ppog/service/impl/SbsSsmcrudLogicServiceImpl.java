@@ -89,17 +89,6 @@ public class SbsSsmcrudLogicServiceImpl implements SbsSsmcrudLogicService {
 	public List<String> findNationsByCnt(final String continentVal) {
 		final String hankaku = StringUtils.toHankaku(continentVal);
 		return this.countryMapper.findNationsByCnt(hankaku);
-	}
-
-	@Override
-	public CityDto getCityInfoById(final Integer id) {
-		final CityInfo cityInfo = this.cityInfoMapper.selectById(id);
-		return new CityDto(cityInfo.getId(), cityInfo.getName(), cityInfo.getContinent(), cityInfo.getNation(),
-				cityInfo.getDistrict(), cityInfo.getPopulation(), cityInfo.getLanguage());
-	}
-
-	@Override
-	public List<String> getListOfNationsById(final Integer id) {
 		final List<String> list = Lists.newArrayList();
 		final CityInfo cityInfo = this.cityInfoMapper.selectById(id);
 		final String nation = cityInfo.getNation();
@@ -108,6 +97,13 @@ public class SbsSsmcrudLogicServiceImpl implements SbsSsmcrudLogicService {
 				.filter(item -> StringUtils.isNotEqual(item, nation)).toList();
 		list.addAll(nations);
 		return list;
+	}
+
+	@Override
+	public CityDto getCityInfoById(final Integer id) {
+		final CityInfo cityInfo = this.cityInfoMapper.selectById(id);
+		return new CityDto(cityInfo.getId(), cityInfo.getName(), cityInfo.getContinent(), cityInfo.getNation(),
+				cityInfo.getDistrict(), cityInfo.getPopulation(), cityInfo.getLanguage());
 	}
 
 	@Override
