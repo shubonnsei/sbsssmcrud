@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.springframework.lang.Nullable;
 
@@ -36,100 +37,6 @@ public final class StringUtils {
 	 * 空のストリング
 	 */
 	public static final String EMPTY_STRING = "";
-
-	/**
-	 * 全角から半角へ変換
-	 *
-	 * @param zenkaku 全角文字
-	 * @return 半角文字
-	 */
-	public static String toHankaku(@Nullable final String zenkaku) {
-		if (isEmpty(zenkaku)) {
-			return EMPTY_STRING;
-		}
-		final StringBuilder builder = new StringBuilder();
-		final List<String> zenkakuList = new ArrayList<>(HALF_FULL_CONVERTAR.keySet());
-		for (int i = 0; i < zenkaku.length(); i++) {
-			final String charAtString = String.valueOf(zenkaku.charAt(i));
-			if (zenkakuList.contains(charAtString)) {
-				builder.append(HALF_FULL_CONVERTAR.get(charAtString));
-			} else {
-				builder.append(charAtString);
-			}
-		}
-		return builder.toString();
-	}
-
-	/**
-	 * 半角から全角へ変換
-	 *
-	 * @param hankaku 半角文字
-	 * @return 全角文字
-	 */
-	public static String toZenkaku(@Nullable final String hankaku) {
-		if (isEmpty(hankaku)) {
-			return EMPTY_STRING;
-		}
-		final StringBuilder builder = new StringBuilder();
-		final List<String> hankakuList = new ArrayList<>(HALF_FULL_CONVERTAR.values());
-		for (int i = 0; i < hankaku.length(); i++) {
-			final String charAtString = String.valueOf(hankaku.charAt(i));
-			if (hankakuList.contains(charAtString)) {
-				builder.append(HALF_FULL_CONVERTAR.inverse().get(charAtString));
-			} else {
-				builder.append(charAtString);
-			}
-		}
-		return builder.toString();
-	}
-
-	/**
-	 * 当ストリングは空かどうかを判断する
-	 *
-	 * @param str ストリング
-	 * @return true: 空, false: 空ではない
-	 */
-	public static boolean isEmpty(@Nullable final String str) {
-		return str == null || str.length() == 0 || str.isBlank();
-	}
-
-	/**
-	 * 当ストリングは空ではないかどうかを判断する
-	 *
-	 * @param str ストリング
-	 * @return true: 空ではない, false: 空
-	 */
-	public static boolean isNotEmpty(@Nullable final String str) {
-		return !isEmpty(str);
-	}
-
-	/**
-	 * 二つのストリングはイコールすることを判断する
-	 *
-	 * @param str1 ストリング1
-	 * @param str2 ストリング2
-	 * @return true: イコール, false: イコールしない
-	 */
-	public static boolean isEqual(@Nullable final String str1, @Nullable final String str2) {
-		if (str1 == null && str2 == null) {
-			return true;
-		}
-		if (str1 == null || str2 == null || str1.length() != str2.length()) {
-			return false;
-		}
-		return str1.trim().equals(str2.trim());
-	}
-
-	/**
-	 * 二つのストリングはイコールしないことを判断する
-	 *
-	 * @param str1 ストリング1
-	 * @param str2 ストリング2
-	 * @return true: イコールしない, false: イコール
-	 */
-	public static boolean isNotEqual(@Nullable final String str1, @Nullable final String str2) {
-		return !isEqual(str1, str2);
-	}
 
 	static {
 		HALF_FULL_CONVERTAR.put("！", "!");
@@ -318,5 +225,109 @@ public final class StringUtils {
 		HALF_FULL_CONVERTAR.put("゛", "ﾞ");
 		HALF_FULL_CONVERTAR.put("゜", "ﾟ");
 		HALF_FULL_CONVERTAR.put("\u3000", " ");
+	}
+
+	/**
+	 * ある文字列はすべて数字であるかどうかを判断する
+	 *
+	 * @param string ストリング
+	 * @return true: すべて数字, false: 文字も含める
+	 */
+	public static boolean isDigital(@Nullable final String string) {
+		return Pattern.compile("\\d*").matcher(string).matches();
+	}
+
+	/**
+	 * 当ストリングは空かどうかを判断する
+	 *
+	 * @param str ストリング
+	 * @return true: 空, false: 空ではない
+	 */
+	public static boolean isEmpty(@Nullable final String str) {
+		return (str == null) || (str.length() == 0) || str.isBlank();
+	}
+
+	/**
+	 * 二つのストリングはイコールすることを判断する
+	 *
+	 * @param str1 ストリング1
+	 * @param str2 ストリング2
+	 * @return true: イコール, false: イコールしない
+	 */
+	public static boolean isEqual(@Nullable final String str1, @Nullable final String str2) {
+		if ((str1 == null) && (str2 == null)) {
+			return true;
+		}
+		if ((str1 == null) || (str2 == null) || (str1.length() != str2.length())) {
+			return false;
+		}
+		return str1.trim().equals(str2.trim());
+	}
+
+	/**
+	 * 当ストリングは空ではないかどうかを判断する
+	 *
+	 * @param str ストリング
+	 * @return true: 空ではない, false: 空
+	 */
+	public static boolean isNotEmpty(@Nullable final String str) {
+		return !StringUtils.isEmpty(str);
+	}
+
+	/**
+	 * 二つのストリングはイコールしないことを判断する
+	 *
+	 * @param str1 ストリング1
+	 * @param str2 ストリング2
+	 * @return true: イコールしない, false: イコール
+	 */
+	public static boolean isNotEqual(@Nullable final String str1, @Nullable final String str2) {
+		return !StringUtils.isEqual(str1, str2);
+	}
+
+	/**
+	 * 全角から半角へ変換
+	 *
+	 * @param zenkaku 全角文字
+	 * @return 半角文字
+	 */
+	public static String toHankaku(@Nullable final String zenkaku) {
+		if (StringUtils.isEmpty(zenkaku)) {
+			return EMPTY_STRING;
+		}
+		final StringBuilder builder = new StringBuilder();
+		final List<String> zenkakuList = new ArrayList<>(HALF_FULL_CONVERTAR.keySet());
+		for (int i = 0; i < zenkaku.length(); i++) {
+			final String charAtString = String.valueOf(zenkaku.charAt(i));
+			if (zenkakuList.contains(charAtString)) {
+				builder.append(HALF_FULL_CONVERTAR.get(charAtString));
+			} else {
+				builder.append(charAtString);
+			}
+		}
+		return builder.toString();
+	}
+
+	/**
+	 * 半角から全角へ変換
+	 *
+	 * @param hankaku 半角文字
+	 * @return 全角文字
+	 */
+	public static String toZenkaku(@Nullable final String hankaku) {
+		if (StringUtils.isEmpty(hankaku)) {
+			return EMPTY_STRING;
+		}
+		final StringBuilder builder = new StringBuilder();
+		final List<String> hankakuList = new ArrayList<>(HALF_FULL_CONVERTAR.values());
+		for (int i = 0; i < hankaku.length(); i++) {
+			final String charAtString = String.valueOf(hankaku.charAt(i));
+			if (hankakuList.contains(charAtString)) {
+				builder.append(HALF_FULL_CONVERTAR.inverse().get(charAtString));
+			} else {
+				builder.append(charAtString);
+			}
+		}
+		return builder.toString();
 	}
 }

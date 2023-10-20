@@ -1,12 +1,10 @@
 const pathdeApp = "ssmcrud";
-
-let totalRecord, totalPages, currentPage;
-
-let searchName;
+let currentPage = 1;
+let totalRecord, totalPages, searchName;
 
 // After the page load, send the ajax request to get page infos.
 $(document).ready(function() {
-	toSelectedPg(1, searchName);
+	toSelectedPg(currentPage, searchName);
 });
 
 // Transfer to clicked page numbers.
