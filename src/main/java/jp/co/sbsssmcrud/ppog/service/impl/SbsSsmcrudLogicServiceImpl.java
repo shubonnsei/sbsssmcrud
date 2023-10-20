@@ -99,6 +99,18 @@ public class SbsSsmcrudLogicServiceImpl implements SbsSsmcrudLogicService {
 	}
 
 	@Override
+	public List<String> getListOfNationsById(final Integer id) {
+		final List<String> list = Lists.newArrayList();
+		final CityInfo cityInfo = this.cityInfoMapper.selectById(id);
+		final String nation = cityInfo.getNation();
+		list.add(nation);
+		final List<String> nations = this.countryMapper.findNationsByCnt(cityInfo.getContinent()).stream()
+				.filter(item -> StringUtils.isNotEqual(item, nation)).toList();
+		list.addAll(nations);
+		return list;
+	}
+
+	@Override
 	public Pagination<CityDto> getPageInfo(final Integer pageNum, final String keyword) {
 		int sort = SORT_NUMBER;
 		final int offset = PAGE_SIZE * (pageNum - 1);
