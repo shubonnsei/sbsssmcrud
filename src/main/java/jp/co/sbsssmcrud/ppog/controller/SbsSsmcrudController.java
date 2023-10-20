@@ -116,18 +116,6 @@ public class SbsSsmcrudController {
 	}
 
 	/**
-	 * 指定された都市の大陸に位置するすべての国を取得する
-	 *
-	 * @param id 都市ID
-	 * @return 国のリスト
-	 */
-	@GetMapping(value = "/countries/{id}")
-	public RestMsg getListOfNationsById(@PathVariable("id") final Integer id) {
-		final List<String> nations = this.sbsSsmcrudLogicService.getListOfNationsById(id);
-		return RestMsg.success().add("nationsByName", nations);
-	}
-
-	/**
 	 * 指定された大陸に位置するすべての国を取得する
 	 *
 	 * @param continentVal 大陸名称
