@@ -87,16 +87,18 @@ public class SbsSsmcrudLogicServiceImpl implements SbsSsmcrudLogicService {
 
 	@Override
 	public List<String> findNationsByCnt(final String continentVal) {
-		final String hankaku = StringUtils.toHankaku(continentVal);
-		return this.countryMapper.findNationsByCnt(hankaku);
-		final List<String> list = Lists.newArrayList();
-		final CityInfo cityInfo = this.cityInfoMapper.selectById(id);
-		final String nation = cityInfo.getNation();
-		list.add(nation);
-		final List<String> nations = this.countryMapper.findNationsByCnt(cityInfo.getContinent()).stream()
-				.filter(item -> StringUtils.isNotEqual(item, nation)).toList();
-		list.addAll(nations);
-		return list;
+		if (StringUtils.isDigital(continentVal)) {
+			final Integer id = Integer.parseInt(continentVal);
+			final List<String> list = Lists.newArrayList();
+			final CityInfo cityInfo = this.cityInfoMapper.selectById(id);
+			final String nation = cityInfo.getNation();
+			list.add(nation);
+			final List<String> nations = this.countryMapper.findNationsByCnt(cityInfo.getContinent()).stream()
+					.filter(item -> StringUtils.isNotEqual(item, nation)).toList();
+			list.addAll(nations);
+			return list;
+		}
+		return this.countryMapper.findNationsByCnt(continentVal);
 	}
 
 	@Override
