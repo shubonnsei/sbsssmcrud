@@ -18,6 +18,56 @@ import lombok.Setter;
 public final class Pagination<T> {
 
 	/**
+	 * 例外
+	 */
+	static class PaginationException extends RuntimeException {
+
+		private static final long serialVersionUID = 4906724781325178457L;
+
+		public PaginationException(final String message) {
+			super(message);
+		}
+	}
+
+	/**
+	 * Paginationを取得する
+	 *
+	 * @param records      レコード
+	 * @param totalRecords すべてのレコード数
+	 * @param pageNum      当ページ
+	 */
+	public static <T> Pagination<T> of(final List<T> records, final long totalRecords, final int pageNum) {
+		return new Pagination<>(records, totalRecords, pageNum, 12, 5);
+	}
+
+	/**
+	 * Paginationを取得する
+	 *
+	 * @param records      レコード
+	 * @param totalRecords すべてのレコード数
+	 * @param pageNum      当ページ
+	 * @param pageSize     ページサイズ
+	 */
+	public static <T> Pagination<T> of(final List<T> records, final long totalRecords, final int pageNum,
+			final int pageSize) {
+		return new Pagination<>(records, totalRecords, pageNum, pageSize, 5);
+	}
+
+	/**
+	 * Paginationを取得する
+	 *
+	 * @param records       レコード
+	 * @param totalRecords  すべてのレコード数
+	 * @param pageNum       当ページ
+	 * @param pageSize      ページサイズ
+	 * @param navigatePages ナビゲーションのページ数
+	 */
+	public static <T> Pagination<T> of(final List<T> records, final long totalRecords, final int pageNum,
+			final int pageSize, final int navigatePages) {
+		return new Pagination<>(records, totalRecords, pageNum, pageSize, navigatePages);
+	}
+
+	/**
 	 * 毎ページのレコード
 	 */
 	private List<T> records;
@@ -83,44 +133,6 @@ public final class Pagination<T> {
 	private int[] navigatePageNums;
 
 	/**
-	 * Paginationを取得する
-	 *
-	 * @param records      レコード
-	 * @param totalRecords すべてのレコード数
-	 * @param pageNum      当ページ
-	 */
-	public static <T> Pagination<T> of(final List<T> records, final long totalRecords, final int pageNum) {
-		return new Pagination<>(records, totalRecords, pageNum, 12, 5);
-	}
-
-	/**
-	 * Paginationを取得する
-	 *
-	 * @param records      レコード
-	 * @param totalRecords すべてのレコード数
-	 * @param pageNum      当ページ
-	 * @param pageSize     ページサイズ
-	 */
-	public static <T> Pagination<T> of(final List<T> records, final long totalRecords, final int pageNum,
-			final int pageSize) {
-		return new Pagination<>(records, totalRecords, pageNum, pageSize, 5);
-	}
-
-	/**
-	 * Paginationを取得する
-	 *
-	 * @param records       レコード
-	 * @param totalRecords  すべてのレコード数
-	 * @param pageNum       当ページ
-	 * @param pageSize      ページサイズ
-	 * @param navigatePages ナビゲーションのページ数
-	 */
-	public static <T> Pagination<T> of(final List<T> records, final long totalRecords, final int pageNum,
-			final int pageSize, final int navigatePages) {
-		return new Pagination<>(records, totalRecords, pageNum, pageSize, navigatePages);
-	}
-
-	/**
 	 * コンストラクタ
 	 *
 	 * @param records       レコード
@@ -131,13 +143,13 @@ public final class Pagination<T> {
 	 */
 	private Pagination(final List<T> records, final long totalRecords, final int pageNum, final int pageSize,
 			final int navigatePages) {
-		if (records != null && !records.isEmpty()) {
+		if ((records != null) && !records.isEmpty()) {
 			this.pageNum = pageNum;
 			this.records = records;
 			this.pageSize = records.size();
 			this.totalRecords = totalRecords;
 			final long ape = this.totalRecords / pageSize;
-			this.totalPages = this.totalRecords % pageSize == 0 ? ape : ape + 1;
+			this.totalPages = (this.totalRecords % pageSize) == 0 ? ape : ape + 1;
 		} else if (records != null) {
 			this.pageNum = 1;
 			this.records = null;
@@ -178,9 +190,9 @@ public final class Pagination<T> {
 			return;
 		}
 		this.navigatePageNums = new int[this.navigatePages];
-		int startNum = this.pageNum - this.navigatePages / 2;
-		int endNum = this.pageNum + this.navigatePages / 2;
-		if (endNum > this.totalPages && startNum >= 1) {
+		int startNum = this.pageNum - (this.navigatePages / 2);
+		int endNum = this.pageNum + (this.navigatePages / 2);
+		if ((endNum > this.totalPages) && (startNum >= 1)) {
 			endNum = (int) this.totalPages;
 			// 最後のナビゲーションページ
 			for (int i = this.navigatePages - 1; i >= 0; i--) {
@@ -203,7 +215,7 @@ public final class Pagination<T> {
 	 * 前のページ、次のページ、最初及び最後のページを取得する
 	 */
 	private void calcPage() {
-		if (this.navigatePageNums != null && this.navigatePageNums.length > 0) {
+		if ((this.navigatePageNums != null) && (this.navigatePageNums.length > 0)) {
 			this.naviFirstPage = this.navigatePageNums[0];
 			this.naviLastPage = this.navigatePageNums[this.navigatePageNums.length - 1];
 			if (this.pageNum > 1) {
@@ -241,17 +253,5 @@ public final class Pagination<T> {
 				+ ", nextPage=" + this.nextPage + ", navigatePages=" + this.navigatePages + ", naviFirstPage="
 				+ this.naviFirstPage + ", naviLastPage=" + this.naviLastPage + ", navigatePageNums="
 				+ Arrays.toString(this.navigatePageNums) + "]";
-	}
-
-	/**
-	 * 例外
-	 */
-	static class PaginationException extends RuntimeException {
-
-		private static final long serialVersionUID = 4906724781325178457L;
-
-		public PaginationException(final String message) {
-			super(message);
-		}
 	}
 }

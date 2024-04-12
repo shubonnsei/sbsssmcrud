@@ -20,19 +20,16 @@ import lombok.Setter;
 public final class RestMsg {
 
 	/**
-	 * data returned to browsers
+	 * retrieve failed
+	 *
+	 * @return result including error message
 	 */
-	private final Map<String, Object> extend = new HashMap<>();
-
-	/**
-	 * status code
-	 */
-	private Integer code;
-
-	/**
-	 * the message of status
-	 */
-	private String message;
+	public static RestMsg failure() {
+		final RestMsg result = new RestMsg();
+		result.setCode(400);
+		result.setMessage("Retrieve failed.");
+		return result;
+	}
 
 	/**
 	 * retrieve successfully
@@ -47,16 +44,32 @@ public final class RestMsg {
 	}
 
 	/**
-	 * retrieve failed
+	 * retrieve successfully
 	 *
-	 * @return result including error message
+	 * @param message メッセージ
+	 * @return result including data
 	 */
-	public static RestMsg failure() {
+	public static RestMsg success(final String message) {
 		final RestMsg result = new RestMsg();
-		result.setCode(400);
-		result.setMessage("Retrieve failed.");
+		result.setCode(200);
+		result.setMessage(message);
 		return result;
 	}
+
+	/**
+	 * data returned to browsers
+	 */
+	private final Map<String, Object> extend = new HashMap<>();
+
+	/**
+	 * status code
+	 */
+	private Integer code;
+
+	/**
+	 * the message of status
+	 */
+	private String message;
 
 	/**
 	 * add values with messages
