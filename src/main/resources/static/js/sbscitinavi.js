@@ -142,11 +142,11 @@ $("#cityAddModalBtn").on('click', function() {
 function getContinents(element) {
 	$(element).empty();
 	$.ajax({
-		url: '/jpasample/continents',
+		url: pathdeApp + '/continents',
 		type: 'GET',
 		dataType: 'json',
 		success: function(result) {
-			$.each(result.extend.continentList, function() {
+			$.each(result.extend.continents, function() {
 				let optionElement = $("<option></option>").append(this).attr("value", this);
 				optionElement.appendTo(element);
 			});
@@ -160,12 +160,12 @@ $("#continentInput").on('change', function() {
 function getNations(element, continentVal) {
 	$(element).empty();
 	$.ajax({
-		url: '/jpasample/nations',
+		url: pathdeApp + '/nations',
 		data: 'continentVal=' + continentVal,
 		type: 'GET',
 		dataType: 'json',
 		success: function(result) {
-			$.each(result.extend.nationList, function() {
+			$.each(result.extend.nations, function() {
 				let optionElement = $("<option></option>").append(this).attr("value", this);
 				optionElement.appendTo(element);
 			});
@@ -175,7 +175,7 @@ function getNations(element, continentVal) {
 $("#nameInput").change(function() {
 	let cityName = this.value;
 	$.ajax({
-		url: '/jpasample/check',
+		url: pathdeApp + '/check',
 		data: 'cityName=' + cityName,
 		type: 'GET',
 		success: function(result) {
@@ -215,7 +215,7 @@ $("#cityInfoSaveBtn").on('click', function() {
 		showValidationMsg("#districtInput", "success", "√");
 		showValidationMsg("#populationInput", "success", "√");
 		$.ajax({
-			url: '/jpasample/city',
+			url: pathdeApp + '/city',
 			type: 'POST',
 			dataType: 'json',
 			data: JSON.stringify({
@@ -230,7 +230,7 @@ $("#cityInfoSaveBtn").on('click', function() {
 				if (result.code === 200) {
 					$("#cityAddModal").modal('hide');
 					window.location
-						.replace('/jpasample/city?pageNum=' + totalPages + '&keyword=');
+						.replace('/ssmcrud/city?pageNum=' + totalPages + '&keyword=');
 				} else {
 					layer.msg(result.extend.errorMsg);
 				}
@@ -250,7 +250,7 @@ $(document).on('click', '.edit_btn', function() {
 });
 function getCityInfo(id) {
 	$.ajax({
-		url: '/jpasample/city/' + id,
+		url: pathdeApp + '/city/' + id,
 		type: 'GET',
 		success: function(result) {
 			let cityData = result.extend.citySelected;
@@ -270,7 +270,7 @@ $("#nationEdit").on('change', function() {
 function getLanguages(element, nationVal) {
 	$(element).empty();
 	$.ajax({
-		url: '/jpasample/languages',
+		url: pathdeApp + '/languages',
 		data: 'nationVal=' + nationVal,
 		type: 'GET',
 		dataType: 'json',
@@ -306,7 +306,7 @@ $("#cityInfoChangeBtn").on('click', function() {
 	showValidationMsg("#districtEdit", "success", "√");
 	showValidationMsg("#populationEdit", "success", "√");
 	$.ajax({
-		url: '/jpasample/city/' + editId,
+		url: pathdeApp + '/city/' + editId,
 		type: 'PUT',
 		dataType: 'json',
 		data: JSON.stringify({
@@ -344,8 +344,7 @@ $(document).on('click', '.delete_btn', function() {
 	}).then((result) => {
 		if (result.isConfirmed) {
 			$.ajax({
-				url: pathdeApp + '/cityDel',
-				data: 'cityId=' + cityId,
+				url: pathdeApp + '/city/' + cityId,
 				type: 'DELETE',
 				success: function(result) {
 					toSelectedPg(currentPage, searchName);

@@ -51,6 +51,11 @@ public class SbsSsmcrudLogicServiceImpl implements SbsSsmcrudLogicService {
 	private static final Integer SORT_NUMBER = 100;
 
 	/**
+	 * エラーメッセージ
+	 */
+	private static final String ERROR_MSG = "errorMsg";
+
+	/**
 	 * 都市マッパー
 	 */
 	private final CityMapper cityMapper;
@@ -208,27 +213,31 @@ public class SbsSsmcrudLogicServiceImpl implements SbsSsmcrudLogicService {
 			this.cityMapper.saveById(city);
 			this.cityInfoMapper.refresh();
 		} catch (final Exception e) {
-			return RestMsg.failure().add("errorMsg", Messages.MSG009);
+			return RestMsg.failure().add(ERROR_MSG, Messages.MSG009);
 		}
 		return RestMsg.success(Messages.MSG011);
 	}
 
 	@Override
 	public RestMsg update(final CityDto cityDto) {
+		final CityInfo cityInfo = this.cityInfoMapper.selectById(cityDto.id());
 		final City city = new City();
+		SecondBeanUtils.copyNullableProperties(cityInfo, city);
+		final String countryCode = this.countryMapper.findNationCode(cityInfo.getNation());
+		city.setCountryCode(countryCode);
 		final City originalEntity = new City();
 		SecondBeanUtils.copyNullableProperties(city, originalEntity);
-		final String countryCode = this.countryMapper.findNationCode(cityDto.nation());
 		SecondBeanUtils.copyNullableProperties(cityDto, city);
-		city.setCountryCode(countryCode);
+		final String countryCode2 = this.countryMapper.findNationCode(cityDto.nation());
+		city.setCountryCode(countryCode2);
 		if (originalEntity.equals(city)) {
-			return RestMsg.failure().add("errorMsg", Messages.MSG012);
+			return RestMsg.failure().add(ERROR_MSG, Messages.MSG012);
 		}
 		try {
 			this.cityMapper.updateById(city);
 			this.cityInfoMapper.refresh();
 		} catch (final Exception e) {
-			return RestMsg.failure().add("errorMsg", Messages.MSG009);
+			return RestMsg.failure().add(ERROR_MSG, Messages.MSG009);
 		}
 		return RestMsg.success(Messages.MSG010);
 	}

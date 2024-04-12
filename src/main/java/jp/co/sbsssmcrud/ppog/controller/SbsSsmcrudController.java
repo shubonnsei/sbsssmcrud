@@ -109,7 +109,7 @@ public class SbsSsmcrudController {
 	 * @param nationVal 国名
 	 * @return 言語のリスト
 	 */
-	@GetMapping(value = "/language")
+	@GetMapping(value = "/languages")
 	public RestMsg getListOfLanguages(@RequestParam("nationVal") final String nationVal) {
 		final String language = this.sbsSsmcrudLogicService.findLanguageByCty(nationVal);
 		return RestMsg.success().add("languages", language);
@@ -121,7 +121,7 @@ public class SbsSsmcrudController {
 	 * @param continentVal 大陸名称
 	 * @return 国のリスト
 	 */
-	@GetMapping(value = "/countries")
+	@GetMapping(value = "/nations")
 	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
 		final List<String> nations = this.sbsSsmcrudLogicService.findNationsByCnt(continentVal);
 		return RestMsg.success().add("nations", nations);
