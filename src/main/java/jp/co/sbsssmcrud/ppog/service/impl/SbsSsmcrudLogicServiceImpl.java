@@ -3,7 +3,6 @@ package jp.co.sbsssmcrud.ppog.service.impl;
 import java.util.List;
 
 import org.postgresql.util.PSQLException;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +18,8 @@ import jp.co.sbsssmcrud.ppog.mapper.LanguageMapper;
 import jp.co.sbsssmcrud.ppog.service.SbsSsmcrudLogicService;
 import jp.co.sbsssmcrud.ppog.utils.Messages;
 import jp.co.sbsssmcrud.ppog.utils.Pagination;
+import jp.co.sbsssmcrud.ppog.utils.RestMsg;
+import jp.co.sbsssmcrud.ppog.utils.SecondBeanUtils;
 import jp.co.sbsssmcrud.ppog.utils.StringUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -195,25 +196,40 @@ public class SbsSsmcrudLogicServiceImpl implements SbsSsmcrudLogicService {
 	}
 
 	@Override
-	public void save(final CityDto cityDto) {
+	public RestMsg save(final CityDto cityDto) {
 		final City city = new City();
-		BeanUtils.copyProperties(cityDto, city, "continent", "nation", "language");
 		final Integer saiban = this.cityMapper.saiban();
 		final String countryCode = this.countryMapper.findNationCode(cityDto.nation());
+		SecondBeanUtils.copyNullableProperties(cityDto, city);
 		city.setId(saiban);
 		city.setCountryCode(countryCode);
 		city.setDeleteFlg(Messages.MSG007);
-		this.cityMapper.saveById(city);
-		this.cityInfoMapper.refresh();
+		try {
+			this.cityMapper.saveById(city);
+			this.cityInfoMapper.refresh();
+		} catch (final Exception e) {
+			return RestMsg.failure().add("errorMsg", Messages.MSG009);
+		}
+		return RestMsg.success(Messages.MSG011);
 	}
 
 	@Override
-	public void update(final CityDto cityDto) {
+	public RestMsg update(final CityDto cityDto) {
 		final City city = new City();
-		BeanUtils.copyProperties(cityDto, city, "continent", "nation", "language");
+		final City originalEntity = new City();
+		SecondBeanUtils.copyNullableProperties(city, originalEntity);
 		final String countryCode = this.countryMapper.findNationCode(cityDto.nation());
+		SecondBeanUtils.copyNullableProperties(cityDto, city);
 		city.setCountryCode(countryCode);
-		this.cityMapper.updateById(city);
-		this.cityInfoMapper.refresh();
+		if (originalEntity.equals(city)) {
+			return RestMsg.failure().add("errorMsg", Messages.MSG012);
+		}
+		try {
+			this.cityMapper.updateById(city);
+			this.cityInfoMapper.refresh();
+		} catch (final Exception e) {
+			return RestMsg.failure().add("errorMsg", Messages.MSG009);
+		}
+		return RestMsg.success(Messages.MSG010);
 	}
 }

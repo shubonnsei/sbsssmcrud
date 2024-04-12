@@ -4,6 +4,7 @@ import java.util.List;
 
 import jp.co.sbsssmcrud.ppog.dto.CityDto;
 import jp.co.sbsssmcrud.ppog.utils.Pagination;
+import jp.co.sbsssmcrud.ppog.utils.RestMsg;
 
 /**
  * 中央処理サービスインターフェス
@@ -73,12 +74,12 @@ public interface SbsSsmcrudLogicService {
 	 *
 	 * @param cityInfoDto 都市情報
 	 */
-	void save(CityDto cityInfoDto);
+	RestMsg save(CityDto cityInfoDto);
 
 	/**
 	 * 入力した都市情報を更新する
 	 *
 	 * @param cityInfoDto 都市情報
 	 */
-	void update(CityDto cityInfoDto);
+	RestMsg update(CityDto cityInfoDto);
 }

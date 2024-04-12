@@ -135,8 +135,7 @@ public class SbsSsmcrudController {
 	 */
 	@PostMapping(value = "/city")
 	public RestMsg saveCityInfo(@RequestBody final CityDto cityDto) {
-		this.sbsSsmcrudLogicService.save(cityDto);
-		return RestMsg.success();
+		return this.sbsSsmcrudLogicService.save(cityDto);
 	}
 
 	/**
@@ -147,7 +146,6 @@ public class SbsSsmcrudController {
 	 */
 	@PutMapping(value = "/city/{id}")
 	public RestMsg updateCityInfo(@RequestBody final CityDto cityDto) {
-		this.sbsSsmcrudLogicService.update(cityDto);
-		return RestMsg.success();
+		return this.sbsSsmcrudLogicService.update(cityDto);
 	}
 }
