@@ -2,17 +2,18 @@
 <html lang="ja">
 
 <head>
+	<title>CityList</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>CityList</title>
-	<!--フレームワークjQueryを導入-->
-	<script type="text/javascript" src="../static/jquery/jquery-3.6.2.min.js"></script>
-	<!--フレームワークBootstrapを導入-->
-	<link rel="shortcut icon" type="image/x-icon" href="../static/favicon.ico" />
-	<link rel="stylesheet" type="text/css" href="../static/bootstrap-4.6.2-dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-	<script type="text/javascript" src="../static/bootstrap-4.6.2-dist/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/customize.css">
+	<link rel="shortcut icon" type="image/png" href="/static/favicon.ico">
+	<script type="text/javascript" src="/static/js/jquery-3.7.1.min.js"></script>
+	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/static/layer/layer.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -22,7 +23,7 @@
 		}
 
 		.reduce-margin {
-			margin-bottom: 10px;
+			margin-bottom: 1px;
 		}
 	</style>
 	<!-- ウェブページを構築する -->
@@ -35,33 +36,28 @@
 		</div>
 		<!-- 検索バーとボタン -->
 		<div class="row">
-			<form class="form-inline col-lg-8" role="form">
-				<div class="input-group has-feedback col-lg-8">
-					<div class="input-group-prepend">
-						<span class="input-group-text" id="basic-addon1">@</span>
-					</div>
-					<input id="keywordInput" class="form-control" type="text" placeholder="都市名を入力してください"
-						aria-describedby="button-addon4">
-					<div class="input-group-append" id="button-addon4">
-						<button id="searchBtn" class="btn btn-warning my-2 my-sm-0" type="button">
-							<i class="bi bi-search"></i> 検索
-						</button>
-					</div>
+			<form class="form-inline col-lg-5" role="form">
+				<div class="input-group has-feedback col-lg-5">
+					<span class="input-group-text">@</span> <input id="keywordInput" class="form-control" type="text"
+						placeholder="検索条件を入力してください">
+					<button id="searchBtn" class="btn btn-warning my-2 my-sm-0" type="button">
+						<i class="fa-solid fa-magnifying-glass"></i> 検索
+					</button>
 				</div>
 			</form>
-			<div class="col-lg-2 offset-lg-2">
+			<div class="col-lg-2 offset-lg-5">
 				<button class="btn btn-success" id="cityAddModalBtn">
-					<i class="bi bi-calendar2-plus-fill"></i> 情報追加
+					<i class="fa-solid fa-tree-city"></i> 情報追加
 				</button>
 			</div>
 		</div>
 		<!-- データ -->
 		<div class="row">
 			<div class="col-lg-12">
-				<table id="cityTable" class="table table-sm reduce-margin">
+				<table id="cityTable" class="table table-hover table-sm">
 					<caption>Information of populous cities gathered around 2000s'</caption>
-					<thead>
-						<tr class="thead-dark">
+					<thead class="table-success">
+						<tr>
 							<th scope="col" class="text-center" style="width: 70px;">都市ID</th>
 							<th scope="col" class="text-center" style="width: 120px;">都市名</th>
 							<th scope="col" class="text-center" style="width: 100px;">大陸</th>
@@ -72,7 +68,7 @@
 							<th scope="col" class="text-center" style="width: 120px;">操作</th>
 						</tr>
 					</thead>
-					<tbody id="cityTableBody"></tbody>
+					<tbody id="cityTableBody" class="table-group-divider"></tbody>
 				</table>
 				<!-- Info of the navigated pages -->
 				<div class="row">
@@ -92,42 +88,42 @@
 				<div class="modal-body">
 					<form class="form-horizontal">
 						<div class="form-group row">
-							<label for="nameInput" class="col-sm-3 col-form-label text-right">都市名</label>
-							<div class="col-sm-9">
-								<input type="text" class="form-control" id="nameInput" placeholder="都市の正式的な名称">
-								<span class="form-text"></span>
+							<label for="nameInput" class="col-sm-3 col-form-label text-end">都市名</label>
+							<div class="col-sm-9" style="height: 60px;">
+								<input type="text" class="form-control" id="nameInput" placeholder="都市の正式的な名称"> <span
+									class="form-text" style="font-size: 12px;"></span>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="continentInput" class="col-sm-3 col-form-label text-right">大陸</label>
-							<div class="col-sm-9" style="height: 42px;">
-								<select id="continentInput" class="form-control"></select>
+							<label for="continentInput" class="col-sm-3 col-form-label text-end">大陸</label>
+							<div class="col-sm-9" style="height: 60px;">
+								<select id="continentInput" class="form-select"></select>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="nationInput" class="col-sm-3 col-form-label text-right">国家</label>
-							<div class="col-sm-9" style="height: 42px;">
-								<select id="nationInput" class="form-control"></select>
+							<label for="nationInput" class="col-sm-3 col-form-label text-end">国家</label>
+							<div class="col-sm-9" style="height: 60px;">
+								<select id="nationInput" class="form-select"></select>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="districtInput" class="col-sm-3 col-form-label text-right">地域</label>
-							<div class="col-sm-9">
-								<input type="text" class="form-control" id="districtInput" placeholder="都市の地域">
-								<span class="form-text"></span>
+							<label for="districtInput" class="col-sm-3 col-form-label text-end">地域</label>
+							<div class="col-sm-9" style="height: 60px;">
+								<input type="text" class="form-control" id="districtInput" placeholder="都市の地域"> <span
+									class="form-text" style="font-size: 12px;"></span>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="populationInput" class="col-sm-3 col-form-label text-right">人口数量</label>
-							<div class="col-sm-9">
+							<label for="populationInput" class="col-sm-3 col-form-label text-end">人口数量</label>
+							<div class="col-sm-9" style="height: 60px;">
 								<input type="text" class="form-control" id="populationInput" placeholder="都市の人口数量">
-								<span class="form-text"></span>
+								<span class="form-text" style="font-size: 12px;"></span>
 							</div>
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
 					<button type="button" class="btn btn-primary" id="cityInfoSaveBtn">保存</button>
 				</div>
 			</div>
@@ -143,53 +139,53 @@
 				<div class="modal-body">
 					<form class="form-horizontal">
 						<div class="form-group row">
-							<label for="nameEdit" class="col-sm-3 col-form-label text-right">都市名</label>
-							<div class="col-sm-9" style="height: 42px;">
+							<label for="nameEdit" class="col-sm-3 col-form-label text-end">都市名</label>
+							<div class="col-sm-9" style="height: 60px;">
 								<p class="form-control" id="nameEdit"></p>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="continentEdit" class="col-sm-3 col-form-label text-right">大陸</label>
-							<div class="col-sm-9" style="height: 42px;">
+							<label for="continentEdit" class="col-sm-3 col-form-label text-end">大陸</label>
+							<div class="col-sm-9" style="height: 60px;">
 								<p class="form-control" id="continentEdit"></p>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="nationEdit" class="col-sm-3 col-form-label text-right">国家</label>
-							<div class="col-sm-9" style="height: 42px;">
-								<select id="nationEdit" class="form-control"></select>
+							<label for="nationEdit" class="col-sm-3 col-form-label text-end">国家</label>
+							<div class="col-sm-9" style="height: 60px;">
+								<select id="nationEdit" class="form-select"></select>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="languageEdit" class="col-sm-3 col-form-label text-right">公用語</label>
-							<div class="col-sm-9" style="height: 42px;">
+							<label for="languageEdit" class="col-sm-3 col-form-label text-end">公用語</label>
+							<div class="col-sm-9" style="height: 60px;">
 								<p class="form-control" id="languageEdit"></p>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="districtEdit" class="col-sm-3 col-form-label text-right">地域</label>
-							<div class="col-sm-9">
-								<input type="text" class="form-control" id="districtEdit" placeholder="都市の地域">
-								<span class="form-text"></span>
+							<label for="districtEdit" class="col-sm-3 col-form-label text-end">地域</label>
+							<div class="col-sm-9" style="height: 60px;">
+								<input type="text" class="form-control" id="districtEdit" placeholder="都市の地域"> <span
+									class="form-text" style="font-size: 12px;"></span>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="populationEdit" class="col-sm-3 col-form-label text-right">人口数量</label>
-							<div class="col-sm-9">
-								<input type="text" class="form-control" id="populationEdit" placeholder="都市の人口数量">
-								<span class="form-text"></span>
+							<label for="populationEdit" class="col-sm-3 col-form-label text-end">人口数量</label>
+							<div class="col-sm-9" style="height: 60px;">
+								<input type="text" class="form-control" id="populationEdit" placeholder="都市の人口数量"> <span
+									class="form-text" style="font-size: 12px;"></span>
 							</div>
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">閉じる</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">閉じる</button>
 					<button type="button" class="btn btn-info" id="cityInfoChangeBtn">変更</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="../static/jquery/sbscitinavi.js"></script>
+	<script type="text/javascript" src="/static/js/sbscitinavi.js"></script>
 </body>
 
 </html>

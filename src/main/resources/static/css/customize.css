@@ -1,0 +1,29 @@
+.btn-primary {
+	--bs-btn-color: #fff !important;
+	--bs-btn-bg: #002fa7 !important;
+	--bs-btn-border-color: #002fa7 !important;
+}
+
+.btn-success {
+	--bs-btn-color: #fff !important;
+	--bs-btn-bg: #006400 !important;
+	--bs-btn-border-color: #006400 !important;
+}
+
+.btn-danger {
+	--bs-btn-color: #fff !important;
+	--bs-btn-bg: #7f0020 !important;
+	--bs-btn-border-color: #7f0020 !important;
+}
+
+.btn-warning {
+	--bs-btn-color: #000 !important;
+	--bs-btn-bg: #f6c91c !important;
+	--bs-btn-border-color: #f6c91c !important;
+}
+
+.btn-info {
+	--bs-btn-color: #000 !important;
+	--bs-btn-bg: #81d8d0 !important;
+	--bs-btn-border-color: #81d8d0 !important;
+}
